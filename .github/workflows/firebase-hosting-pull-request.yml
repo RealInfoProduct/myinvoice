@@ -21,7 +21,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYINVOICE_E4E41 }}'
           projectId: myinvoice-e4e41
-      - name: Firebase Deploy
-        run: firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

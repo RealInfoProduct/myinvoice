@@ -1,0 +1,109 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Progress bar</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <mat-card class="b-1 shadow-none">
+      <mat-card-header>
+        <mat-card-title>Determinate </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="b-1 shadow-none">
+      <mat-card-header>
+        <mat-card-title>Indeterminate </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="b-1 shadow-none">
+      <mat-card-header>
+        <mat-card-title>Query </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="b-1 shadow-none">
+      <mat-card-header>
+        <mat-card-title>Buffer </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="b-1 shadow-none">
+      <mat-card-header>
+        <mat-card-title>Configurable </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div>
+          <label class="mat-body-2 f-w-600">Color:</label>
+          <mat-radio-group [(ngModel)]="color">
+            <mat-radio-button class="example-margin" value="primary">
+              Primary
+            </mat-radio-button>
+            <mat-radio-button class="example-margin" value="accent">
+              Accent
+            </mat-radio-button>
+            <mat-radio-button class="example-margin" value="warn">
+              Warn
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div>
+          <label class="mat-body-2 f-w-600">Mode:</label>
+          <mat-radio-group [(ngModel)]="mode">
+            <mat-radio-button class="example-margin" value="determinate">
+              Determinate
+            </mat-radio-button>
+            <mat-radio-button class="example-margin" value="indeterminate">
+              Indeterminate
+            </mat-radio-button>
+            <mat-radio-button class="example-margin" value="buffer">
+              Buffer
+            </mat-radio-button>
+            <mat-radio-button class="example-margin" value="query">
+              Query
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div
+          class="example-section"
+          *ngIf="mode === 'determinate' || mode === 'buffer'"
+        >
+          <label class="mat-body-2 f-w-600">Progress:</label>
+          <mat-slider class="example-margin">
+            <input type="range" [(ngModel)]="value" matSliderThumb />
+          </mat-slider>
+        </div>
+        <div class="example-section" *ngIf="mode === 'buffer'">
+          <label class="mat-body-2 f-w-600">Buffer:</label>
+          <mat-slider class="example-margin">
+            <input type="range" [(ngModel)]="bufferValue" matSliderThumb />
+          </mat-slider>
+        </div>
+
+        <div class="p-24 rounded bg-light-primary m-t-16">
+          <h2 class="mat-body-2 f-w-600 m-b-16">Result</h2>
+
+          <mat-progress-bar
+            class="example-margin"
+            [color]="color"
+            [mode]="mode"
+            [value]="value"
+            [bufferValue]="bufferValue"
+          >
+          </mat-progress-bar>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

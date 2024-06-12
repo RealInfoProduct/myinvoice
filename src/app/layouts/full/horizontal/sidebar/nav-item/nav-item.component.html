@@ -1,0 +1,23 @@
+<a
+  *ngIf="!item.navCap"
+  class="cursor-pointer menuLink"
+  (click)="onItemSelected(item)"
+  [ngClass]="{
+    activeMenu: item.route ? router.isActive(item.route, true) : false
+  }"
+>
+  <i-tabler class="routeIcon icon-18" name="{{ item.iconName }}"></i-tabler>
+  {{ item.displayName }}
+  <span *ngIf="item.children && item.children.length" class="down-icon d-flex m-l-auto">
+    <mat-icon> expand_more </mat-icon>
+  </span>
+</a>
+
+<div class="childBox" *ngIf="item.children">
+  <app-horizontal-nav-item
+    *ngFor="let child of item.children"
+    [item]="child"
+    class="ddmenu"
+  >
+  </app-horizontal-nav-item>
+</div>

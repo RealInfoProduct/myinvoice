@@ -1,0 +1,17 @@
+<div class="horizontal-sidebar p-y-8 b-b-1" *ngIf="mobileQuery.matches">
+  <div class="container">
+    <div >
+      <div class="horizontal-navbar hstack align-items-center">
+        <app-horizontal-nav-item
+          *ngFor="let item of navItems"
+          [item]="item"
+          class="parentBox {{ item.ddType }}"
+          [ngClass]="{
+            pactive: item.route == parentActive ? 'pactive' : ''
+          }"
+        >
+        </app-horizontal-nav-item>
+      </div>
+    </div>
+  </div>
+</div>

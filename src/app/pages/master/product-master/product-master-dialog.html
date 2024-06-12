@@ -1,0 +1,35 @@
+<h2 mat-dialog-title class="m-b-24">{{action}} Product</h2>
+<mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate" >
+  <form [formGroup]="productForm">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field appearance="outline" class="w-100 m-t-8">
+          <input type="text" matInput required formControlName="productName" placeholder="Party Name" />
+          <mat-hint *ngIf="productForm.get('productName')?.hasError('required') && productForm.get('productName')?.touched"
+            class="error-message error-color">
+            product name is required
+          </mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions class="p-24">
+      <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+      <button mat-flat-button [mat-dialog-close]="true" [disabled]="!productForm.valid" color="primary" (click)="doAction();">
+        {{action}}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
+<ng-template #elseTemplate>
+  <div class="p-x-24">
+    <p>Sure to delete <span class="f-w-600">{{local_data.Name}}</span> ?</p>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions class="p-x-24 p-b-24 m-t-10 justify-content-end">
+    <button mat-button (click)="doAction()" mat-flat-button color="warn">
+      {{action}}
+    </button>
+    <button mat-stroked-button color="warn" (click)="closeDialog()" class="m-l-8">Cancel</button>
+  </div>
+</ng-template>

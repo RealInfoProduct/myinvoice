@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "myinvoice-e4e41"
+  },
+  "targets": {
+    "myinvoice-e4e41": {
+      "hosting": {
+        "production": [
+          "mycustomer"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

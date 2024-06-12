@@ -16,8 +16,8 @@ jobs:
       - run: npm install -g @angular/cli
       - run: npm install --force
       - run: ng build
-      # - name: firebase Set Production
-      #   run: firebase target:apply hosting production mycustomer
+      - name: firebase Set Production
+        run: firebase target:apply hosting production mycustomer
       # - name: firebase Deploy Production 
       #   run: firebase deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
@@ -25,7 +25,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYINVOICE_E4E41 }}'
           projectId: myinvoice-e4e41
-      - name: Firebase Deploy
-        run: firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

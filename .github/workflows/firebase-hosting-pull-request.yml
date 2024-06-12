@@ -16,8 +16,8 @@ jobs:
       - run: npm install -g @angular/cli
       - run: npm install --force
       - run: ng build
-      - name: firebase Set Production
-        run: firebase target:apply hosting production mycustomer
+      # - name: firebase Set Production
+      #   run: firebase target:apply hosting production mycustomer
       # - name: firebase Deploy Production 
       #   run: firebase deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0

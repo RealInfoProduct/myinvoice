@@ -4,18 +4,11 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "target":"production",
     "public": "dist/gadicure",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   }
 }

@@ -1,0 +1,20 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <div class="row justify-content-between">
+        <div class="col-lg-4">
+          <mat-form-field appearance="outline" class="w-100 hide-hint">
+            <input matInput placeholder="Search invoice" (keyup)="applyFilter($any($event.target).value)" />
+            <mat-icon matSuffix>
+              <i-tabler name="search" class="icon-20"></i-tabler>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 d-flex align-items-center justify-content-end">
+          <button mat-flat-button color="primary" (click)="addInvoice()">
+            Add Invoice
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+ 

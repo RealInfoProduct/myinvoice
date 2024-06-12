@@ -12,15 +12,20 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      with:
-        node-version: '14' # or any version you prefer
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-      - name: Install dependencies
-        run: npm install --force
-      - name: Build Angular App
-        run: ng build
+      - uses: actions/checkout@v4
+      - run: npm install -g @angular/cli
+      - run: npm install --force
+      - run: ng build
       - name: firebase Set Production
         run: firebase target:apply hosting production mycustomer
       - name: firebase Deploy Production 
-        run: production
+        run: firebase deploy
+      # - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYINVOICE_E4E41 }}'
+          projectId: myinvoice-e4e41
+      - name: Firebase Deploy
+        run: firebase deploy --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

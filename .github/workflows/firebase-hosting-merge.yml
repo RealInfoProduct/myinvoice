@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
         with:
           node-version: '16' # Use the node version specified in your project
 
@@ -26,7 +23,7 @@ jobs:
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
-        
+
       - name: Build Angular project
         run: ng build
 

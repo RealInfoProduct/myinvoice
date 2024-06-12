@@ -4,6 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
+    "site": "mycustomer",
     "public": "dist/gadicure",
     "ignore": [
       "firebase.json",

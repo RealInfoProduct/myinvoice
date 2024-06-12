@@ -1,0 +1,191 @@
+<form [formGroup]="invoiceForm">
+    <mat-card class="cardWithShadow">
+        <mat-card-content class="p-24">
+            <h3>Party Details</h3>
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <mat-select value="no" formControlName="from" placeholder="firm">
+                            <mat-option *ngFor="let item of firmList" [value]="item">{{item.header}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <mat-select value="no" formControlName="party" placeholder="Party">
+                            <mat-option *ngFor="let item of partyList" [value]="item">{{item.partyName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input type="number" matInput formControlName="discount" placeholder="Discount %" />
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input type="number" matInput required formControlName="sGST" placeholder="Enter S GST" />
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input type="number" matInput required formControlName="cGST" placeholder="Enter C GST" />
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input matInput [matDatepicker]="picker" formControlName="date" required />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="cardWithShadow">
+        <mat-card-content class="p-24">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Product Entry</h3>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <mat-dialog-actions class="p-24 ">
+                        <button mat-flat-button [mat-dialog-close]="true" [disabled]="!invoiceForm.valid"
+                            color="primary" (click)="addData()">{{ editMode ? 'Update' : 'Add' }}</button>
+                        </mat-dialog-actions>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="w-100 m-t-8">
+                            <input type="number" matInput formControlName="totalitem" placeholder="Total Item" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="w-100 m-t-8">
+                            <mat-select value="no" formControlName="product" placeholder="Product">
+                                <mat-option [value]="item" *ngFor="let item of productList">{{item.productName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="w-100 m-t-8">
+                            <input type="number" matInput formControlName="defectiveitem"
+                                placeholder="Defective Item" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field appearance="outline" class="w-100 m-t-8">
+                            <input type="number" matInput formControlName="price" placeholder=" Price" />
+                        </mat-form-field>
+                    </div>
+                    </div>
+
+
+
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" class="w-100">
+                <ng-container matColumnDef="#">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">#</th>
+                    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="From">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">From</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="d-flex align-items-center">
+                            <div class="m-l-16">
+                                <p class="mat-subtitle-1 f-s-16 m-t-0">
+                                    {{ element.from.header }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Party">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Party
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.party.partyName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Discount">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Discount
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.discount }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="SGST">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        S GST
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.sGST }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="CGST">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        C GST
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.cGST }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Date">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Date
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.date }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="TotalItem">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Total Item
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.totalitem }}
+                    </td>
+                </ng-container>
+               
+                <ng-container matColumnDef="Price">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Price
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.price }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="product">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Product
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="f-s-14">
+                        {{ element.product.productName}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="action-link">
+                        <a class="m-r-10 cursor-pointer"><i-tabler name="edit" (click)="edit(element)"
+                                class="icon-18"></i-tabler></a>
+                        <a class="m-r-10 cursor-pointer">
+                            <i-tabler name="trash" (click)="deletedata(element.id)" class="icon-18"></i-tabler>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+</form>

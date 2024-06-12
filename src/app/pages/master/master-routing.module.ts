@@ -4,6 +4,8 @@ import { PartyMasterComponent } from './party-master/party-master.component';
 import { FirmMasterComponent } from './firm-master/firm-master.component';
 import { FullComponent } from 'src/app/layouts/full/full.component';
 import { ProductMasterComponent } from './product-master/product-master.component';
+import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 
 
 export const MasterRoutes: Routes = [
@@ -41,6 +43,28 @@ export const MasterRoutes: Routes = [
           urls: [
             { title: 'Master', url: '/master/productmaster' },
             { title: 'Product Master' },
+          ],
+        },
+      },
+      {
+        path: 'invoicelist',
+        component: InvoiceListComponent,
+        data: {
+          title: 'Invoice List',
+          urls: [
+            { title: 'Master', url: '/master/invoicelist' },
+            { title: 'Invoice List' },
+          ],
+        },
+      },
+      {
+        path: 'addinvoice',
+        component: AddInvoiceComponent,
+        data: {
+          title: 'Add Invoice',
+          urls: [
+            { title: 'Master', url: '/master/addinvoice' },
+            { title: 'Add Invoice' },
           ],
         },
       },

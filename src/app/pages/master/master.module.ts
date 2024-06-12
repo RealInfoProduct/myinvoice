@@ -11,6 +11,8 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductMasterComponent, productMasterDialogComponent} from './product-master/product-master.component';
+import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 
 
 
@@ -21,7 +23,9 @@ import { ProductMasterComponent, productMasterDialogComponent} from './product-m
     partyMasterDialogComponent,
     firmMasterDialogComponent,
     ProductMasterComponent,
-    productMasterDialogComponent
+    productMasterDialogComponent,
+    InvoiceListComponent,
+    AddInvoiceComponent
   
   ],
   imports: [

@@ -27,4 +27,14 @@ export const navItems: NavItem[] = [
     iconName: 'message-2',
     route: '/master/productmaster',
   },
+  {
+    displayName: 'Invoice List',
+    iconName: 'message-2',
+    route: '/master/invoicelist',
+  },
+  {
+    displayName: 'Add Invoice',
+    iconName: 'message-2',
+    route: '/master/addinvoice',
+  },
 ]

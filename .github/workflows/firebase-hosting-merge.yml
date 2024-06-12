@@ -21,11 +21,11 @@ jobs:
         run: npm install --force
       - name: Build Angular App
         run: ng build
-       - name: firebase Set Production
-        run: firebase target:apply hosting production mycustomer
-      - name: firebase Deploy Production 
-        run: firebase deploy
-      # - uses: FirebaseExtended/action-hosting-deploy@v0
+      #  - name: firebase Set Production
+      #   run: firebase target:apply hosting production mycustomer
+      # - name: firebase Deploy Production 
+      #   run: firebase deploy
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYINVOICE_E4E41 }}'

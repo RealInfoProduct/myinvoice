@@ -8,7 +8,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 
 export interface InvoiceData {
   id: number;
-  from: string;
+  firm: string;
   party: string;
   discount: number;
   sGST: number;
@@ -17,6 +17,7 @@ export interface InvoiceData {
   totalitem: number;
   price: number;
   product: number;
+  defectiveitem:number;
 }
   
 @Component({
@@ -29,7 +30,7 @@ export class AddInvoiceComponent implements OnInit {
   data: InvoiceData[] = [];
   displayedColumns: string[] = [
     '#',
-    'From',
+    'firm',
     'Party',
     'Discount',
     'SGST',
@@ -70,7 +71,7 @@ dataSource = new MatTableDataSource(this.data);
  
   buildForm() {
     this.invoiceForm = this.fb.group({
-      from:['',Validators.required],
+      firm:['',Validators.required],
       party:['',Validators.required],
       discount: ['',Validators.required],
       sGST: ['',Validators.required],
@@ -94,15 +95,12 @@ dataSource = new MatTableDataSource(this.data);
       this.editMode = false;
     }
   }
-  // edit(element: InvoiceData):void {
-
-  //   this.invoiceForm.patchValue(element);
-  //   this.currentEditId = element.id;
-  //   this.editMode = true;
-  // }
+ 
   edit(element: any) {
+    this.editMode=true;
+    this.currentEditId = element.id;
     this.invoiceForm.patchValue({
-      from: element.from,
+      firm: element.firm,
       party: element.party,
       discount: element.discount,
       sGST: element.sGST,
@@ -113,14 +111,23 @@ dataSource = new MatTableDataSource(this.data);
       defectiveitem: element.defectiveitem,
       price: element.price
     });
-
-    // Remove the element from the data source as it will be updated
-    const index = this.dataSource.data.indexOf(element);
-    this.dataSource.data.splice(index, 1);
-    this.dataSource._updateChangeSubscription();
+  }
+  updateData() {
+    if (this.invoiceForm.valid) {
+      const updatedData = { id: this.currentEditId, ...this.invoiceForm.value };
+      const index = this.data.findIndex(item => item.id === this.currentEditId);
+      if (index !== -1) {
+        this.data[index] = updatedData;
+        this.dataSource.data = [...this.data];
+        this.table.renderRows();
+        this.invoiceForm.reset();
+        this.editMode = false;
+      }
+    }
   }
   deletedata(id: number) {
-   this.dataSource.data.filter(item => item.id !== id);
+    this.data = this.data.filter(item => item.id !== id);
+    this.dataSource.data = [...this.data];
   }
 
   getPartyList() {

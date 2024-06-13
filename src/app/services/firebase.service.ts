@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collectionData, deleteDoc, doc, Firestore, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
-import { PartyList, FirmList, ProductList, RegisterUser } from '../interface/invoice';
+import { PartyList, FirmList, ProductList, RegisterUser, InvoiceList } from '../interface/invoice';
 import { collection } from '@firebase/firestore';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Auth } from '@angular/fire/auth';
@@ -98,5 +98,13 @@ export class FirebaseService {
     let dataRef = doc(this.fService, `ProductList/${updateId}`);
     return updateDoc(dataRef, payload)
   }
+
+    /////////////////////// Invoice List ////////////////////////
+
+
+    addInvoice(data: InvoiceList) {
+      data.id = doc(collection(this.fService, 'id')).id
+      return addDoc(collection(this.fService, 'InvoiceList'), data)
+    }
 
 }

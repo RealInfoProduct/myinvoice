@@ -120,10 +120,7 @@
                 color="primary"
               >
                 <mat-select formControlName="accountYear">
-                  <mat-option [value]="1">20 - 2021</mat-option>
-                  <mat-option [value]="2">21 - 2022</mat-option>
-                  <mat-option [value]="3">22 - 2023</mat-option>
-                  <mat-option [value]="4">23 - 2024</mat-option>
+                  <mat-option *ngFor="let item of accountYearList" [value]="item">{{item.year}}</mat-option>
                 </mat-select>
                 <mat-hint
                   *ngIf="f['accountYear'].touched && f['accountYear'].invalid"

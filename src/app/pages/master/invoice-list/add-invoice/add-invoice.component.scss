@@ -1,0 +1,19 @@
+.table-responsive{
+    table{
+        th{
+            text-align: center;
+        }
+        td{
+            text-align: center;
+        }
+    }
+}
+.productButton{
+    display: flex;
+    align-items: center;
+}
+.GenerateInvoice{
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+}

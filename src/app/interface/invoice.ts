@@ -44,9 +44,20 @@ export interface FirmList {
 }
 
 export interface ProductList {
-
     id: string,
     productName: string,
     userId :any
+}
 
+export interface InvoiceList {
+    id:string
+    accountYear: string
+    cGST: any
+    date: string
+    discount: number;
+    invoiceNumber: number;
+    sGST: number;
+    firmName: any;
+    partyName: any;
+    products: any
 }

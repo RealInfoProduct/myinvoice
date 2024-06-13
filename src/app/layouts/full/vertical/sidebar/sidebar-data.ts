@@ -13,28 +13,30 @@ export const navItems: NavItem[] = [
     navCap: 'Master',
   },
   {
+    displayName: 'Add Invoice',
+    iconName: 'file-invoice',
+    route: '/master/addinvoice',
+  },
+  {
+    displayName: 'Invoice List',
+    iconName: 'list-details',
+    route: '/master/invoicelist',
+  },
+  {
+    displayName: 'Product Master',
+    iconName: 'brand-asana',
+    route: '/master/productmaster',
+  },
+  {
     displayName: 'Party Master',
-    iconName: 'user-circle',
+    iconName: 'users',
     route: '/master/partymaster',
   },
   {
     displayName: 'Firm Master',
-    iconName: 'note',
+    iconName: 'building-store',
     route: '/master/firmmaster',
   },
-  {
-    displayName: 'Product Master',
-    iconName: 'message-2',
-    route: '/master/productmaster',
-  },
-  {
-    displayName: 'Invoice List',
-    iconName: 'message-2',
-    route: '/master/invoicelist',
-  },
-  {
-    displayName: 'Add Invoice',
-    iconName: 'message-2',
-    route: '/master/addinvoice',
-  },
+
+  
 ]

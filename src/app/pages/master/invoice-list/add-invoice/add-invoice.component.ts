@@ -8,7 +8,8 @@ import moment from 'moment';
 import { InvoiceList } from 'src/app/interface/invoice';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -235,19 +236,163 @@ export class AddInvoiceComponent implements OnInit {
       products: invoiceData[0].product      
     }
 
-    this.firebaseService.addInvoice(payload).then((res) => {
-      if (res) {
-          this.openConfigSnackBar('record create successfully')
-        }
-    } , (error) => {
-      this.openConfigSnackBar(error.error.error.message)
+    // this.firebaseService.addInvoice(payload).then((res) => {
+    //   if (res) {
+    //       this.openConfigSnackBar('record create successfully')
+    //     }
+    // } , (error) => {
+    //   this.openConfigSnackBar(error.error.error.message)
       
-    })
+    // })
 
     console.log("payload==========>>", payload);
+    this.generatePDF(payload)
 
   }
+  generatePDF(data :any){
+    console.log("data==========>>", data);
 
+    const doc = new jsPDF();
+  
+    // Add image
+    const img = new Image();
+    img.src = '../assets/hospital11.1.png';
+    const logoimg = new Image();
+    logoimg.src = '../assets/hospital11.2.png';
+
+
+    img.onload = () => {
+
+      // Add text on top of the image
+      doc.addImage(img, 'JPEG', 0, 0, 220, 50);
+
+      doc.setFontSize(16);
+      doc.setTextColor(5, 5, 5);
+      doc.text('Invoice:', 155, 18);
+      doc.text('1001', 175, 18);
+      doc.setFontSize(16);
+      doc.setTextColor(5, 5, 5);
+      doc.text('Date:', 161, 27);
+      doc.text('16/05/2024', 175, 27);
+   
+
+      //       // Shop Details
+
+      doc.setFontSize(25);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Ramesh G.Raiyani', 20, 17);
+      doc.setFontSize(10);
+      doc.setTextColor(5, 5, 5);
+      doc.text('93,Charnunda Nagar Society', 15, 55);
+      doc.text('Punagam, Surat', 15, 60);
+      doc.text('Mob No:-', 15, 65);
+      doc.text('1234567890', 30, 65);
+
+
+      //  //  Customer Details
+      doc.setFontSize(15);
+      doc.setTextColor(122, 122, 122);
+      doc.text('Customer Details', 140, 45);
+      doc.setFontSize(12);
+      doc.setTextColor(5, 5, 5);
+      doc.text('ROYAL ZENITH PRINTS PVT LTD.', 140, 55);
+      doc.setFontSize(10);
+      doc.setTextColor(5, 5, 5);
+      doc.text('537, 5th FLOOR,CARPARKING,', 140, 60);
+      doc.text('SURAT TEXTILE MARKET', 140, 65);
+      doc.text('Mob No :-', 140, 70);
+      doc.text('1234567890', 157, 70);
+      doc.text('GST :-', 145, 75);
+      doc.text('ADS74636', 157, 75);
+
+
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Product Details', 15, 90);
+
+
+      // Add table
+      const data = [
+        ['1', 'demo','1', '5', '2', '20', '100'],
+        ['2', 'demo','2', '5', '2', '20', '100'],
+        ['3', 'demo','3', '5', '2', '20', '100'],
+        ['4', 'demo','4', '5', '2', '20', '100'],
+        ['5', 'demo','5', '5', '2', '20', '100'],
+        ['6', 'demo','6', '5', '2', '20', '100'],
+        ['7', 'demo','1', '5', '2', '20', '100'],
+        ['8', 'demo','2', '5', '2', '20', '100'],
+        ['9', 'demo','3', '5', '2', '20', '100'],
+        ['10', 'demo','4', '5', '2', '20', '100'],
+        ['11', 'demo','5', '5', '2', '20', '100'],
+        ['12', 'demo','6', '5', '2', '20', '100'],
+        ['13', 'demo','1', '5', '2', '20', '100'],
+        ['14', 'demo','2', '5', '2', '20', '100'],
+        ['15', 'demo','3', '5', '2', '20', '100'],
+        ['16', 'demo','4', '5', '2', '20', '100'],
+
+      ];
+      const bodyRows: any = [];
+      data.forEach((row) => {
+        bodyRows.push(row.map(cell => ({ content: cell, styles: { textColor: [0, 0, 0], fontSize: 10 } })));
+      });
+      (doc as any).autoTable({
+        head: [['Sr.', 'product','Po Number', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        body: bodyRows,
+        startY: 95,
+        theme: 'plain',
+        headStyles: {
+          fillColor: [0, 62, 95],
+          textColor: [255, 255, 255],
+          fontSize: 10,
+          cellPadding: 2,
+        },
+        bodyStyles: {
+          halign: 'center',
+        },
+        didDrawCell: (data: any) => {
+          const { cell, row, column } = data;
+          if (row.section === 'body') {
+            doc.setDrawColor(122, 122, 122);
+            doc.setLineWidth(0.2);
+            doc.line(cell.x, cell.y + cell.height, cell.x + cell.width, cell.y + cell.height);
+          }
+        }
+      });
+
+      doc.addImage(logoimg, 'JPEG', 0, 272, 210, 25);
+
+      doc.setFontSize(12);
+      doc.setTextColor(33, 52, 66);
+      doc.text('Total:', 161, 240);
+      doc.text('0', 175, 240);
+      doc.text('Discount:', 154, 246);
+      doc.text('0', 175, 246);
+      doc.text('SGST:', 159, 252);
+      doc.text('0', 175, 252);
+      doc.text('CGST:', 159, 258);
+      doc.text('0', 175, 258);
+      doc.setFillColor(245, 245, 245);
+      doc.rect(142, 261, 90, 10, 'F');
+      doc.setTextColor(0, 0, 0);
+      doc.text('Final Amount :', 145, 268);
+      doc.text('0', 175, 268);
+
+      // PAN NO
+      doc.setFontSize(12);
+      doc.setTextColor(33, 52, 66);
+      doc.text('PAN NO :', 16, 240);
+      doc.text('AU74748AS', 35, 240);
+
+      // GSTIN
+      doc.setFontSize(12);
+      doc.setTextColor(33, 52, 66);
+      doc.text('GSTIN :', 16, 247);
+      doc.text('AU74748AS', 35, 247);
+
+      // open PDF
+      window.open(doc.output('bloburl'))
+    }
+  }
 
   transformData(myData: any[]): firebaseData[] {
 
@@ -304,3 +449,4 @@ export class AddInvoiceComponent implements OnInit {
   
   
 }
+

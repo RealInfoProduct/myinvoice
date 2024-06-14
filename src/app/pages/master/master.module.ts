@@ -13,6 +13,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { ProductMasterComponent, productMasterDialogComponent} from './product-master/product-master.component';
 import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.component';
 
 
 
@@ -25,7 +26,8 @@ import { InvoiceListComponent } from './invoice-list/invoice-list.component';
     ProductMasterComponent,
     productMasterDialogComponent,
     InvoiceListComponent,
-    AddInvoiceComponent
+    AddInvoiceComponent,
+    PdfviewComponent
   
   ],
   imports: [

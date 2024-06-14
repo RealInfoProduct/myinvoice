@@ -107,4 +107,11 @@ export class FirebaseService {
       return addDoc(collection(this.fService, 'InvoiceList'), data)
     }
 
+    
+  getAllInvoice() {
+    let dataRef = collection(this.fService, 'InvoiceList')
+    return collectionData(dataRef, { idField: 'id' })
+  }
+
+
 }

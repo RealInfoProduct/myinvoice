@@ -58,6 +58,7 @@ export class PartyMasterComponent implements OnInit {
           partyChalanNoSeries: Number(result.data.partyChalanNoSeries),
           partyPanNo: result.data.partyPanNo,
           partyMobileNo: result.data.partyMobile,
+          isFirm : result.data.isFirm.id,
           userId : localStorage.getItem("userId")
         }
 
@@ -82,6 +83,7 @@ export class PartyMasterComponent implements OnInit {
               partyChalanNoSeries: Number(result.data.partyChalanNoSeries),
               partyPanNo: result.data.partyPanNo,
               partyMobileNo: result.data.partyMobile,
+              isFirm : result.data.isFirm,
               userId : localStorage.getItem("userId")
             }
               this.firebaseService.updateParty(result.data.id , payload).then((res:any) => {
@@ -142,10 +144,13 @@ export class partyMasterDialogComponent implements OnInit {
   partyForm: FormGroup;
   action: string;
   local_data: any;
+  firmList: any = []
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<partyMasterDialogComponent>,
+    private firebaseService : FirebaseService , 
+    private loaderService : LoaderService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
@@ -154,6 +159,7 @@ export class partyMasterDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.buildForm()
+    this.getFirmList()
     if (this.action === 'Edit') {
       this.partyForm.controls['partyName'].setValue(this.local_data.partyName)
       this.partyForm.controls['partyAddress'].setValue(this.local_data.partyAddress)
@@ -172,6 +178,7 @@ export class partyMasterDialogComponent implements OnInit {
       partyChalanNoSeries: [''],
       partyPanNo: [''],
       partyMobile: ['', [Validators.required,Validators.pattern(/^\d{10}$/)]],
+      isFirm : []
     })
   }
 
@@ -183,7 +190,8 @@ export class partyMasterDialogComponent implements OnInit {
       partyGSTIN: this.partyForm.value.partyGSTIN,
       partyChalanNoSeries: this.partyForm.value.partyChalanNoSeries,
       partyPanNo: this.partyForm.value.partyPanNo,
-      partyMobile: this.partyForm.value.partyMobile
+      partyMobile: this.partyForm.value.partyMobile,
+      isFirm : this.partyForm.value.isFirm
     }
     this.dialogRef.close({ event: this.action, data: payload });
   }
@@ -191,4 +199,15 @@ export class partyMasterDialogComponent implements OnInit {
   closeDialog(): void {
     this.dialogRef.close({ event: 'Cancel' });
   }
+
+  getFirmList() {
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllFirm().subscribe((res: any) => {
+      if (res) {
+        this.firmList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
+        this.loaderService.setLoader(false)
+      }
+    })
+  }
+  
 }

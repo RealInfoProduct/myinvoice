@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,6 +10,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PdfviewComponent } from './pdfview/pdfview.component';
+import { MatDialog } from '@angular/material/dialog';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -24,37 +27,18 @@ export interface InvoiceData {
   defectiveitem: number;
   finalAmount: number;
   poNumber: number;
-}
+  finalSubAmount: number;
 
-interface Product {
-  productName: string;
-  price: number;
-  qty: number;
-  defectiveItem: number;
-  poNumber: number;
-  finalAmount: number;
-}
-
-interface firebaseData {
-  firmName: any;
-  partyName: any;
-  date: string;
-  discount: number;
-  sGST: number;
-  cGST: number;
-  product: Product[];
-  invoiceNumber : number,
-  accountYear : any
-}
-
-
-@Component({
-  selector: 'app-add-invoice',
-  templateUrl: './add-invoice.component.html',
-  styleUrls: ['./add-invoice.component.scss']
-})
-export class AddInvoiceComponent implements OnInit {
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+  }
+  
+  @Component({
+    selector: 'app-add-invoice',
+    templateUrl: './add-invoice.component.html',
+    styleUrls: ['./add-invoice.component.scss']
+    })
+    export class AddInvoiceComponent implements OnInit {
+      @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+      @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
   data: InvoiceData[] = [];
   displayedColumns: string[] = [
     '#',
@@ -76,8 +60,12 @@ export class AddInvoiceComponent implements OnInit {
   demo: any
   productList: any = []
   firmList: any = []
+  invoiceList: any = []
+  maxInvoiceNumber: number = 0
+  blobUrl :any
   dataSource = new MatTableDataSource(this.data);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  selectedIndex: number = 0;
+  readonly dialog = inject(MatDialog);
 
 
 
@@ -85,6 +73,7 @@ export class AddInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private firebaseService: FirebaseService,
     private loaderService: LoaderService,
+    private sanitizer: DomSanitizer,
     private _snackBar: MatSnackBar,
   ) { }
   ngOnInit(): void {
@@ -118,6 +107,7 @@ export class AddInvoiceComponent implements OnInit {
         ...this.invoiceForm.value
       };
       addtoData.finalAmount = this.calculateProductTotal(addtoData)
+      // addtoData.finalSubAmount = this.calculateSubTotal(addtoData)
       addtoData.date = moment(this.invoiceForm.value.date).format('L');
       this.data.push(addtoData);
       this.dataSource.data = [...this.data];
@@ -129,6 +119,18 @@ export class AddInvoiceComponent implements OnInit {
       this.editMode = false;
     }
 
+  }
+
+  openPdfViewDialog(pdfViewData?: any) {
+    const dialogRef = this.dialog.open(PdfviewComponent , {
+      width: '100%',
+      height : '80%',
+      data: pdfViewData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
 
   edit(element: any) {
@@ -154,6 +156,7 @@ export class AddInvoiceComponent implements OnInit {
     if (this.invoiceForm.valid) {
       const updatedData = { id: this.currentEditId, ...this.invoiceForm.value };
       updatedData.finalAmount = this.calculateProductTotal(updatedData)
+      // updatedData.finalSubAmount = this.calculateSubTotal(updatedData)
       updatedData.date = moment(this.invoiceForm.value.date).format('L');
       this.data.push(updatedData);
       this.dataSource.data = [...this.data];
@@ -169,7 +172,6 @@ export class AddInvoiceComponent implements OnInit {
     this.data = this.data.filter(item => item.id !== id);
     this.dataSource.data = [...this.data];
   }
-
   getPartyList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllParty().subscribe((res: any) => {
@@ -179,7 +181,6 @@ export class AddInvoiceComponent implements OnInit {
       }
     })
   }
-
   getProductList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllProduct().subscribe((res: any) => {
@@ -189,7 +190,6 @@ export class AddInvoiceComponent implements OnInit {
       }
     })
   }
-
   getFirmList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllFirm().subscribe((res: any) => {
@@ -199,61 +199,153 @@ export class AddInvoiceComponent implements OnInit {
       }
     })
   }
-
-
   calculateProductTotal(productData: any): number {
     return (productData.totalitem - productData.defectiveitem) * (productData.price)
   }
-
   calculateSubTotal(productData: any): number {
-    const netItems = productData.totalitem - productData.defectiveitem;
-    const baseAmount = netItems * productData.price;
+    const netItems = productData.products.reduce((acc: number, product: any) => acc + product.qty - product.defectiveItem, 0);
+    const baseAmount = productData.products.reduce((acc: number, product: any) => acc + (product.qty - product.defectiveItem) * product.price, 0);
     const discountAmount = (productData.discount / 100) * baseAmount;
     const discountedAmount = baseAmount - discountAmount;
     const sGSTAmount = (productData.sGST / 100) * discountedAmount;
     const cGSTAmount = (productData.cGST / 100) * discountedAmount;
-    const finalAmount = discountedAmount + sGSTAmount + cGSTAmount;
-    return finalAmount;
-  }
+    const finalSubAmount = discountedAmount + sGSTAmount + cGSTAmount;
+    return finalSubAmount;
+}
 
-  selectedIndex: number = 0;
+
+
+
   goToNextTab(): void {
     this.selectedIndex = (this.selectedIndex + 1) % 3; // Assuming there are 3 tabs
   }
-
   generateInvoice(){
-    const invoiceData = this.transformData(this.data)
+    const invoiceData = this.transformInvoiceList(this.data)  
+    const finalSubAmount = this.calculateSubTotal(invoiceData)
     const payload: InvoiceList = {
       id : '',
-      accountYear: invoiceData[0].accountYear,
-      cGST: invoiceData[0].cGST,
-      date: invoiceData[0].date,
-      discount: invoiceData[0].discount,
-      invoiceNumber: 0,
-      sGST: invoiceData[0].sGST,
-      firmName: invoiceData[0].firmName,
-      partyName: invoiceData[0].partyName,
-      products: invoiceData[0].product      
+      accountYear: invoiceData.accountYear,
+      cGST: invoiceData.cGST,
+      date: invoiceData.date,
+      discount: invoiceData.discount,
+      invoiceNumber: invoiceData.invoiceNumber,
+      sGST: invoiceData.sGST,
+      firmName: invoiceData.firmName,
+      partyName: invoiceData.partyName,
+      products: invoiceData.products  ,
+      userId : localStorage.getItem("userId"),
+      finalSubAmount : finalSubAmount
     }
+    this.openPdfViewDialog(payload)
+  }
 
-    // this.firebaseService.addInvoice(payload).then((res) => {
-    //   if (res) {
-    //       this.openConfigSnackBar('record create successfully')
-    //     }
-    // } , (error) => {
-    //   this.openConfigSnackBar(error.error.error.message)
+  transformInvoiceList(invoiceList: any[]): any {
+    if (!invoiceList.length) return {};
+
+    // Initialize the single object with common fields from the first invoice
+    const transformedObject :any = {
+      firmName: invoiceList[0].firm,
+      partyName: invoiceList[0].party,
+      date: invoiceList[0].date,
+      discount: invoiceList[0].discount,
+      sGST: invoiceList[0].sGST,
+      cGST: invoiceList[0].cGST,
+      invoiceNumber: this.maxInvoiceNumber,
+      accountYear: localStorage.getItem('accountYear'),
+      finalSubAmount: invoiceList[0].finalSubAmount,
+      products: []
+    };
+
+    // Loop through the invoices to accumulate all products
+    invoiceList.forEach((item :any) => {
+      const product = {
+        productName: item.product,
+        price: item.price,
+        qty: item.totalitem,
+        defectiveItem: item.defectiveitem,
+        poNumber: item.poNumber,
+        finalAmount: item.finalAmount
+      };
+
+      transformedObject.products.push(product);
+    });
+
+    return transformedObject;
+  }
+
+  openConfigSnackBar(snackbarTitle: any) {
+    this._snackBar.open(snackbarTitle, 'Splash', {
+      duration: 2 * 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+
+  getInvoiceList(firmId:any) {
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllInvoice().subscribe((res: any) => {
+      if (res) {
+        this.invoiceList = res.filter((id:any) => 
+          id.userId === localStorage.getItem("userId") && 
+          id.accountYear === localStorage.getItem("accountYear") &&
+          id.firmName.id === firmId
+         )     
+        this.maxInvoiceNumber = this.invoiceList.length > 0 
+        ? Math.max(...this.invoiceList.map((invoice: any) => invoice.invoiceNumber)) + 1 
+        : 1;
+        this.loaderService.setLoader(false)
+      }
+    })
+  }
+  seletedFirm(event :any){
+    this.getInvoiceList(event.value.id)    
+  }
+  seletedParty(event: any) {
+    if (event.value.isFirm) {
+      this.invoiceForm.controls['firm'].setValue(this.firmList.find((id: any) => id.id === event.value.isFirm))
+      this.getInvoiceList(event.value.isFirm)
+    } else {
+      this.invoiceForm.controls['firm'].reset()
+      this.maxInvoiceNumber = 0
+    }
+  }
+  
+
+  submitInvoice(){
+    const invoiceData = this.transformInvoiceList(this.data)  
+    const finalSubAmount = this.calculateSubTotal(invoiceData)
+    const payload: InvoiceList = {
+      id : '',
+      accountYear: invoiceData.accountYear,
+      cGST: invoiceData.cGST,
+      date: invoiceData.date,
+      discount: invoiceData.discount,
+      invoiceNumber: invoiceData.invoiceNumber,
+      sGST: invoiceData.sGST,
+      firmName: invoiceData.firmName,
+      partyName: invoiceData.partyName,
+      products: invoiceData.products  ,
+      userId : localStorage.getItem("userId"),
+      finalSubAmount : finalSubAmount
+    }
+    
+    this.firebaseService.addInvoice(payload).then((res) => {
+      if (res) {
+          this.openConfigSnackBar('record create successfully')
+          this.generatePDF(payload)
+          this.invoiceForm.reset()
+        }
+    } , (error) => {
+      this.openConfigSnackBar(error.error.error.message)
       
-    // })
-
-    console.log("payload==========>>", payload);
-    this.generatePDF(payload)
+    })
 
   }
-  generatePDF(data :any){
-    console.log("data==========>>", data);
 
+
+  generatePDF(invoiceData: any) {
     const doc = new jsPDF();
-  
+
     // Add image
     const img = new Image();
     img.src = '../assets/hospital11.1.png';
@@ -268,75 +360,82 @@ export class AddInvoiceComponent implements OnInit {
 
       doc.setFontSize(16);
       doc.setTextColor(5, 5, 5);
-      doc.text('Invoice:', 155, 18);
-      doc.text('1001', 175, 18);
+      doc.text('Invoice:', 161, 18);
+      doc.text(String(invoiceData.invoiceNumber), 182, 18);
       doc.setFontSize(16);
       doc.setTextColor(5, 5, 5);
       doc.text('Date:', 161, 27);
-      doc.text('16/05/2024', 175, 27);
-   
+      doc.text(invoiceData.date, 175, 27);
+
 
       //       // Shop Details
 
       doc.setFontSize(25);
       doc.setTextColor(255, 255, 255);
-      doc.text('Ramesh G.Raiyani', 20, 17);
+      doc.text(invoiceData.firmName.header, 15, 17);
       doc.setFontSize(10);
       doc.setTextColor(5, 5, 5);
-      doc.text('93,Charnunda Nagar Society', 15, 55);
-      doc.text('Punagam, Surat', 15, 60);
-      doc.text('Mob No:-', 15, 65);
-      doc.text('1234567890', 30, 65);
+      const addresseLines = doc.splitTextToSize(invoiceData.firmName.address, 60);
+      let startYFirm = 60;
+      addresseLines.forEach((line: string) => {
+        doc.text(line, 15, startYFirm);
+        startYFirm += 5;
+      });
+      doc.text('Mob No:-', 15, 70);
+      doc.text(String(invoiceData.firmName.mobileNo), 30, 70);
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('GST:-', 16, 90);
+      doc.text(invoiceData.firmName.gstNo, 30, 90);
 
 
       //  //  Customer Details
       doc.setFontSize(15);
       doc.setTextColor(122, 122, 122);
-      doc.text('Customer Details', 140, 45);
+      doc.text('Customer Details', 135, 45);
       doc.setFontSize(12);
       doc.setTextColor(5, 5, 5);
-      doc.text('ROYAL ZENITH PRINTS PVT LTD.', 140, 55);
+      doc.text(invoiceData.partyName.partyName, 135, 55);
       doc.setFontSize(10);
-      doc.setTextColor(5, 5, 5);
-      doc.text('537, 5th FLOOR,CARPARKING,', 140, 60);
-      doc.text('SURAT TEXTILE MARKET', 140, 65);
-      doc.text('Mob No :-', 140, 70);
-      doc.text('1234567890', 157, 70);
-      doc.text('GST :-', 145, 75);
-      doc.text('ADS74636', 157, 75);
-
-
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.text('Product Details', 15, 90);
-
-
-      // Add table
-      const data = [
-        ['1', 'demo','1', '5', '2', '20', '100'],
-        ['2', 'demo','2', '5', '2', '20', '100'],
-        ['3', 'demo','3', '5', '2', '20', '100'],
-        ['4', 'demo','4', '5', '2', '20', '100'],
-        ['5', 'demo','5', '5', '2', '20', '100'],
-        ['6', 'demo','6', '5', '2', '20', '100'],
-        ['7', 'demo','1', '5', '2', '20', '100'],
-        ['8', 'demo','2', '5', '2', '20', '100'],
-        ['9', 'demo','3', '5', '2', '20', '100'],
-        ['10', 'demo','4', '5', '2', '20', '100'],
-        ['11', 'demo','5', '5', '2', '20', '100'],
-        ['12', 'demo','6', '5', '2', '20', '100'],
-        ['13', 'demo','1', '5', '2', '20', '100'],
-        ['14', 'demo','2', '5', '2', '20', '100'],
-        ['15', 'demo','3', '5', '2', '20', '100'],
-        ['16', 'demo','4', '5', '2', '20', '100'],
-
-      ];
-      const bodyRows: any = [];
-      data.forEach((row) => {
-        bodyRows.push(row.map(cell => ({ content: cell, styles: { textColor: [0, 0, 0], fontSize: 10 } })));
+      const addressLines = doc.splitTextToSize(invoiceData.partyName.partyAddress, 60);
+      let startYCustomer = 60;
+      addressLines.forEach((line: string) => {
+        doc.text(line, 135, startYCustomer);
+        startYCustomer += 5;
       });
+      doc.text('Mob No :-', 135, 70);
+      doc.text(String(invoiceData.partyName.partyMobileNo), 152, 70);
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('GST :-', 135, 90);
+      doc.text(invoiceData.partyName.partyGstNo, 155, 90);
+
+      const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0);
+
+      const bodyRows = invoiceData.products.map((product: any, index: any) => [
+        index + 1,
+        product.productName.productName,
+        product.poNumber,
+        product.qty,
+        product.defectiveItem,
+        product.price,
+        product.finalAmount,
+      ]);
+
+      // Add empty rows if there are less than 17 products
+      while (bodyRows.length < 17) {
+        bodyRows.push([
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ]);
+      }
       (doc as any).autoTable({
-        head: [['Sr.', 'product','Po Number', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        head: [['Sr.', 'product', 'Po Number', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
         body: bodyRows,
         startY: 95,
         theme: 'plain',
@@ -347,7 +446,8 @@ export class AddInvoiceComponent implements OnInit {
           cellPadding: 2,
         },
         bodyStyles: {
-          halign: 'center',
+          textColor: [0, 0, 0],
+          halign: 'center'
         },
         didDrawCell: (data: any) => {
           const { cell, row, column } = data;
@@ -356,97 +456,41 @@ export class AddInvoiceComponent implements OnInit {
             doc.setLineWidth(0.2);
             doc.line(cell.x, cell.y + cell.height, cell.x + cell.width, cell.y + cell.height);
           }
+
         }
+
       });
+
+
 
       doc.addImage(logoimg, 'JPEG', 0, 272, 210, 25);
 
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
       doc.text('Total:', 161, 240);
-      doc.text('0', 175, 240);
+      doc.text(String(productsSubTotal), 175, 240);
       doc.text('Discount:', 154, 246);
-      doc.text('0', 175, 246);
+      doc.text(String(invoiceData.discount), 175, 246);
       doc.text('SGST:', 159, 252);
-      doc.text('0', 175, 252);
+      doc.text(String(invoiceData.sGST), 175, 252);
       doc.text('CGST:', 159, 258);
-      doc.text('0', 175, 258);
+      doc.text(String(invoiceData.cGST), 175, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text('Final Amount :', 145, 268);
-      doc.text('0', 175, 268);
+      doc.text(String(invoiceData.finalSubAmount), 175, 268);
 
       // PAN NO
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
       doc.text('PAN NO :', 16, 240);
-      doc.text('AU74748AS', 35, 240);
+      doc.text(invoiceData.firmName.panNo, 35, 240);
 
-      // GSTIN
-      doc.setFontSize(12);
-      doc.setTextColor(33, 52, 66);
-      doc.text('GSTIN :', 16, 247);
-      doc.text('AU74748AS', 35, 247);
 
       // open PDF
       window.open(doc.output('bloburl'))
     }
   }
-
-  transformData(myData: any[]): firebaseData[] {
-
-    const result: firebaseData[] = [];
-  
-    myData.forEach(item => {
-      const existingEntryIndex = result.findIndex(entry =>
-        entry.firmName === item.firm.header &&
-        entry.partyName === item.party.partyName &&
-        entry.date === item.date &&
-        entry.discount === item.discount &&
-        entry.sGST === item.sGST &&
-        entry.cGST === item.cGST
-      );
-  
-      const product = {
-        productName: item.product,
-        price: item.price,
-        qty: item.totalitem,
-        defectiveItem: item.defectiveitem,
-        poNumber: item.poNumber,
-        finalAmount: item.finalAmount
-      };
-  
-      if (existingEntryIndex !== -1) {
-        // If entry already exists, push the product to its existing product array
-        result[existingEntryIndex].product.push(product);
-      } else {
-        // If entry doesn't exist, create a new entry with an array containing the product
-        result.push({
-          firmName: item.firm.header,
-          partyName: item.party.partyName,
-          date: item.date,
-          discount: item.discount,
-          sGST: item.sGST,
-          cGST: item.cGST,
-          invoiceNumber: 0,
-          accountYear: localStorage.getItem('accountYear'),
-          product: [product]
-        });
-      }
-    });
-  
-    return result;
-  }
-
-  openConfigSnackBar(snackbarTitle: any) {
-    this._snackBar.open(snackbarTitle, 'Splash', {
-      duration: 2 * 1000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
-  
-  
 }
 

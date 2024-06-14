@@ -15,5 +15,12 @@
 .GenerateInvoice{
     position: absolute;
     left: 24px;
-    bottom: 24px;
+    bottom: 30px;
+}
+.invoiceTab{
+    position: relative;
+}
+.invoiceNumber{
+    position: absolute;
+    right: 65px;
 }

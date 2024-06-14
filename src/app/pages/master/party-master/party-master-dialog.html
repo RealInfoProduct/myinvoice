@@ -13,7 +13,7 @@
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput required formControlName="partyAddress" placeholder="Party firm address" />
+          <input type="text" matInput required formControlName="partyAddress" placeholder="Party address" />
           <mat-hint *ngIf="partyForm.get('partyAddress')?.hasError('required') && partyForm.get('partyAddress')?.touched"
             class="error-message error-color">
             firm address is required
@@ -26,7 +26,7 @@
           <input type="text" matInput formControlName="partyGSTIN" placeholder="Party GSTIN" />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <!-- <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="text" matInput required formControlName="partyChalanNoSeries" placeholder="Chalan no series" />
           <mat-hint
@@ -35,6 +35,13 @@
             chalan no series is required
           </mat-hint>
         </mat-form-field>
+      </div> -->
+      <div class="col-6">
+      <mat-form-field appearance="outline" class="w-100 m-t-8">
+          <mat-select value="no" formControlName="isFirm" placeholder="Select a firm">
+              <mat-option *ngFor="let item of firmList" [value]="item">{{item.header}}</mat-option>
+          </mat-select>
+      </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">

@@ -24,6 +24,7 @@ export interface PartyList {
     partyPanNo: string,
     partyMobileNo: number,
     userId :any
+    isFirm:any
 }
 
 export interface FirmList {
@@ -59,5 +60,8 @@ export interface InvoiceList {
     sGST: number;
     firmName: any;
     partyName: any;
-    products: any
+    products: any;
+    userId :any;
+    finalSubAmount:any
+
 }

@@ -23,15 +23,10 @@ export class AppComponent {
         this.firebaseService.getUserList().subscribe((res => {
           if (res) {
             const userData: any = res.find((id: any) => id.id === localStorage.getItem("userId"))
-            if (userData) {
               if (!userData.isActive) {
                   localStorage.clear()
                   this.router.navigate(['/authentication/side-login']);
               }
-            } else{
-              localStorage.clear()
-              this.router.navigate(['/authentication/side-login']);
-            }
           }
         }))
       }

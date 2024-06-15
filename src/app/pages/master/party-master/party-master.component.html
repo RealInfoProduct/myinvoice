@@ -32,7 +32,8 @@
             <div class="d-flex align-items-center">
               <div class="m-l-16">
                 <p class="mat-subtitle-1 f-s-16 m-t-0">
-                  {{ element.partyName }}
+                  {{ element.partyName }}<br>
+                (  {{ element.partyMobileNo }})
                 </p>
               </div>
             </div>
@@ -48,14 +49,14 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="ChalanNo">
+        <!-- <ng-container matColumnDef="ChalanNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
             Chalan No
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.partyChalanNoSeries }}
           </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="Address">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
@@ -75,14 +76,14 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="PartyMobile">
+        <!-- <ng-container matColumnDef="PartyMobile">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
             Mobile
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.partyMobileNo }}
           </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">

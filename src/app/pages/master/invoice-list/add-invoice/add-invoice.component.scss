@@ -12,15 +12,20 @@
     display: flex;
     align-items: center;
 }
-.GenerateInvoice{
-    position: absolute;
-    left: 24px;
-    bottom: 30px;
-}
+
+
 .invoiceTab{
     position: relative;
 }
 .invoiceNumber{
     position: absolute;
     right: 65px;
+    display: flex;
+    align-items: center;
+}
+.GenerateInvoice{
+    padding-right: 10px;
+}
+::ng-deep .mat-mdc-tab-labels{
+    width: 50% !important;
 }

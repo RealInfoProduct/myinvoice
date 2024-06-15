@@ -22,6 +22,7 @@ export class InvoiceListComponent implements OnInit {
     'CGST',
     'SGST',
     'discount',
+    'finalSubAmount',
     'action',
   ];
   dataSource: any
@@ -71,7 +72,7 @@ export class InvoiceListComponent implements OnInit {
 })
 
 export class productdialog  implements OnInit {
-  displayedColumns: string[] = ['defectiveItem', 'finalAmount', 'productName', 'poNumber', 'price', 'qty'];
+  displayedColumns: string[] = ['productName' , 'price', 'qty' , 'defectiveItem', 'poNumber', 'finalAmount' ];
   dataSource :any = [] 
   constructor(
     public dialogRef: MatDialogRef<productdialog>,

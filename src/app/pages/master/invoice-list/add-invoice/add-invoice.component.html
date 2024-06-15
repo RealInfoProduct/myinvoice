@@ -1,8 +1,12 @@
 
 
+
 <div class="invoiceNumber">
-    <h3>Invocie:- {{maxInvoiceNumber}}</h3>
+    <h3>Invocie: {{maxInvoiceNumber}}</h3>
+    
 </div>
+
+
 <div class="invoiceTab">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedIndex">
       <form [formGroup]="invoiceForm">
@@ -12,7 +16,7 @@
               <mat-card-content class="p-24">
                   <div class="row">
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select a party<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Party<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
                               <mat-select value="no" formControlName="party" placeholder="Select a party" (selectionChange)="seletedParty($event)">
@@ -21,7 +25,7 @@
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select a firm<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Firm<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
                               <mat-select value="no" formControlName="firm" placeholder="Select a firm" (selectionChange)="seletedFirm($event)">
@@ -30,28 +34,64 @@
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Discount<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Discount (%)<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="discount" placeholder= "Enter a discount" />
+                              <input type="number" matInput formControlName="discount" placeholder= "Enter Discount %"  min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('discount')?.hasError('required') && invoiceForm.get('discount')?.touched"
+                              class="error-message error-color">
+                                Discount is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('discount')?.hasError('min') && invoiceForm.get('discount')?.touched"
+                              class="error-message error-color">
+                                Discount must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('discount')?.hasError('max') && invoiceForm.get('discount')?.touched"
+                              class="error-message error-color">
+                                Discount must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
                             <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">S GST<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput required formControlName="sGST" placeholder="Enter a s GST" />
+                              <input type="number" matInput required formControlName="sGST" placeholder="Enter  S GST" min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('sGST')?.hasError('required') && invoiceForm.get('sGST')?.touched"
+                              class="error-message error-color">
+                                S GST is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('sGST')?.hasError('min') && invoiceForm.get('sGST')?.touched"
+                              class="error-message error-color">
+                                S GST must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('sGST')?.hasError('max') && invoiceForm.get('sGST')?.touched"
+                              class="error-message error-color">
+                                S GST must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
                             <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">C GST<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput required formControlName="cGST" placeholder="Enter a c GST" />
+                              <input type="number" matInput required formControlName="cGST" placeholder="Enter C GST" min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('cGST')?.hasError('required') && invoiceForm.get('cGST')?.touched"
+                              class="error-message error-color">
+                                C GST is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('cGST')?.hasError('min') && invoiceForm.get('cGST')?.touched"
+                              class="error-message error-color">
+                                C GST must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('cGST')?.hasError('max') && invoiceForm.get('cGST')?.touched"
+                              class="error-message error-color">
+                                C GST must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select a date<span class="required">
+                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Date<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
                               <input matInput [matDatepicker]="picker" formControlName="date" required />
@@ -61,7 +101,7 @@
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-12 text-end">
+                      <div class="col-12 text-end d-flex justify-content-end ">
                           <button mat-flat-button (click)="goToNextTab()" color="primary">Next</button>
                       </div>
                   </div>
@@ -69,47 +109,107 @@
           </mat-card>   
       </mat-tab>
       <mat-tab label="Product Entry">
+        <div class="GenerateInvoice" *ngIf="data.length > 0" style="text-align: end;">
+            <button mat-flat-button color="primary" (click)="generateInvoice()"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
+            <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button>
+        </div>
           <mat-card class="cardWithShadow m-15">
               <mat-card-content class="p-24">
                   <div class="row">
-                      <div class="col-3">
-                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Select a product<span class="required">
-              *</span></mat-label>
-                          <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <mat-select value="no" formControlName="product" placeholder="Select a product">
-                                  <mat-option [value]="item"
-                                      *ngFor="let item of productList">{{item.productName}}</mat-option>
-                              </mat-select>
-                          </mat-form-field>
-                      </div>
+                      <div class="col-2">
+                        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Po Number<span class="required">
+           *</span></mat-label>
+                       <mat-form-field appearance="outline" class="w-100 m-t-8">
+                           <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" min="0" max="100" />
+                           <mat-error  *ngIf="invoiceForm.get('poNumber')?.hasError('required') && invoiceForm.get('poNumber')?.touched"
+                           class="error-message error-color">
+                            po Number is required
+                           </mat-error>
+                           <mat-error *ngIf="invoiceForm.get('poNumber')?.hasError('min') && invoiceForm.get('poNumber')?.touched"
+                           class="error-message error-color">
+                            po Number must be at least 0%
+                           </mat-error>
+                           <mat-error *ngIf="invoiceForm.get('poNumber')?.hasError('max') && invoiceForm.get('poNumber')?.touched"
+                           class="error-message error-color">
+                            po Number must be at most 100%
+                           </mat-error>
+                       </mat-form-field>
+                   </div>
+                   <div class="col-3">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Select Product<span class="required">
+       *</span></mat-label>
+                   <mat-form-field appearance="outline" class="w-100 m-t-8">
+                       <mat-select value="no" formControlName="product" placeholder="Select a product">
+                           <mat-option [value]="item"
+                               *ngFor="let item of productList">{{item.productName}}</mat-option>
+                       </mat-select>
+                   </mat-form-field>
+               </div>
                       <div class="col-2">
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Price<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="price" placeholder="Enter a price" />
+                              <input type="number" matInput formControlName="price" placeholder="Enter a price" min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('price')?.hasError('required') && invoiceForm.get('price')?.touched"
+                              class="error-message error-color">
+                                price is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('price')?.hasError('min') && invoiceForm.get('price')?.touched"
+                              class="error-message error-color">
+                                price must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('price')?.hasError('max') && invoiceForm.get('price')?.touched"
+                              class="error-message error-color">
+                                price must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-2">
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Qty<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="totalitem" placeholder="Enter a qty" />
+                              <input type="number" matInput formControlName="totalitem" placeholder="Enter a qty" min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('totalitem')?.hasError('required') && invoiceForm.get('totalitem')?.touched"
+                              class="error-message error-color">
+                               qty is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('totalitem')?.hasError('min') && invoiceForm.get('totalitem')?.touched"
+                              class="error-message error-color">
+                               qty must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('totalitem')?.hasError('max') && invoiceForm.get('totalitem')?.touched"
+                              class="error-message error-color">
+                               qty must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-2">
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Defective Item<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="defectiveitem" placeholder="Enter a defective item" />
+                              <input type="number" matInput formControlName="defectiveitem" placeholder="Enter a defective item" min="0" max="100" />
+                              <mat-error  *ngIf="invoiceForm.get('defectiveitem')?.hasError('required') && invoiceForm.get('defectiveitem')?.touched"
+                              class="error-message error-color">
+                                defective item is required
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('defectiveitem')?.hasError('min') && invoiceForm.get('defectiveitem')?.touched"
+                              class="error-message error-color">
+                                defective item must be at least 0%
+                              </mat-error>
+                              <mat-error *ngIf="invoiceForm.get('defectiveitem')?.hasError('max') && invoiceForm.get('defectiveitem')?.touched"
+                              class="error-message error-color">
+                                defective item must be at most 100%
+                              </mat-error>
                           </mat-form-field>
                       </div>
-                      <div class="col-2">
+                      <!-- <div class="col-2">
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Po Number<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
                               <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" />
                           </mat-form-field>
-                      </div>
+                      </div> -->
+                     
                       <div class="col-1 productButton">
                           <mat-dialog-actions>
                               <button mat-flat-button [disabled]="!invoiceForm.valid" *ngIf="!editMode"
@@ -145,7 +245,7 @@
   
                   <ng-container matColumnDef="PoNumber">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Po Number
+                          Po
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.poNumber }}
@@ -187,7 +287,7 @@
                   </ng-container>
                   <ng-container matColumnDef="FinalAmount">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          FinalAmount
+                          Amount
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.finalAmount }}
@@ -212,10 +312,6 @@
               </table>
               <div style="position: relative;">
                   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-              </div>
-              <div class="GenerateInvoice">
-                  <button mat-flat-button color="primary" (click)="generateInvoice()">View Invoice</button>
-                  <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()">Print Invoice</button>
               </div>
           </div>
           <ng-template #noRecordsTemplate>

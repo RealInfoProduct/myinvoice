@@ -26,3 +26,6 @@
 .GenerateInvoice{
     padding-right: 10px;
 }
+::ng-deep .mat-mdc-tab-labels{
+    width: 50% !important;
+}

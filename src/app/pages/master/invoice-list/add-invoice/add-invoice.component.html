@@ -1,10 +1,7 @@
 
 
+
 <div class="invoiceNumber">
-    <div class="GenerateInvoice" *ngIf="data">
-        <button mat-flat-button color="primary" (click)="generateInvoice()"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
-        <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button>
-    </div>
     <h3>Invocie: {{maxInvoiceNumber}}</h3>
     
 </div>
@@ -112,6 +109,10 @@
           </mat-card>   
       </mat-tab>
       <mat-tab label="Product Entry">
+        <div class="GenerateInvoice" *ngIf="data.length > 0" style="text-align: end;">
+            <button mat-flat-button color="primary" (click)="generateInvoice()"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
+            <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button>
+        </div>
           <mat-card class="cardWithShadow m-15">
               <mat-card-content class="p-24">
                   <div class="row">

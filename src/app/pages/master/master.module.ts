@@ -12,9 +12,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductMasterComponent, productMasterDialogComponent} from './product-master/product-master.component';
 import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
-import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { InvoiceListComponent, productdialog} from './invoice-list/invoice-list.component';
 import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.component';
-
 
 
 @NgModule({
@@ -27,8 +26,8 @@ import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.com
     productMasterDialogComponent,
     InvoiceListComponent,
     AddInvoiceComponent,
-    PdfviewComponent
-  
+    PdfviewComponent,
+    productdialog
   ],
   imports: [
     CommonModule,

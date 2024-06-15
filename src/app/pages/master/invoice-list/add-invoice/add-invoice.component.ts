@@ -337,6 +337,7 @@ export interface InvoiceData {
           this.openConfigSnackBar('record create successfully')
           this.generatePDF(payload)
           this.invoiceForm.reset()
+          this.data = []
         }
     } , (error) => {
       this.openConfigSnackBar(error.error.error.message)

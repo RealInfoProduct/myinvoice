@@ -19,7 +19,7 @@ export class PartyMasterComponent implements OnInit {
     'srno',
     'PartyName',
     'PartyGSTIN',
-    'ChalanNo',
+    // 'ChalanNo',
     'Address',
     'PartyPan',
     'PartyMobile',

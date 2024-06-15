@@ -13,6 +13,7 @@ import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfviewComponent } from './pdfview/pdfview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -66,6 +67,7 @@ export interface InvoiceData {
   dataSource = new MatTableDataSource(this.data);
   selectedIndex: number = 0;
   readonly dialog = inject(MatDialog);
+ 
 
 
 
@@ -89,18 +91,19 @@ export interface InvoiceData {
     this.invoiceForm = this.fb.group({
       firm: ['', Validators.required],
       party: ['', Validators.required],
-      discount: ['', Validators.required],
-      sGST: ['', Validators.required],
-      cGST: ['', Validators.required],
+      discount: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
+      sGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
+      cGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
-      totalitem: ['', Validators.required],
-      defectiveitem: ['', Validators.required],
-      price: ['', Validators.required],
+      totalitem: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
+      defectiveitem: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
+      price: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
       product: ['', Validators.required],
-      poNumber: ['', Validators.required],
+      poNumber: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
     })
   }
   addData(): void {
+   
     if (this.invoiceForm.valid) {
       const addtoData: InvoiceData = {
         id: this.nextId++,
@@ -381,41 +384,41 @@ export interface InvoiceData {
         doc.text(line, 15, startYFirm);
         startYFirm += 5;
       });
-      doc.text('Mob No:-', 15, 70);
+      doc.text('Mob No:', 15, 70);
       doc.text(String(invoiceData.firmName.mobileNo), 30, 70);
       doc.setFontSize(13);
       doc.setTextColor(0, 0, 0);
-      doc.text('GST:-', 16, 90);
-      doc.text(invoiceData.firmName.gstNo, 30, 90);
+      doc.text('GST:', 14, 90);
+      doc.text(invoiceData.firmName.gstNo, 28, 90);
 
 
       //  //  Customer Details
       doc.setFontSize(15);
       doc.setTextColor(122, 122, 122);
-      doc.text('Customer Details', 135, 45);
+      doc.text('Customer Details', 130, 45);
       doc.setFontSize(12);
       doc.setTextColor(5, 5, 5);
-      doc.text(invoiceData.partyName.partyName, 135, 55);
+      doc.text(invoiceData.partyName.partyName, 130, 55);
       doc.setFontSize(10);
       const addressLines = doc.splitTextToSize(invoiceData.partyName.partyAddress, 60);
       let startYCustomer = 60;
       addressLines.forEach((line: string) => {
-        doc.text(line, 135, startYCustomer);
+        doc.text(line, 130, startYCustomer);
         startYCustomer += 5;
       });
-      doc.text('Mob No :-', 135, 70);
-      doc.text(String(invoiceData.partyName.partyMobileNo), 152, 70);
+      doc.text('Mob No :', 130, 70);
+      doc.text(String(invoiceData.partyName.partyMobileNo), 147, 70);
       doc.setFontSize(13);
       doc.setTextColor(0, 0, 0);
-      doc.text('GST :-', 135, 90);
-      doc.text(invoiceData.partyName.partyGstNo, 155, 90);
+      doc.text('GST :', 138, 90);
+      doc.text(invoiceData.partyName.partyGstNo, 152, 90);
 
       const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0);
 
       const bodyRows = invoiceData.products.map((product: any, index: any) => [
         index + 1,
-        product.productName.productName,
         product.poNumber,
+        product.productName.productName,
         product.qty,
         product.defectiveItem,
         product.price,
@@ -423,7 +426,7 @@ export interface InvoiceData {
       ]);
 
       // Add empty rows if there are less than 17 products
-      while (bodyRows.length < 17) {
+      while (bodyRows.length < 10) {
         bodyRows.push([
           '',
           '',
@@ -435,7 +438,7 @@ export interface InvoiceData {
         ]);
       }
       (doc as any).autoTable({
-        head: [['Sr.', 'product', 'Po Number', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        head: [['Sr.','Po Number' , ' Product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
         body: bodyRows,
         startY: 95,
         theme: 'plain',
@@ -447,7 +450,8 @@ export interface InvoiceData {
         },
         bodyStyles: {
           textColor: [0, 0, 0],
-          halign: 'center'
+          halign: 'right',
+          fontSize: 15,
         },
         didDrawCell: (data: any) => {
           const { cell, row, column } = data;
@@ -467,19 +471,19 @@ export interface InvoiceData {
 
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
-      doc.text('Total:', 161, 240);
-      doc.text(String(productsSubTotal), 175, 240);
-      doc.text('Discount:', 154, 246);
-      doc.text(String(invoiceData.discount), 175, 246);
-      doc.text('SGST:', 159, 252);
-      doc.text(String(invoiceData.sGST), 175, 252);
-      doc.text('CGST:', 159, 258);
-      doc.text(String(invoiceData.cGST), 175, 258);
+      doc.text('Total :', 165, 240);
+      doc.text(String("rs" +productsSubTotal), 180, 240);
+      doc.text('Discount % :', 154, 246);
+      doc.text(String(invoiceData.discount), 183, 246);
+      doc.text('SGST % :', 159, 252);
+      doc.text(String(invoiceData.sGST), 183, 252);
+      doc.text('CGST % :', 159, 258);
+      doc.text(String(invoiceData.cGST), 183, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
       doc.setTextColor(0, 0, 0);
-      doc.text('Final Amount :', 145, 268);
-      doc.text(String(invoiceData.finalSubAmount), 175, 268);
+      doc.text('Final Amount :', 150, 268);
+      doc.text(String("rs" +invoiceData.finalSubAmount), 180, 268);
 
       // PAN NO
       doc.setFontSize(12);

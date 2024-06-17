@@ -6,6 +6,7 @@ import { FullComponent } from 'src/app/layouts/full/full.component';
 import { ProductMasterComponent } from './product-master/product-master.component';
 import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.component';
 
 
 export const MasterRoutes: Routes = [
@@ -54,6 +55,17 @@ export const MasterRoutes: Routes = [
           urls: [
             { title: 'Master', url: '/master/invoicelist' },
             { title: 'Invoice List' },
+          ],
+        },
+      },
+      {
+        path: 'invoiceview',
+        component: PdfviewComponent,
+        data: {
+          title: 'Invoice View',
+          urls: [
+            { title: 'Master', url: '/master/invoicelist' },
+            { title: 'Invoice View' },
           ],
         },
       },

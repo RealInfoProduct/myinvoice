@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../material.module';
 import { NgFor } from '@angular/common';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { LoaderService } from 'src/app/services/loader.service';
 
 interface topcards {
   id: number;
   img: string;
   color: string;
   title: string;
-  subtitle: string;
+  subtitle: number;
 }
 
 @Component({
@@ -23,42 +25,76 @@ export class AppTopCardsComponent {
       color: 'primary',
       img: '/assets/images/svgs/icon-user-male.svg',
       title: 'Total Firm',
-      subtitle: '96',
+      subtitle: 0,
     },
     {
       id: 2,
       color: 'warning',
       img: '/assets/images/svgs/icon-briefcase.svg',
       title: 'Total Party',
-      subtitle: '3,650',
+      subtitle: 0,
     },
     {
       id: 3,
       color: 'accent',
       img: '/assets/images/svgs/icon-mailbox.svg',
       title: 'Total Invoice',
-      subtitle: '356',
+      subtitle: 0,
     },
     {
       id: 4,
       color: 'error',
       img: '/assets/images/svgs/icon-favorites.svg',
       title: 'Pending Bills',
-      subtitle: '696',
+      subtitle: 0,
     },
     {
       id: 5,
       color: 'success',
       img: '/assets/images/svgs/icon-speech-bubble.svg',
       title: 'Ava. Balance',
-      subtitle: '$96k',
+      subtitle: 0,
     },
     {
       id: 6,
       color: 'accent',
       img: '/assets/images/svgs/icon-connect.svg',
-      title: 'Reports',
-      subtitle: '59',
+      title: 'Total Product',
+      subtitle: 0,
     },
   ];
+
+  constructor(private firebaseService : FirebaseService, private loaderService : LoaderService){
+    
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllFirm().subscribe((res:any) => {
+      if (res) {        
+        this.topcards[0].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
+        this.loaderService.setLoader(false)
+      }
+    })
+    this.firebaseService.getAllParty().subscribe((res:any) => {
+      if (res) {        
+        this.topcards[1].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
+        this.loaderService.setLoader(false)
+      }
+    })
+    this.firebaseService.getAllProduct().subscribe((res:any) => {
+      if (res) {        
+        this.topcards[5].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
+        this.loaderService.setLoader(false)
+      }
+    })
+    this.firebaseService.getAllInvoice().subscribe((res:any) => {
+      if (res) {        
+        this.topcards[2].subtitle = res.filter((id:any) => 
+          id.userId === localStorage.getItem("userId") && 
+          id.accountYear === localStorage.getItem("accountYear")
+         ).length          
+        this.loaderService.setLoader(false)
+      }
+    })
+
+
+  }
 }

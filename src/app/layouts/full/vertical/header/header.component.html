@@ -32,10 +32,10 @@
     <i-tabler name="search" class="icon-20 d-flex"></i-tabler>
   </button>
 
-  <div class="d-none d-lg-flex">
-    <!-- --------------------------------------------------------------- -->
-    <!--  Links -->
-    <!-- --------------------------------------------------------------- -->
+  <!-- --------------------------------------------------------------- -->
+  <!--  Links -->
+  <!-- --------------------------------------------------------------- -->
+  <!-- <div class="d-none d-lg-flex">
     <button
       mat-button
       [matMenuTriggerFor]="appsmenu"
@@ -113,23 +113,23 @@
     <a mat-button [routerLink]="['/apps/chat']">Chat</a>
     <a mat-button [routerLink]="['/apps/calendar']">Calendar</a>
     <a mat-button [routerLink]="['/apps/email/inbox']">Email</a>
-  </div>
+  </div> -->
 
   <span class="flex-1-auto"></span>
 
   <!-- Mobile Menu -->
-  <button
+  <!-- <button
     mat-icon-button
     (click)="toggleMobileFilterNav.emit()"
     class="d-flex d-lg-none justify-content-center"
   >
     <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
-  </button>
+  </button> -->
 
   <!-- --------------------------------------------------------------- -->
   <!-- langugage Dropdown -->
   <!-- --------------------------------------------------------------- -->
-  <button [matMenuTriggerFor]="flags" mat-icon-button class="m-r-5">
+  <!-- <button [matMenuTriggerFor]="flags" mat-icon-button class="m-r-5">
     <img
       [src]="selectedLanguage.icon"
       class="rounded-circle object-cover icon-20"
@@ -149,12 +149,12 @@
         <span class="mat-subtitle-1 f-s-14">{{ lang.language }}</span>
       </div>
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
   <!-- --------------------------------------------------------------- -->
   <!-- Notification Dropdown -->
   <!-- --------------------------------------------------------------- -->
-  <button
+  <!-- <button
     mat-icon-button
     [matMenuTriggerFor]="notificationmenu"
     aria-label="Notifications"
@@ -195,12 +195,12 @@
         See all notifications
       </button>
     </div>
-  </mat-menu>
+  </mat-menu> -->
 
   <!-- --------------------------------------------------------------- -->
   <!-- profile Dropdown -->
   <!-- --------------------------------------------------------------- -->
-  <button
+  <!-- <button
     mat-icon-button
     [matMenuTriggerFor]="profilemenu"
     aria-label="Notifications"
@@ -210,8 +210,8 @@
       class="rounded-circle object-cover"
       width="35"
     />
-  </button>
-  <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
+  </button> -->
+  <!-- <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
     <ng-scrollbar
       class="position-relative"
       style="height: 647px"
@@ -260,7 +260,7 @@
           </div>
         </a>
 
-        <!-- upgrade -->
+   
         <div
           class="p-24 overflow-hidden bg-light-primary rounded position-relative m-y-16"
         >
@@ -293,5 +293,5 @@
         >
       </div>
     </ng-scrollbar>
-  </mat-menu>
+  </mat-menu> -->
 </mat-toolbar>

@@ -36,7 +36,7 @@
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="number" matInput formControlName="gstPercentage" placeholder="GST Percentage" />
+          <input type="number" matInput formControlName="gstPercentage" placeholder="GST Percentage"  min="0" />
         </mat-form-field>
       </div>
       <div class="col-6">
@@ -47,7 +47,7 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput  required
-            formControlName="mobileNo" placeholder="Mobile no" />
+            formControlName="mobileNo" placeholder="Mobile no"   min="0"/>
           <mat-hint *ngIf="firmForm.get('mobileNo')?.hasError('required') && firmForm.get('mobileNo')?.touched"
             class="error-message error-color">
             mobile no is required
@@ -61,7 +61,7 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput 
-            formControlName="personalMobileNo" placeholder="Personal mobile no" />
+            formControlName="personalMobileNo" placeholder="Personal mobile no"   min="0"/>
             <mat-hint *ngIf="firmForm.get('personalMobileNo')?.hasError('required') && firmForm.get('personalMobileNo')?.touched"
             class="error-message error-color">
             mobile no is required
@@ -84,7 +84,7 @@
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="number" matInput formControlName="bankAccountNo" placeholder="Bank account no" />
+          <input type="number" matInput formControlName="bankAccountNo" placeholder="Bank account no" min="0" />
         </mat-form-field>
       </div>
     </div>

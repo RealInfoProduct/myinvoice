@@ -51,7 +51,7 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput 
-            formControlName="partyMobile" placeholder="Party mobile" />
+            formControlName="partyMobile" placeholder="Party mobile"  min="0" />
             <mat-hint *ngIf="partyForm.get('partyMobile')?.hasError('required') && partyForm.get('partyMobile')?.touched"
             class="error-message error-color">
             mobile no is required

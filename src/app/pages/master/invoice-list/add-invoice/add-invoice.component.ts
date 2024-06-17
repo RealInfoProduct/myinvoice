@@ -13,7 +13,6 @@ import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfviewComponent } from './pdfview/pdfview.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -58,7 +57,7 @@ export interface InvoiceData {
   editMode = false;
   nextId: number = 1;
   currentEditId: number
-  demo: any
+
   productList: any = []
   firmList: any = []
   invoiceList: any = []
@@ -95,11 +94,11 @@ export interface InvoiceData {
       sGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
       cGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
-      totalitem: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
-      defectiveitem: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
-      price: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
+      totalitem: ['', [Validators.required,Validators.min(0)]],
+      defectiveitem: ['', [Validators.required,Validators.min(0)]],
+      price: ['',[Validators.required,Validators.min(0)]],
       product: ['', Validators.required],
-      poNumber: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
+      poNumber: ['', [Validators.required,Validators.min(0)]],
     })
   }
   addData(): void {
@@ -451,7 +450,7 @@ export interface InvoiceData {
         },
         bodyStyles: {
           textColor: [0, 0, 0],
-          halign: 'right',
+          halign: 'left',
           fontSize: 15,
         },
         didDrawCell: (data: any) => {

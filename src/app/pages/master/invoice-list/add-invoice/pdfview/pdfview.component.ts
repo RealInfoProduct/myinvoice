@@ -124,7 +124,7 @@ export class PdfviewComponent {
         },
         bodyStyles: {
           textColor: [0, 0, 0],
-          halign: 'right',
+          halign: 'left',
           fontSize: 15,
         },
         didDrawCell: (data: any) => {

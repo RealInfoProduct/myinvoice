@@ -22,7 +22,7 @@ export class PartyMasterComponent implements OnInit {
     // 'ChalanNo',
     'Address',
     'PartyPan',
-    'PartyMobile',
+    // 'PartyMobile',
     'action',
   ];
   partyList :any = []

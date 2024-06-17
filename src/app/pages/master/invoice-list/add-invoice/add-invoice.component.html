@@ -19,7 +19,7 @@
                           <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Party<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <mat-select value="no" formControlName="party" placeholder="Select a party" (selectionChange)="seletedParty($event)">
+                              <mat-select value="no" formControlName="party" placeholder="Select Party" (selectionChange)="seletedParty($event)">
                                   <mat-option *ngFor="let item of partyList" [value]="item">{{item.partyName}}</mat-option>
                               </mat-select>
                           </mat-form-field>
@@ -28,7 +28,7 @@
                           <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Firm<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <mat-select value="no" formControlName="firm" placeholder="Select a firm" (selectionChange)="seletedFirm($event)">
+                              <mat-select value="no" formControlName="firm" placeholder="Select Firm" (selectionChange)="seletedFirm($event)">
                                   <mat-option *ngFor="let item of firmList" [value]="item">{{item.header}}</mat-option>
                               </mat-select>
                           </mat-form-field>
@@ -94,10 +94,11 @@
                             <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Date<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input matInput [matDatepicker]="picker" formControlName="date" required />
+                              <input matInput [matDatepicker]="picker" formControlName="date" required  />
                               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                               <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
+                          
                       </div>
                   </div>
                   <div class="row">
@@ -120,18 +121,14 @@
                         <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Po Number<span class="required">
            *</span></mat-label>
                        <mat-form-field appearance="outline" class="w-100 m-t-8">
-                           <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" min="0" max="100" />
+                           <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" min="0" />
                            <mat-error  *ngIf="invoiceForm.get('poNumber')?.hasError('required') && invoiceForm.get('poNumber')?.touched"
                            class="error-message error-color">
                             po Number is required
                            </mat-error>
                            <mat-error *ngIf="invoiceForm.get('poNumber')?.hasError('min') && invoiceForm.get('poNumber')?.touched"
                            class="error-message error-color">
-                            po Number must be at least 0%
-                           </mat-error>
-                           <mat-error *ngIf="invoiceForm.get('poNumber')?.hasError('max') && invoiceForm.get('poNumber')?.touched"
-                           class="error-message error-color">
-                            po Number must be at most 100%
+                            po Number must be at least 0
                            </mat-error>
                        </mat-form-field>
                    </div>
@@ -149,18 +146,14 @@
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Price<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="price" placeholder="Enter a price" min="0" max="100" />
+                              <input type="number" matInput formControlName="price" placeholder="Enter a price" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('price')?.hasError('required') && invoiceForm.get('price')?.touched"
                               class="error-message error-color">
                                 price is required
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('price')?.hasError('min') && invoiceForm.get('price')?.touched"
                               class="error-message error-color">
-                                price must be at least 0%
-                              </mat-error>
-                              <mat-error *ngIf="invoiceForm.get('price')?.hasError('max') && invoiceForm.get('price')?.touched"
-                              class="error-message error-color">
-                                price must be at most 100%
+                                price must be at least 0
                               </mat-error>
                           </mat-form-field>
                       </div>
@@ -168,18 +161,14 @@
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Qty<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="totalitem" placeholder="Enter a qty" min="0" max="100" />
+                              <input type="number" matInput formControlName="totalitem" placeholder="Enter a qty" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('totalitem')?.hasError('required') && invoiceForm.get('totalitem')?.touched"
                               class="error-message error-color">
                                qty is required
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('totalitem')?.hasError('min') && invoiceForm.get('totalitem')?.touched"
                               class="error-message error-color">
-                               qty must be at least 0%
-                              </mat-error>
-                              <mat-error *ngIf="invoiceForm.get('totalitem')?.hasError('max') && invoiceForm.get('totalitem')?.touched"
-                              class="error-message error-color">
-                               qty must be at most 100%
+                               qty must be at least 0
                               </mat-error>
                           </mat-form-field>
                       </div>
@@ -187,28 +176,17 @@
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Defective Item<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="defectiveitem" placeholder="Enter a defective item" min="0" max="100" />
+                              <input type="number" matInput formControlName="defectiveitem" placeholder="Enter a defective item" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('defectiveitem')?.hasError('required') && invoiceForm.get('defectiveitem')?.touched"
                               class="error-message error-color">
                                 defective item is required
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('defectiveitem')?.hasError('min') && invoiceForm.get('defectiveitem')?.touched"
                               class="error-message error-color">
-                                defective item must be at least 0%
-                              </mat-error>
-                              <mat-error *ngIf="invoiceForm.get('defectiveitem')?.hasError('max') && invoiceForm.get('defectiveitem')?.touched"
-                              class="error-message error-color">
-                                defective item must be at most 100%
+                                defective item must be at least 0
                               </mat-error>
                           </mat-form-field>
                       </div>
-                      <!-- <div class="col-2">
-                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Po Number<span class="required">
-              *</span></mat-label>
-                          <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" />
-                          </mat-form-field>
-                      </div> -->
                      
                       <div class="col-1 productButton">
                           <mat-dialog-actions>

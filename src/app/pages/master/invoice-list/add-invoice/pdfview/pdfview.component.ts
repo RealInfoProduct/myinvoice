@@ -112,7 +112,7 @@ export class PdfviewComponent {
         ]);
       }
       (doc as any).autoTable({
-        head: [['Sr.','Po Number' , 'product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        head: [['Sr.','Po Number' , 'Product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
         body: bodyRows,
         startY: 95,
         theme: 'plain',

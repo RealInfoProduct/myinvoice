@@ -18,14 +18,16 @@
     position: relative;
 }
 .invoiceNumber{
-    position: absolute;
-    right: 65px;
-    display: flex;
-    align-items: center;
+    padding-right: 20px;
 }
 .GenerateInvoice{
+    display: flex;
+    align-items: center;
     padding-right: 10px;
+    position: absolute;
+    z-index: 100;
+    right: 4%;
 }
-::ng-deep .mat-mdc-tab-labels{
-    width: 50% !important;
+::ng-deep .mat-mdc-tab-header{
+    max-width: 50% !important;
 }

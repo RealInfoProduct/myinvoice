@@ -238,7 +238,8 @@ export interface InvoiceData {
       userId : localStorage.getItem("userId"),
       finalSubAmount : finalSubAmount
     }
-    this.openPdfViewDialog(payload)
+    // this.openPdfViewDialog(payload)    
+    this.loaderService.setInvoiceData(payload)
   }
 
   transformInvoiceList(invoiceList: any[]): any {

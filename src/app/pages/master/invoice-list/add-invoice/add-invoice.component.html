@@ -1,12 +1,10 @@
-
-
-
-<div class="invoiceNumber">
-    <h3>Invocie: {{maxInvoiceNumber}}</h3>
-    
+<div class="GenerateInvoice">
+    <div class="invoiceNumber">
+        <h3>Invocie: {{maxInvoiceNumber}}</h3>
+    </div>
+    <button *ngIf="data.length > 0" mat-flat-button color="primary" (click)="generateInvoice()" routerLink="/master/invoiceview" ><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
+    <!-- <button *ngIf="data.length > 0" mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button> -->
 </div>
-
-
 <div class="invoiceTab">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedIndex">
       <form [formGroup]="invoiceForm">
@@ -110,10 +108,6 @@
           </mat-card>   
       </mat-tab>
       <mat-tab label="Product Entry">
-        <div class="GenerateInvoice" *ngIf="data.length > 0" style="text-align: end;">
-            <button mat-flat-button color="primary" (click)="generateInvoice()"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
-            <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button>
-        </div>
           <mat-card class="cardWithShadow m-15">
               <mat-card-content class="p-24">
                   <div class="row">

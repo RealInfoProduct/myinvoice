@@ -21,6 +21,7 @@ import { AppHorizontalSidebarComponent } from './horizontal/sidebar/sidebar.comp
 import { AppBreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { CustomizerComponent } from './shared/customizer/customizer.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { TranslateService } from '@ngx-translate/core';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -190,7 +191,8 @@ export class FullComponent implements OnInit {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private navService: NavService,
-    private firebaseService : FirebaseService
+    private firebaseService : FirebaseService,
+    private translate : TranslateService
   ) {
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver
@@ -217,6 +219,18 @@ export class FullComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const lg :any = localStorage.getItem('languageCode')
+    this.translate.use(lg);
+    this.translate.get('menuBar').subscribe((res: any) => {
+      this.navItems[0].navCap = res.HOME
+      this.navItems[1].displayName = res.Dashboard
+      this.navItems[2].navCap = res.MASTER
+      this.navItems[3].displayName = res.AddInvoice
+      this.navItems[4].displayName = res.InvoiceList
+      this.navItems[5].displayName = res.ProductMaster
+      this.navItems[6].displayName = res.PartyMaster
+      this.navItems[7].displayName = res.FirmMaster      
+    });
     this.getLoginUser()
   }
 

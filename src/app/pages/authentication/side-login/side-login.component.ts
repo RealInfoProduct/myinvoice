@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-side-login',
@@ -27,6 +28,7 @@ export class AppSideLoginComponent {
     private firebaseService: FirebaseService,
     private _snackBar: MatSnackBar,
     private loaderService: LoaderService,
+    private translate: TranslateService,
   ) {
     this.year()
    }
@@ -54,6 +56,8 @@ export class AppSideLoginComponent {
                 window.localStorage.setItem('userId', (userData.id));
                 const accountYear :any = this.form.value.accountYear;
                 localStorage.setItem('accountYear', accountYear.year);
+                this.translate.setDefaultLang('en');
+                localStorage.setItem("languageCode" , 'en')
                 this.openConfigSnackBar('user login successfully')
                 this.router.navigate(['/dashboards/dashboard1']);
                 this.loaderService.setLoader(false)

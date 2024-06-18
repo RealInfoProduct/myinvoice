@@ -7,6 +7,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import moment from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-invoice-list',
@@ -41,6 +44,10 @@ export class InvoiceListComponent implements OnInit {
 
   addProduct(obj: any) {
     const dialogRef = this.dialog.open(productdialog, { data: obj, width: '70%' });
+  }
+
+  showAmountList(obj: any) {
+    const dialogRef = this.dialog.open(amountlistdialog, { data: obj, width: '70%' });
   }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -243,5 +250,100 @@ export class productdialog  implements OnInit {
   }
   ngOnInit(): void {
     
+  }
+}
+
+@Component({
+  selector: 'app-showAmountList',
+  templateUrl: 'amountlistdialog.html',
+  styleUrls: ['./invoice-list.component.scss']
+})
+
+export class amountlistdialog  implements OnInit {
+  displayedColumns: string[] = ['Payment Date' , 'Payment Amount'];
+  dataSource :any = [] 
+  amountForm: FormGroup
+  constructor(
+    public dialogRef: MatDialogRef<amountlistdialog>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public amountdata: any,
+    private fb: FormBuilder,
+    private firebaseService : FirebaseService,
+    private _snackBar: MatSnackBar,
+    private loaderService: LoaderService,
+  ) {
+    this.dataSource = amountdata.receivePayment
+    amountdata['pendingAmount'] = (amountdata.finalSubAmount) - (amountdata.receivePayment.reduce((total:any, payment :any) => total + payment.paymentAmount, 0))
+  }
+  ngOnInit(): void {
+    this.buildForm()
+  }
+
+  buildForm() {
+    this.amountForm = this.fb.group({
+      paymentDate: [new Date(), Validators.required],
+      paymentAmount: [0, Validators.required],
+    })
+  }
+
+  addPayment() {
+    const paymentData = {
+      paymentDate: moment(this.amountForm.value.paymentDate).format('L'),
+      paymentAmount: this.amountForm.value.paymentAmount,
+    }
+    this.amountdata.receivePayment.push(paymentData)
+    const pendingTotalAmount = (this.amountdata.finalSubAmount) - (this.amountdata.receivePayment.reduce((total: any, payment: any) => total + payment.paymentAmount, 0))
+
+    if (pendingTotalAmount === 0) {
+      this.amountdata.isPayment = true
+    }
+
+    if (pendingTotalAmount >= 0) {
+       this.loaderService.setLoader(false)
+    this.firebaseService.updateInvoice(this.amountdata.id, this.amountdata).then((res: any) => {
+      this.openConfigSnackBar('payment received successfully')
+      this.getInvoiceList()
+      this.amountForm.controls['paymentAmount'].reset()
+      this.amountdata.receivePayment = []
+
+    }, (error) => {
+      this.openConfigSnackBar(error.error.error.message)
+      this.loaderService.setLoader(false)
+      this.amountdata.receivePayment = []
+
+    })
+    
+  } else {
+      this.openConfigSnackBar('payments not available')
+      this.getInvoiceList()
+      this.amountdata.receivePayment = []
+
+    }
+
+   
+
+  }
+
+
+  openConfigSnackBar(snackbarTitle: any) {
+    this._snackBar.open(snackbarTitle, 'Splash', {
+      duration: 2 * 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  }
+  
+  getInvoiceList() {
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllInvoice().subscribe((res: any) => {
+      if (res) {
+        this.amountdata = res.find((id:any) => 
+          id.id === this.amountdata.id
+         )              
+
+         this.dataSource = this.amountdata.receivePayment
+         this.amountdata['pendingAmount'] = (this.amountdata.finalSubAmount) - (this.amountdata.receivePayment.reduce((total:any, payment :any) => total + payment.paymentAmount, 0))
+         this.loaderService.setLoader(false)
+      }
+    })
   }
 }

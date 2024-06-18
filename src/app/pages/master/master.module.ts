@@ -12,8 +12,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductMasterComponent, productMasterDialogComponent} from './product-master/product-master.component';
 import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
-import { InvoiceListComponent, productdialog} from './invoice-list/invoice-list.component';
+import { InvoiceListComponent, amountlistdialog, productdialog} from './invoice-list/invoice-list.component';
 import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,7 +30,8 @@ import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.com
     InvoiceListComponent,
     AddInvoiceComponent,
     PdfviewComponent,
-    productdialog
+    productdialog,
+    amountlistdialog
   ],
   imports: [
     CommonModule,
@@ -40,6 +44,13 @@ import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.com
     TablerIconsModule,
     MatNativeDateModule,
     NgApexchartsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
 })
 export class MasterModule { }

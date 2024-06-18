@@ -99,15 +99,22 @@ export class FirebaseService {
     return updateDoc(dataRef, payload)
   }
 
-    /////////////////////// Invoice List ////////////////////////
+  /////////////////////// Invoice List ////////////////////////
 
 
-    addInvoice(data: InvoiceList) {
-      data.id = doc(collection(this.fService, 'id')).id
-      return addDoc(collection(this.fService, 'InvoiceList'), data)
-    }
+  addInvoice(data: InvoiceList) {
+    data.id = doc(collection(this.fService, 'id')).id
+    return addDoc(collection(this.fService, 'InvoiceList'), data)
+  }
 
-    
+  
+  updateInvoice(updateId: InvoiceList, payload: any) {
+    let dataRef = doc(this.fService, `InvoiceList/${updateId}`);
+    return updateDoc(dataRef, payload)
+  }
+
+
+
   getAllInvoice() {
     let dataRef = collection(this.fService, 'InvoiceList')
     return collectionData(dataRef, { idField: 'id' })

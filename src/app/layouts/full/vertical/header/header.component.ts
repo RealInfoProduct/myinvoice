@@ -63,43 +63,29 @@ export class HeaderComponent {
 
   showFiller = false;
 
-  public selectedLanguage: any = {
-    language: 'English',
-    code: 'en',
-    type: 'US',
-    icon: '/assets/images/flag/icon-flag-en.svg',
-  };
 
   public languages: any[] = [
     {
       language: 'English',
       code: 'en',
-      type: 'US',
-      icon: '/assets/images/flag/icon-flag-en.svg',
+      icon: '../../../../../assets/images/flag/englishlanguage.png',
     },
     {
-      language: 'Español',
-      code: 'es',
-      icon: '/assets/images/flag/icon-flag-es.svg',
-    },
-    {
-      language: 'Français',
-      code: 'fr',
-      icon: '/assets/images/flag/icon-flag-fr.svg',
-    },
-    {
-      language: 'German',
-      code: 'de',
-      icon: '/assets/images/flag/icon-flag-de.svg',
-    },
+      language: 'Gujarati',
+      code: 'gu',
+      icon: '../../../../../assets/images/flag/gujaratilanguage.png',
+    }
   ];
+
+  public selectedLanguage: any = this.languages.find((id:any) => id.code === localStorage.getItem('languageCode'))
 
   constructor(
     private vsidenav: CoreService,
     public dialog: MatDialog,
     private translate: TranslateService
   ) {
-    translate.setDefaultLang('en');
+    const lg :any = localStorage.getItem('languageCode')
+    translate.setDefaultLang(lg);
   }
 
   openDialog() {
@@ -110,9 +96,11 @@ export class HeaderComponent {
     });
   }
 
-  changeLanguage(lang: any): void {
-    this.translate.use(lang.code);
-    this.selectedLanguage = lang;
+  changeLanguage(lang: any): void {    
+    this.translate.use(lang.code); 
+    this.selectedLanguage = lang; 
+    localStorage.setItem("languageCode" , lang.code)
+    window.location.reload();
   }
 
   notifications: notifications[] = [

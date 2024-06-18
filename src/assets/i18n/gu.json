@@ -1,0 +1,14 @@
+{
+  "menuBar": {
+    "HOME": "મુખ્ય પાનું",
+    "Dashboard": "ડેશબોર્ડ",
+    "AddInvoice": "ઇન્વૉઇસ ઉમેરો",
+    "InvoiceList": "ઇન્વૉઇસ યાદી",
+    "ProductMaster": "ઉત્પાદન માસ્ટર",
+    "PartyMaster": "પાર્ટી માસ્ટર",
+    "FirmMaster": "ફર્મ માસ્ટર"
+  },
+  "PartyMaster": {
+    "Add_Party": "પાર્ટી ઉમેરો"
+  }
+}

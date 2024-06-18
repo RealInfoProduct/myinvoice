@@ -94,7 +94,16 @@ export class AppTopCardsComponent {
         this.loaderService.setLoader(false)
       }
     })
-
+    this.firebaseService.getAllInvoice().subscribe((res:any) => {
+      if (res) {
+        this.topcards[3].subtitle = res.filter((id:any) => 
+          id.userId === localStorage.getItem("userId") && 
+          id.accountYear === localStorage.getItem("accountYear") && 
+          id.isPayment === false
+         ).length          
+        this.loaderService.setLoader(false)
+      }
+    })
 
   }
 }

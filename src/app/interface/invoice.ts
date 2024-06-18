@@ -62,6 +62,8 @@ export interface InvoiceList {
     partyName: any;
     products: any;
     userId :any;
-    finalSubAmount:any
+    finalSubAmount:any,
+    isPayment : boolean,
+    receivePayment : any
 
 }

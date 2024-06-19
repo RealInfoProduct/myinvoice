@@ -115,7 +115,7 @@
                         <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.PoNumber' | translate}}<span class="required">
            *</span></mat-label>
                        <mat-form-field appearance="outline" class="w-100 m-t-8">
-                           <input type="number" matInput formControlName="poNumber" placeholder="{{'addinvoice.EnterpoNumber' | translate}}" min="0" />
+                           <input type="number" matInput formControlName="poNumber" placeholder="{{'addinvoice.PoNumber' | translate}}" min="0" />
                            <mat-error  *ngIf="invoiceForm.get('poNumber')?.hasError('required') && invoiceForm.get('poNumber')?.touched"
                            class="error-message error-color">
                            {{'addinvoiceerror.poNumberisrequired' | translate}}
@@ -170,7 +170,7 @@
                            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.DefectiveItem' | translate}}<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="defectiveitem" placeholder="{{'addinvoice.Enterdefectiveitem' | translate}}" min="0"  />
+                              <input type="number" matInput formControlName="defectiveitem" placeholder="{{'addinvoice.DefectiveItem' | translate}}" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('defectiveitem')?.hasError('required') && invoiceForm.get('defectiveitem')?.touched"
                               class="error-message error-color">
                               {{'addinvoiceerror.Defectiveitemisrequired' | translate}}

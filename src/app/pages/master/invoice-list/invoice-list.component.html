@@ -3,7 +3,7 @@
     <div class="row justify-content-between">
       <div class="col-lg-4">
         <mat-form-field appearance="outline" class="w-100 hide-hint">
-          <input matInput placeholder="Search invoice" (keyup)="applyFilter($any($event.target).value)" />
+          <input matInput placeholder="{{'invoicelist.Searchinvoice' | translate}}" (keyup)="applyFilter($any($event.target).value)" />
           <mat-icon matSuffix>
             <i-tabler name="search" class="icon-20"></i-tabler>
           </mat-icon>
@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-4 d-flex align-items-center justify-content-end">
         <button mat-flat-button color="primary" (click)="addInvoice()">
-          Add Invoice
+          {{'invoicelist.AddInvoice' | translate}}
         </button>
       </div>
     </div>
@@ -23,12 +23,12 @@
     <div class="table-responsive" *ngIf="invoiceList && invoiceList.length > 0; else noRecordsTemplate">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container matColumnDef="srno">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">SR No</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.SRNo' | translate}}</th>
           <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="firmName">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Firm Name</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.FirmName' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -41,7 +41,7 @@
         </ng-container>
 
         <ng-container matColumnDef="partyName">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Party Name</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.PartyName' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -54,7 +54,7 @@
         </ng-container>
 
         <ng-container matColumnDef="invoiceNo">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Invoice No</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.InvoiceNo' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -67,7 +67,7 @@
         </ng-container>
 
         <ng-container matColumnDef="CGST">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">CGST</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.CGST' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -80,7 +80,7 @@
         </ng-container>
 
         <ng-container matColumnDef="SGST">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">SGST</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.SGST' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -93,7 +93,7 @@
         </ng-container>
 
         <ng-container matColumnDef="discount">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Discount</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.Discount' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -106,7 +106,7 @@
         </ng-container>
 
         <ng-container matColumnDef="finalSubAmount">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">FinalAmount</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.FinalAmount' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -120,7 +120,7 @@
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Action
+            {{'invoicelist.Action' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="action-link">
             <a class="m-r-10 cursor-pointer" (click)="addProduct(element.products)"><i-tabler name="list-check"
@@ -139,7 +139,7 @@
     <ng-template #noRecordsTemplate>
       <div class="no-records text-center">
         <span>
-          No records found
+          {{'invoicelist.Norecordsfound' | translate}}
         </span>
       </div>
     </ng-template>

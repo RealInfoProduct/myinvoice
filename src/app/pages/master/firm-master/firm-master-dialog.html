@@ -1,111 +1,111 @@
-<h2 mat-dialog-title class="m-b-24">Add Firm</h2>
+<h2 mat-dialog-title class="m-b-24">{{'actions.' + action | translate}} {{'FirmMasterdialog.Firm' | translate}}</h2>
 <mat-dialog-content class="mat-typography"  *ngIf="action !== 'Delete'; else elseTemplate">
   <form [formGroup]="firmForm">
     <div class="row">
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput required formControlName="header" placeholder="Enter header" />
+          <input type="text" matInput required formControlName="header" placeholder="{{'FirmMasterdialog.Enterheader' | translate}}" />
           <mat-hint *ngIf="firmForm.get('header')?.hasError('required') && firmForm.get('header')?.touched"
             class="error-message error-color">
-            header is required
+            {{'FirmMasterdialogerror.Headerisrequired' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput required formControlName="subHeader" placeholder="Enter sub header" /> <mat-hint
+          <input type="text" matInput required formControlName="subHeader" placeholder="{{'FirmMasterdialog.Entersubheader' | translate}}" /> <mat-hint
             *ngIf="firmForm.get('subHeader')?.hasError('required') && firmForm.get('subHeader')?.touched"
             class="error-message error-color">
-            sub header is required
+            {{'FirmMasterdialogerror.Subheaderisrequired' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput required formControlName="address" placeholder="Enter Address" />
+          <input type="text" matInput required formControlName="address" placeholder="{{'FirmMasterdialog.EnterAddress' | translate}}" />
           <mat-hint *ngIf="firmForm.get('address')?.hasError('required') && firmForm.get('address')?.touched"
             class="error-message error-color">
-            address is required
+            {{'FirmMasterdialogerror.Addressisrequired' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput formControlName="GSTNo" placeholder="GST No" />
+          <input type="text" matInput formControlName="GSTNo" placeholder="{{'FirmMasterdialog.GSTNo' | translate}}" />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="number" matInput formControlName="gstPercentage" placeholder="GST Percentage"  min="0" />
+          <input type="number" matInput formControlName="gstPercentage" placeholder="{{'FirmMasterdialog.GSTPercentage' | translate}}"  min="0" />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput formControlName="panNo" placeholder="Pan no" />
+          <input type="text" matInput formControlName="panNo" placeholder="{{'FirmMasterdialog.Panno' | translate}}" />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput  required
-            formControlName="mobileNo" placeholder="Mobile no"   min="0"/>
+            formControlName="mobileNo" placeholder="{{'FirmMasterdialog.Mobileno' | translate}}"   min="0"/>
           <mat-hint *ngIf="firmForm.get('mobileNo')?.hasError('required') && firmForm.get('mobileNo')?.touched"
             class="error-message error-color">
-            mobile no is required
+            {{'FirmMasterdialogerror.Mobilenoisrequired' | translate}}
           </mat-hint>
           <mat-hint *ngIf="firmForm.get('mobileNo')?.hasError('pattern') && firmForm.get('mobileNo')?.touched"
             class="error-message error-color">
-           Invalid mobile no is required
+            {{'FirmMasterdialogerror.Invalidmobilenoisrequired' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput 
-            formControlName="personalMobileNo" placeholder="Personal mobile no"   min="0"/>
+            formControlName="personalMobileNo" placeholder="{{'FirmMasterdialog.Personalmobileno' | translate}}"   min="0"/>
             <mat-hint *ngIf="firmForm.get('personalMobileNo')?.hasError('required') && firmForm.get('personalMobileNo')?.touched"
             class="error-message error-color">
-            mobile no is required
+            {{'FirmMasterdialogerror.PersonalMobilenoisrequired' | translate}}
           </mat-hint>
           <mat-hint *ngIf="firmForm.get('personalMobileNo')?.hasError('pattern') && firmForm.get('personalMobileNo')?.touched"
             class="error-message error-color">
-           Invalid mobile no is required
+            {{'FirmMasterdialogerror.InvalidPersonalMobilenoisrequired' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput formControlName="bankName" placeholder="Bank name" />
+          <input type="text" matInput formControlName="bankName" placeholder="{{'FirmMasterdialog.Bankname' | translate}}" />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="text" matInput formControlName="ifscCode" placeholder="IFSC code" />
+          <input type="text" matInput formControlName="ifscCode" placeholder="{{'FirmMasterdialog.IFSCcode' | translate}}" />
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="number" matInput formControlName="bankAccountNo" placeholder="Bank account no" min="0" />
+          <input type="number" matInput formControlName="bankAccountNo" placeholder="{{'FirmMasterdialog.Bankaccountno' | translate}}" min="0" />
         </mat-form-field>
       </div>
     </div>
     <mat-divider></mat-divider>
     <mat-dialog-actions class="p-24 justify-content-end" >
-      <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+      <button mat-stroked-button color="warn" mat-dialog-close>{{'FirmMasterdialog.Cancel' | translate}}</button>
       <button mat-flat-button [mat-dialog-close]="true" [disabled]="!firmForm.valid" color="primary" (click)="doAction();">
-        {{action}}
+        {{'actions.' + action | translate}}
       </button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>
 <ng-template #elseTemplate>
   <div class="p-x-24">
-    <p>Sure to delete <span class="f-w-600">{{local_data.Name}}</span> ?</p>
+    <p>{{'FirmMasterdialog.Suretodelete' | translate}} <span class="f-w-600">{{local_data.Name}}</span> ?</p>
   </div>
   <mat-divider></mat-divider>
   <div mat-dialog-actions class="p-x-24 p-b-24 m-t-10 justify-content-end">
     <button mat-button (click)="doAction()" mat-flat-button color="warn">
-      {{action}}
+      {{'actions.' + action | translate}}
     </button>
-    <button mat-stroked-button color="warn" (click)="closeDialog()" class="m-l-8">Cancel</button>
+    <button mat-stroked-button color="warn" (click)="closeDialog()" class="m-l-8">{{'FirmMasterdialog.Cancel' | translate}}</button>
   </div>
 </ng-template>

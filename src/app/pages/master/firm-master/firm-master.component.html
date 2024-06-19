@@ -3,7 +3,7 @@
     <div class="row justify-content-between">
       <div class="col-lg-4">
         <mat-form-field appearance="outline" class="w-100 hide-hint">
-          <input matInput placeholder="Search Firm" (keyup)="applyFilter($any($event.target).value)"/>
+          <input matInput placeholder="{{'FirmMaster.SearchFirm' | translate}}" (keyup)="applyFilter($any($event.target).value)"/>
           <mat-icon matSuffix>
             <i-tabler name="search" class="icon-20"></i-tabler>
           </mat-icon>
@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-4 d-flex align-items-center justify-content-end">
         <button mat-flat-button color="primary" (click)="addFirm('Add', {})">
-          Add Firm
+          {{'FirmMaster.AddFirm' | translate}}
         </button>
       </div>
     </div>
@@ -22,12 +22,12 @@
     <div class="table-responsive" *ngIf="firmList && firmList.length > 0; else noRecordsTemplate">
       <table style="min-width: 215%;" mat-table [dataSource]="dataSource" class="w-100">
         <ng-container matColumnDef="#">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">SR No</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600"> {{'FirmMaster.SRNo' | translate}}</th>
           <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="header">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Header</th>
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600"> {{'FirmMaster.Header' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
@@ -41,7 +41,7 @@
 
         <ng-container matColumnDef="Subheader">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Sub Header
+            {{'FirmMaster.SubHeader' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.subHeader }}
@@ -50,7 +50,7 @@
 
         <ng-container matColumnDef="GSTMo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            GST No
+            {{'FirmMaster.GSTNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.gstNo }}
@@ -59,7 +59,7 @@
 
         <ng-container matColumnDef="gst">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            GST%
+            {{'FirmMaster.GST%' | translate}}
           </th>
           <!-- <td mat-cell *matCellDef="let element" class="f-s-14">
               {{ element.DateOfJoining | date : "fullDate" }}
@@ -71,7 +71,7 @@
 
         <ng-container matColumnDef="PanNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Pan No
+            {{'FirmMaster.PanNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.panNo }}
@@ -80,7 +80,7 @@
 
         <ng-container matColumnDef="MobileNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Mobile No
+            {{'FirmMaster.MobileNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.mobileNo}}
@@ -89,7 +89,7 @@
 
         <ng-container matColumnDef="PersonalMobileNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Personal Mobile No
+            {{'FirmMaster.PersonalMobileNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.personalMobileNo }}
@@ -98,7 +98,7 @@
 
         <ng-container matColumnDef="BankName">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Bank Name
+            {{'FirmMaster.BankName' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.bankName }}
@@ -107,7 +107,7 @@
 
         <ng-container matColumnDef="BankIFSC">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Bank IFSC
+            {{'FirmMaster.BankIFSC' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.bankIfsc }}
@@ -116,7 +116,7 @@
 
         <ng-container matColumnDef="BankAccountNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Bank AccountNo
+            {{'FirmMaster.BankAccountNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.bankAccountNo }}
@@ -125,7 +125,7 @@
 
         <ng-container matColumnDef="Address">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Address
+            {{'FirmMaster.Address' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.address }}
@@ -134,7 +134,7 @@
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            Action
+            {{'FirmMaster.Action' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="action-link">
             <a class="m-r-10 cursor-pointer"><i-tabler name="edit" (click)="addFirm('Edit', element)"
@@ -153,7 +153,7 @@
     <ng-template #noRecordsTemplate>
       <div class="no-records text-center">
         <span>
-          No records found
+          {{'FirmMaster.Norecordsfound' | translate}}
         </span>
       </div>
     </ng-template>

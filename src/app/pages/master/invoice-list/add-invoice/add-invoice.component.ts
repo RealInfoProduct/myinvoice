@@ -91,8 +91,8 @@ export interface InvoiceData {
       firm: ['', Validators.required],
       party: ['', Validators.required],
       discount: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
-      sGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
-      cGST: ['',[Validators.required,Validators.min(0),Validators.max(100)]],
+      sGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
+      cGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
       totalitem: ['', [Validators.required,Validators.min(0)]],
       defectiveitem: ['', [Validators.required,Validators.min(0)]],
@@ -477,18 +477,18 @@ export interface InvoiceData {
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
       doc.text('Total :', 165, 240);
-      doc.text(String("rs" +productsSubTotal), 180, 240);
+      doc.text(String(productsSubTotal+ "Rs"), 180, 240);
       doc.text('Discount % :', 154, 246);
-      doc.text(String(invoiceData.discount), 183, 246);
+      doc.text(String(invoiceData.discount), 180, 246);
       doc.text('SGST % :', 159, 252);
-      doc.text(String(invoiceData.sGST), 183, 252);
+      doc.text(String(invoiceData.sGST), 180, 252);
       doc.text('CGST % :', 159, 258);
-      doc.text(String(invoiceData.cGST), 183, 258);
+      doc.text(String(invoiceData.cGST), 180, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text('Final Amount :', 150, 268);
-      doc.text(String("rs" +invoiceData.finalSubAmount), 180, 268);
+      doc.text(String(invoiceData.finalSubAmount+ "Rs"), 180, 268);
 
       // PAN NO
       doc.setFontSize(12);

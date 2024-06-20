@@ -183,5 +183,12 @@
     "Edit":"Edit",
     "Delete":"Delete",
     "Update":"Update"
-  }
+  },
+  "dashboard" : [
+    {"TotalFirm" : "Total Firm"},
+    {"TotalParty" : "Total Party"},
+    {"TotalInvoice" : "Total Invoice"},
+    {"PendingBills" : "Pending Bills"},
+    {"TotalProduct" : "Total Product"}
+  ]
 }

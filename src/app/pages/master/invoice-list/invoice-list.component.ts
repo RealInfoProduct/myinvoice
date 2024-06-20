@@ -19,7 +19,7 @@ export class InvoiceListComponent implements OnInit {
   displayedColumns: string[] = [
     'srno',
     'firmName',
-    'partyName',
+    // 'partyName',
     'invoiceNo',
     'CGST',
     'SGST',

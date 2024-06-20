@@ -181,5 +181,12 @@
     "Edit":"સંપાદિત કરો",
     "Delete":"કાઢી નાખો",
     "Update":"અપડેટ કરો"
-  }
+  },
+  "dashboard" : [
+    {"TotalFirm" : "કુલ પેઢી"},
+    {"TotalParty" : "કુલ પક્ષ"},
+    {"TotalInvoice" : "કુલ ઇન્વૉઇસ"},
+    {"PendingBills" : "બાકી બિલો"},
+    {"TotalProduct" : "કુલ ઉત્પાદન"}
+  ]
 }

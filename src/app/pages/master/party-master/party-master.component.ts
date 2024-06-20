@@ -19,10 +19,8 @@ export class PartyMasterComponent implements OnInit {
     'srno',
     'PartyName',
     'PartyGSTIN',
-    // 'ChalanNo',
     'Address',
     'PartyPan',
-    // 'PartyMobile',
     'action',
   ];
   partyList :any = []

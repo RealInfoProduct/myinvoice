@@ -1,6 +1,6 @@
 <div class="GenerateInvoice">
     <div class="invoiceNumber">
-        <h3>Invocie: {{maxInvoiceNumber}}</h3>
+        <h3>{{'addinvoice.Invocie' | translate}}: {{maxInvoiceNumber}}</h3>
     </div>
     <button *ngIf="data.length > 0" mat-flat-button color="primary" (click)="generateInvoice()" routerLink="/master/invoiceview" ><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
     <!-- <button *ngIf="data.length > 0" mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button> -->
@@ -9,87 +9,87 @@
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedIndex">
       <form [formGroup]="invoiceForm">
   
-      <mat-tab label="Party Details"> 
+      <mat-tab label="{{'addinvoice.PartyDetails' | translate}}"> 
           <mat-card class="cardWithShadow m-15">
               <mat-card-content class="p-24">
                   <div class="row">
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Party<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.SelectParty' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <mat-select value="no" formControlName="party" placeholder="Select Party" (selectionChange)="seletedParty($event)">
+                              <mat-select value="no" formControlName="party" placeholder="{{'addinvoice.SelectParty' | translate}}" (selectionChange)="seletedParty($event)">
                                   <mat-option *ngFor="let item of partyList" [value]="item">{{item.partyName}}</mat-option>
                               </mat-select>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Firm<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.SelectFirm' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <mat-select value="no" formControlName="firm" placeholder="Select Firm" (selectionChange)="seletedFirm($event)">
+                              <mat-select value="no" formControlName="firm" placeholder="{{'addinvoice.SelectFirm' | translate}}" (selectionChange)="seletedFirm($event)">
                                   <mat-option *ngFor="let item of firmList" [value]="item">{{item.header}}</mat-option>
                               </mat-select>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Discount (%)<span class="required">
+                          <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.Discount(%)' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="discount" placeholder= "Enter Discount %"  min="0" max="100" />
+                              <input type="number" matInput formControlName="discount" placeholder= "{{'addinvoice.EnterDiscount%' | translate}}"  min="0" max="100" />
                               <mat-error  *ngIf="invoiceForm.get('discount')?.hasError('required') && invoiceForm.get('discount')?.touched"
                               class="error-message error-color">
-                                Discount is required
+                              {{'addinvoiceerror.Discountisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('discount')?.hasError('min') && invoiceForm.get('discount')?.touched"
                               class="error-message error-color">
-                                Discount must be at least 0%
+                              {{'addinvoiceerror.Discountmustbeatleast0%' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('discount')?.hasError('max') && invoiceForm.get('discount')?.touched"
                               class="error-message error-color">
-                                Discount must be at most 100%
+                              {{'addinvoiceerror.Discountmustbeatmost100%' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">S GST<span class="required">
+                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.SGST' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput required formControlName="sGST" placeholder="Enter  S GST" min="0" max="100" />
+                              <input type="number" matInput required formControlName="sGST" placeholder="{{'addinvoice.EnterSGST' | translate}}" min="0" max="100" />
                               <mat-error  *ngIf="invoiceForm.get('sGST')?.hasError('required') && invoiceForm.get('sGST')?.touched"
                               class="error-message error-color">
-                                S GST is required
+                              {{'addinvoiceerror.SGSTisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('sGST')?.hasError('min') && invoiceForm.get('sGST')?.touched"
                               class="error-message error-color">
-                                S GST must be at least 0%
+                              {{'addinvoiceerror.SGSTmustbeatleast0%' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('sGST')?.hasError('max') && invoiceForm.get('sGST')?.touched"
                               class="error-message error-color">
-                                S GST must be at most 100%
+                              {{'addinvoiceerror.SGSTmustbeatmost100%' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">C GST<span class="required">
+                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.CGST' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput required formControlName="cGST" placeholder="Enter C GST" min="0" max="100" />
+                              <input type="number" matInput required formControlName="cGST" placeholder="{{'addinvoice.EnterCGST' | translate}}" min="0" max="100" />
                               <mat-error  *ngIf="invoiceForm.get('cGST')?.hasError('required') && invoiceForm.get('cGST')?.touched"
                               class="error-message error-color">
-                                C GST is required
+                              {{'addinvoiceerror.CGSTisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('cGST')?.hasError('min') && invoiceForm.get('cGST')?.touched"
                               class="error-message error-color">
-                                C GST must be at least 0%
+                              {{'addinvoiceerror.CGSTmustbeatleast0%' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('cGST')?.hasError('max') && invoiceForm.get('cGST')?.touched"
                               class="error-message error-color">
-                                C GST must be at most 100%
+                              {{'addinvoiceerror.CGSTmustbeatmost100%' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-4">
-                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Date<span class="required">
+                            <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.SelectDate' | translate}}<span class="required">
                               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
                               <input matInput [matDatepicker]="picker" formControlName="date" required  />
@@ -101,83 +101,83 @@
                   </div>
                   <div class="row">
                       <div class="col-12 text-end d-flex justify-content-end ">
-                          <button mat-flat-button (click)="goToNextTab()" color="primary">Next</button>
+                          <button mat-flat-button (click)="goToNextTab()" color="primary">{{'addinvoice.Next' | translate}}</button>
                       </div>
                   </div>
               </mat-card-content>
           </mat-card>   
       </mat-tab>
-      <mat-tab label="Product Entry">
+      <mat-tab label="{{'addinvoice.ProductEntry' | translate}}">
           <mat-card class="cardWithShadow m-15">
               <mat-card-content class="p-24">
                   <div class="row">
                       <div class="col-2">
-                        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Po Number<span class="required">
+                        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.PoNumber' | translate}}<span class="required">
            *</span></mat-label>
                        <mat-form-field appearance="outline" class="w-100 m-t-8">
-                           <input type="number" matInput formControlName="poNumber" placeholder="Enter a po Number" min="0" />
+                           <input type="number" matInput formControlName="poNumber" placeholder="{{'addinvoice.PoNumber' | translate}}" min="0" />
                            <mat-error  *ngIf="invoiceForm.get('poNumber')?.hasError('required') && invoiceForm.get('poNumber')?.touched"
                            class="error-message error-color">
-                            po Number is required
+                           {{'addinvoiceerror.poNumberisrequired' | translate}}
                            </mat-error>
                            <mat-error *ngIf="invoiceForm.get('poNumber')?.hasError('min') && invoiceForm.get('poNumber')?.touched"
                            class="error-message error-color">
-                            po Number must be at least 0
+                           {{'addinvoiceerror.poNumbermustbeatleast0' | translate}}
                            </mat-error>
                        </mat-form-field>
                    </div>
                    <div class="col-3">
-                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Select Product<span class="required">
+                    <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.SelectProduct' | translate}}<span class="required">
        *</span></mat-label>
                    <mat-form-field appearance="outline" class="w-100 m-t-8">
-                       <mat-select value="no" formControlName="product" placeholder="Select a product">
+                       <mat-select value="no" formControlName="product" placeholder="{{'addinvoice.SelectProduct' | translate}}">
                            <mat-option [value]="item"
                                *ngFor="let item of productList">{{item.productName}}</mat-option>
                        </mat-select>
                    </mat-form-field>
                </div>
                       <div class="col-2">
-                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Price<span class="required">
+                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.Price' | translate}}<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="price" placeholder="Enter a price" min="0"  />
+                              <input type="number" matInput formControlName="price" placeholder="{{'addinvoice.EnterPrice' | translate}}" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('price')?.hasError('required') && invoiceForm.get('price')?.touched"
                               class="error-message error-color">
-                                price is required
+                              {{'addinvoiceerror.priceisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('price')?.hasError('min') && invoiceForm.get('price')?.touched"
                               class="error-message error-color">
-                                price must be at least 0
+                              {{'addinvoiceerror.pricemustbeatleast0' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-2">
-                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Qty<span class="required">
+                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.Qty' | translate}}<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="totalitem" placeholder="Enter a qty" min="0"  />
+                              <input type="number" matInput formControlName="totalitem" placeholder="{{'addinvoice.EnterQty' | translate}}" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('totalitem')?.hasError('required') && invoiceForm.get('totalitem')?.touched"
                               class="error-message error-color">
-                               qty is required
+                              {{'addinvoiceerror.qtyisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('totalitem')?.hasError('min') && invoiceForm.get('totalitem')?.touched"
                               class="error-message error-color">
-                               qty must be at least 0
+                              {{'addinvoiceerror.qtymustbeatleast0' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-2">
-                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Defective Item<span class="required">
+                           <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">{{'addinvoice.DefectiveItem' | translate}}<span class="required">
               *</span></mat-label>
                           <mat-form-field appearance="outline" class="w-100 m-t-8">
-                              <input type="number" matInput formControlName="defectiveitem" placeholder="Enter a defective item" min="0"  />
+                              <input type="number" matInput formControlName="defectiveitem" placeholder="{{'addinvoice.DefectiveItem' | translate}}" min="0"  />
                               <mat-error  *ngIf="invoiceForm.get('defectiveitem')?.hasError('required') && invoiceForm.get('defectiveitem')?.touched"
                               class="error-message error-color">
-                                defective item is required
+                              {{'addinvoiceerror.Defectiveitemisrequired' | translate}}
                               </mat-error>
                               <mat-error *ngIf="invoiceForm.get('defectiveitem')?.hasError('min') && invoiceForm.get('defectiveitem')?.touched"
                               class="error-message error-color">
-                                defective item must be at least 0
+                              {{'addinvoiceerror.Defectiveitemmustbeatleast0' | translate}}
                               </mat-error>
                           </mat-form-field>
                       </div>
@@ -185,9 +185,9 @@
                       <div class="col-1 productButton">
                           <mat-dialog-actions>
                               <button mat-flat-button [disabled]="!invoiceForm.valid" *ngIf="!editMode"
-                                  color="primary" (click)="addData()">Add</button>
+                                  color="primary" (click)="addData()">{{'addinvoice.Add' | translate}}</button>
                               <button mat-flat-button [disabled]="!invoiceForm.valid" *ngIf="editMode"
-                                  color="primary" (click)="updateData()">Edit</button>
+                                  color="primary" (click)="updateData()">{{'addinvoice.Edit' | translate}}</button>
                           </mat-dialog-actions>
                       </div>
                   </div>
@@ -197,18 +197,18 @@
           <div class="table-responsive cardWithShadow m-15" *ngIf="data && data.length > 0; else noRecordsTemplate" >
               <table mat-table [dataSource]="dataSource" class="w-100">
                   <ng-container matColumnDef="#">
-                      <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">#</th>
+                      <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'addinvoice.#' | translate}}</th>
                       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
                   </ng-container>
                   <ng-container matColumnDef="firm">
-                      <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Firm Name</th>
+                      <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'addinvoice.FirmName' | translate}}</th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.firm.header }}
                       </td>
                   </ng-container>
                   <ng-container matColumnDef="Party">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Party Name
+                        {{'addinvoice.PartyName' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.party.partyName }}
@@ -217,7 +217,7 @@
   
                   <ng-container matColumnDef="PoNumber">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Po
+                        {{'addinvoice.Po' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.poNumber }}
@@ -225,7 +225,7 @@
                   </ng-container>
                   <ng-container matColumnDef="product">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Product
+                        {{'addinvoice.Product' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.product.productName}}
@@ -233,7 +233,7 @@
                   </ng-container>
                   <ng-container matColumnDef="TotalItem">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Qty
+                        {{'addinvoice.Qty' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.totalitem }}
@@ -242,7 +242,7 @@
       
                   <ng-container matColumnDef="Price">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Price
+                        {{'addinvoice.Price' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.price }}
@@ -251,7 +251,7 @@
   
                   <ng-container matColumnDef="Defectiveitem">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Defectiveitem
+                        {{'addinvoice.Defectiveitem' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.defectiveitem }}
@@ -259,7 +259,7 @@
                   </ng-container>
                   <ng-container matColumnDef="FinalAmount">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Amount
+                        {{'addinvoice.Amount' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="f-s-14">
                           {{ element.finalAmount }}
@@ -268,7 +268,7 @@
   
                   <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-                          Action
+                        {{'addinvoice.Action' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let element" class="action-link">
                           <a class="m-r-10 cursor-pointer"><i-tabler name="edit" (click)="edit(element)"
@@ -289,7 +289,7 @@
           <ng-template #noRecordsTemplate>
               <div class="no-records text-center">
                 <span>
-                  No records found
+                    {{'addinvoice.Norecordsfound' | translate}}
                 </span>
               </div>
             </ng-template>

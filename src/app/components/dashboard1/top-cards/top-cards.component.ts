@@ -3,6 +3,7 @@ import { MaterialModule } from '../../../material.module';
 import { NgFor } from '@angular/common';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface topcards {
   id: number;
@@ -64,9 +65,16 @@ export class AppTopCardsComponent {
     },
   ];
 
-  constructor(private firebaseService : FirebaseService, private loaderService : LoaderService){
+  constructor(private firebaseService : FirebaseService, private loaderService : LoaderService , private translate : TranslateService){
     
     this.loaderService.setLoader(true)
+    this.translate.get('dashboard').subscribe((res: any) => {
+      this.topcards[0].title = res[0].TotalFirm
+      this.topcards[1].title = res[1].TotalParty
+      this.topcards[5].title = res[4].TotalProduct
+      this.topcards[2].title = res[2].TotalInvoice
+      this.topcards[3].title = res[3].PendingBills
+    })
     this.firebaseService.getAllFirm().subscribe((res:any) => {
       if (res) {        
         this.topcards[0].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          

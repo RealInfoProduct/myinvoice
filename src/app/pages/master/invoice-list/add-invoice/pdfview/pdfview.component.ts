@@ -113,7 +113,7 @@ export class PdfviewComponent {
         product.finalAmount,
       ]);
 
-      // Add empty rows if there are less than 17 products
+      // Add empty rows if there are less than 10 products
       while (bodyRows.length < 10) {
         bodyRows.push([
           '',
@@ -161,11 +161,11 @@ export class PdfviewComponent {
       doc.setTextColor(33, 52, 66);
       doc.text('Total : ', 165, 240);
       doc.text(String(productsSubTotal + "Rs"), 180, 240);
-      doc.text('Discount % :', 154, 246);
+      doc.text('Disc % :', 154, 246);
       doc.text(String(invoiceData.discount), 180, 246);
-      doc.text('SGST % :', 159, 252);
+      doc.text('S.GST % :', 159, 252);
       doc.text(String(invoiceData.sGST), 180, 252);
-      doc.text('CGST % :', 159, 258);
+      doc.text('C.GST % :', 159, 258);
       doc.text(String(invoiceData.cGST), 180, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
@@ -188,6 +188,7 @@ export class PdfviewComponent {
     }
   }
 
+  
 
   submitInvoice(){
     this.firebaseService.addInvoice(this.invoiceData).then((res) => {
@@ -292,7 +293,7 @@ export class PdfviewComponent {
         product.finalAmount,
       ]);
 
-      // Add empty rows if there are less than 17 products
+      // Add empty rows if there are less than 10 products
       while (bodyRows.length < 10) {
         bodyRows.push([
           '',
@@ -305,7 +306,7 @@ export class PdfviewComponent {
         ]);
       }
       (doc as any).autoTable({
-        head: [['Sr.','Po Number' , 'product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        head: [['Sr.','Po Number' , ' Product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
         body: bodyRows,
         startY: 95,
         theme: 'plain',
@@ -338,26 +339,25 @@ export class PdfviewComponent {
 
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
-      doc.text('Total : ', 165, 240);
-      doc.text(String("rs" + productsSubTotal), 180, 240);
-      doc.text('Discount % :', 154, 246);
-      doc.text(String(invoiceData.discount), 183, 246);
-      doc.text('SGST % :', 159, 252);
-      doc.text(String(invoiceData.sGST), 183, 252);
-      doc.text('CGST % :', 159, 258);
-      doc.text(String(invoiceData.cGST), 183, 258);
+      doc.text('Total :', 165, 240);
+      doc.text(String(productsSubTotal+ "Rs"), 180, 240);
+      doc.text('Disc % :', 154, 246);
+      doc.text(String(invoiceData.discount), 180, 246);
+      doc.text('S.GST % :', 159, 252);
+      doc.text(String(invoiceData.sGST), 180, 252);
+      doc.text('C.GST % :', 159, 258);
+      doc.text(String(invoiceData.cGST), 180, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
       doc.setTextColor(0, 0, 0);
-      doc.text("Final Amount : ", 150, 268);
-      doc.text(String("rs" + invoiceData.finalSubAmount), 180, 268);
+      doc.text('Final Amount :', 150, 268);
+      doc.text(String(invoiceData.finalSubAmount+ "Rs"), 180, 268);
 
       // PAN NO
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
       doc.text('PAN NO :', 16, 240);
       doc.text(invoiceData.firmName.panNo, 35, 240);
-
 
       // open PDF
       window.open(doc.output('bloburl'))

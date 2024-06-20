@@ -95,7 +95,7 @@ export interface InvoiceData {
       cGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
       totalitem: ['', [Validators.required,Validators.min(0)]],
-      defectiveitem: ['', [Validators.required,Validators.min(0)]],
+      defectiveitem: [0, [Validators.required,Validators.min(0)]],
       price: ['',[Validators.required,Validators.min(0)]],
       product: ['', Validators.required],
       poNumber: ['', [Validators.required,Validators.min(0)]],
@@ -212,7 +212,7 @@ export interface InvoiceData {
     const sGSTAmount = (productData.sGST / 100) * discountedAmount;
     const cGSTAmount = (productData.cGST / 100) * discountedAmount;
     const finalSubAmount = discountedAmount + sGSTAmount + cGSTAmount;
-    return finalSubAmount;
+    return Math.round(finalSubAmount);
 }
 
 
@@ -426,7 +426,7 @@ export interface InvoiceData {
         product.finalAmount,
       ]);
 
-      // Add empty rows if there are less than 17 products
+      // Add empty rows if there are less than 10 products
       while (bodyRows.length < 10) {
         bodyRows.push([
           '',
@@ -474,11 +474,11 @@ export interface InvoiceData {
       doc.setTextColor(33, 52, 66);
       doc.text('Total :', 165, 240);
       doc.text(String(productsSubTotal+ "Rs"), 180, 240);
-      doc.text('Discount % :', 154, 246);
+      doc.text('Disc % :', 154, 246);
       doc.text(String(invoiceData.discount), 180, 246);
-      doc.text('SGST % :', 159, 252);
+      doc.text('S.GST % :', 159, 252);
       doc.text(String(invoiceData.sGST), 180, 252);
-      doc.text('CGST % :', 159, 258);
+      doc.text('C.GST % :', 159, 258);
       doc.text(String(invoiceData.cGST), 180, 258);
       doc.setFillColor(245, 245, 245);
       doc.rect(142, 261, 90, 10, 'F');
@@ -497,5 +497,6 @@ export interface InvoiceData {
       window.open(doc.output('bloburl'))
     }
   }
+
 }
 

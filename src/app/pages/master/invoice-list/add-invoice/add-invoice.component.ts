@@ -415,6 +415,8 @@ export interface InvoiceData {
       doc.text(invoiceData.partyName.partyGstNo, 152, 90);
 
       const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0);
+      const productsQty = invoiceData.products.reduce((acc: any, product: any) => acc + product.qty, 0);
+      const productsdefectiveItem= invoiceData.products.reduce((acc: any, product: any) => acc + product.defectiveItem, 0);
 
       const bodyRows = invoiceData.products.map((product: any, index: any) => [
         index + 1,
@@ -470,28 +472,44 @@ export interface InvoiceData {
 
       doc.addImage(logoimg, 'JPEG', 0, 272, 210, 25);
 
+      const discountAmount = (productsSubTotal * (invoiceData.discount / 100));
+      const discountedSubTotal = productsSubTotal - discountAmount;
+      const sGstAmount = discountedSubTotal * (invoiceData.sGST / 100);
+      const cGstAmount = discountedSubTotal * (invoiceData.cGST / 100);
+      const finalAmount = discountedSubTotal + sGstAmount + cGstAmount;
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
-      doc.text('Total :', 165, 240);
-      doc.text(String(productsSubTotal+ "Rs"), 180, 240);
-      doc.text('Disc % :', 154, 246);
-      doc.text(String(invoiceData.discount), 180, 246);
-      doc.text('S.GST % :', 159, 252);
-      doc.text(String(invoiceData.sGST), 180, 252);
-      doc.text('C.GST % :', 159, 258);
-      doc.text(String(invoiceData.cGST), 180, 258);
-      doc.setFillColor(245, 245, 245);
-      doc.rect(142, 261, 90, 10, 'F');
-      doc.setTextColor(0, 0, 0);
-      doc.text('Final Amount :', 150, 268);
-      doc.text(String(invoiceData.finalSubAmount+ "Rs"), 180, 268);
+      doc.setLineWidth(0.2);
+      doc.line(89, 209, 196, 209);
+      doc.line(89, 218, 196, 218);
+      doc.line(89, 227, 196, 227);
+      doc.line(89, 236, 196, 236);
+      doc.text(String(productsQty), 90, 207);
+      doc.text(String(productsdefectiveItem), 103, 207);
+    // doc.text('Total : ', 165, 240);
+    doc.text(String("Rs" + productsSubTotal), 160, 207);
+    doc.text('Disc % :', 124, 215);
+    doc.text(String(invoiceData.discount), 145, 215);
+    doc.text(String("Rs" + discountAmount) , 160, 215);
+    doc.text('S.GST % :', 120, 224);
+    doc.text(String(invoiceData.sGST), 145, 224);
+    doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 224);
+    doc.text('C.GST % :', 120, 234);
+    doc.text(String(invoiceData.cGST), 145, 234);
+    doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 234);
+    doc.setFillColor(245, 245, 245);
+    doc.rect(117, 238, 100, 10, 'F');
+    doc.setTextColor(0, 0, 0);
+    doc.text("Final Amount : ", 120, 244);
+    // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
+    doc.text(String("Rs" + finalAmount.toFixed(2)) + " Rs", 160, 244);
+
 
       // PAN NO
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
-      doc.text('PAN NO :', 16, 240);
-      doc.text(invoiceData.firmName.panNo, 35, 240);
-
+      doc.text('PAN NO :', 16, 215);
+      doc.text(invoiceData.firmName.panNo, 35, 215);
 
       // open PDF
       window.open(doc.output('bloburl'))

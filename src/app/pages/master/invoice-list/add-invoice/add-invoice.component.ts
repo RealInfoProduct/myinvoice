@@ -236,7 +236,9 @@ export interface InvoiceData {
       partyName: invoiceData.partyName,
       products: invoiceData.products  ,
       userId : localStorage.getItem("userId"),
-      finalSubAmount : finalSubAmount
+      finalSubAmount : finalSubAmount,
+      isPayment : false,
+      receivePayment : []
     }
     // this.openPdfViewDialog(payload)    
     this.loaderService.setInvoiceData(payload)
@@ -329,7 +331,9 @@ export interface InvoiceData {
       partyName: invoiceData.partyName,
       products: invoiceData.products  ,
       userId : localStorage.getItem("userId"),
-      finalSubAmount : finalSubAmount
+      finalSubAmount : finalSubAmount,
+      isPayment : false,
+      receivePayment : []
     }
     
     this.firebaseService.addInvoice(payload).then((res) => {

@@ -25,7 +25,15 @@ export class PdfviewComponent {
   ) {
     if (this.loaderService.getInvoiceData()) {
       this.invoiceData = this.loaderService.getInvoiceData()
-      this.generatePDF(this.loaderService.getInvoiceData())
+      console.log("this.loaderService.getInvoiceData()========>>>"  , this.loaderService.getInvoiceData());
+      switch (this.loaderService.getInvoiceData().firmName.isInvoiceTheme) {
+        case 1:
+          this.generatePDF1(this.loaderService.getInvoiceData())
+          break;
+          
+        default:
+          break;
+      }
     } else {
       this.router.navigate(['/master/addinvoice'])
     }
@@ -33,7 +41,7 @@ export class PdfviewComponent {
   }
 
 
-  generatePDF(invoiceData: any) {
+  generatePDF1(invoiceData: any) {
     this.loaderService.setLoader(true)
     const doc = new jsPDF();
 
@@ -193,7 +201,14 @@ export class PdfviewComponent {
     this.firebaseService.addInvoice(this.invoiceData).then((res) => {
       if (res) {
           this.openConfigSnackBar('record create successfully')
-          this.generatePDFDownload(this.invoiceData)
+          switch (this.loaderService.getInvoiceData().firmName.isInvoiceTheme) {
+            case 1:
+              this.generatePDF1Download(this.invoiceData)
+              break;
+          
+            default:
+              break;
+          }
           this.router.navigate(['/master/addinvoice'])
         }
     } , (error) => {
@@ -211,7 +226,7 @@ export class PdfviewComponent {
   }
 
 
-  generatePDFDownload(invoiceData: any) {
+  generatePDF1Download(invoiceData: any) {
     this.loaderService.setLoader(true)
 
     const doc = new jsPDF();

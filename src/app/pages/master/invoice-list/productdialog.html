@@ -12,7 +12,7 @@
           <!-- Final Amount Column -->
           <ng-container matColumnDef="finalAmount">
             <th mat-header-cell *matHeaderCellDef>{{'productdialog.FinalAmount' | translate}}</th>
-            <td mat-cell *matCellDef="let element"> {{element.finalAmount}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.finalAmount | number:'1.0-2'}} </td>
           </ng-container>
       
           <!-- Product Name Column -->
@@ -30,7 +30,7 @@
           <!-- Price Column -->
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef>{{'productdialog.Price' | translate}}</th>
-            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.price | number:'1.0-2'}} </td>
           </ng-container>
       
           <!-- Quantity Column -->

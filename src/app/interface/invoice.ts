@@ -33,14 +33,15 @@ export interface FirmList {
     subHeader: string,
     address: string,
     gstNo: string,
-    gstpercentage: number,
+    // gstpercentage: number,
     panNo: string,
     mobileNo: number,
     personalMobileNo: number,
     bankName: string,
     bankIfsc: string,
     bankAccountNo: number,
-    userId :any
+    userId :any,
+    isInvoiceTheme : number
 
 }
 

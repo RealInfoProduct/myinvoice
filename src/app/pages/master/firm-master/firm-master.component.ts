@@ -166,6 +166,10 @@ export class firmMasterDialogComponent implements OnInit {
   local_data: any;
   invoiceThemeList: any = [
     { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice1.png', value: 1 },
+    { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
+    { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
+    { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
+    { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
   ] 
 
 

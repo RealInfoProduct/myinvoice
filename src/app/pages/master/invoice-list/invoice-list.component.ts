@@ -77,6 +77,18 @@ export class InvoiceListComponent implements OnInit {
       case 1:
         this.generatePDF1Download(invoiceData)
         break;
+        case 2:
+          this.generatePDF2Download(invoiceData)
+          break;
+        case 3:
+          this.generatePDF3Download(invoiceData)
+          break;
+        case 4:
+          this.generatePDF4Download(invoiceData)
+          break;
+        case 5:
+          this.generatePDF5Download(invoiceData)
+          break;
     
       default:
         break;
@@ -179,7 +191,7 @@ export class InvoiceListComponent implements OnInit {
         ]);
       }
       (doc as any).autoTable({
-        head: [['Sr.', 'Po Number', 'Product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
+        head: [['Sr.','Po Number' , ' Product', 'Qty', 'Defective Item', 'Price', 'Final Amount']],
         body: bodyRows,
         startY: 95,
         theme: 'plain',
@@ -209,7 +221,6 @@ export class InvoiceListComponent implements OnInit {
 
 
       doc.addImage(logoimg, 'JPEG', 0, 272, 210, 25);
-
       const discountAmount = (productsSubTotal * (invoiceData.discount / 100));
       const discountedSubTotal = productsSubTotal - discountAmount;
       const sGstAmount = discountedSubTotal * (invoiceData.sGST / 100);
@@ -223,25 +234,26 @@ export class InvoiceListComponent implements OnInit {
       doc.line(89, 218, 196, 218);
       doc.line(89, 227, 196, 227);
       doc.line(89, 236, 196, 236);
-      doc.text(String(productsQty), 90, 206);
-      doc.text(String(productsdefectiveItem), 103, 206);
-      // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs"+' ' + productsSubTotal), 160, 206);
-      doc.text('Disc % :', 124, 215);
-      doc.text(String(invoiceData.discount), 145, 215);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 215);
-      doc.text('S.GST % :', 120, 224);
-      doc.text(String(invoiceData.sGST), 145, 224);
-      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 224);
-      doc.text('C.GST % :', 120, 234);
-      doc.text(String(invoiceData.cGST), 145, 234);
-      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 234);
-      doc.setFillColor(245, 245, 245);
-      doc.rect(117, 238, 100, 10, 'F');
-      doc.setTextColor(0, 0, 0);
-      doc.text("Final Amount : ", 120, 244);
-      // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
-      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 244);
+      doc.text(String(productsQty), 90, 207);
+      doc.text(String(productsdefectiveItem), 103, 207);
+      doc.text(String(productsQty), 90, 210);
+    // doc.text('Total : ', 165, 240);
+    doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
+    doc.text('Disc % :', 124, 215);
+    doc.text(String(invoiceData.discount  + "%"), 145, 215);
+    doc.text(String("Rs"+' ' + discountAmount), 160, 215);
+    doc.text('S.GST % :', 120, 224);
+    doc.text(String(invoiceData.sGST  + "%"), 145, 224);
+    doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)), 160, 224);
+    doc.text('C.GST % :', 120, 234);
+    doc.text(String(invoiceData.cGST  + "%"), 145, 234);
+    doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)), 160, 234);
+    doc.setFillColor(245, 245, 245);
+    doc.rect(117, 238, 100, 10, 'F');
+    doc.setTextColor(0, 0, 0);
+    doc.text("Final Amount : ", 120, 244);
+    // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
+        doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 244);
 
       // PAN NO
       doc.setFontSize(12);
@@ -249,15 +261,14 @@ export class InvoiceListComponent implements OnInit {
       doc.text('PAN NO :', 16, 215);
       doc.text(invoiceData.firmName.panNo, 35, 215);
 
-
       // open PDF
       window.open(doc.output('bloburl'))
-      this.loaderService.setLoader(false)
+    this.loaderService.setLoader(false)
 
     }
   }
 
-  invoice1(invoiceData: any): void {
+  generatePDF2Download(invoiceData: any){
     console.log("invoiceData==>", invoiceData);
 
     const doc = new jsPDF();
@@ -380,7 +391,7 @@ export class InvoiceListComponent implements OnInit {
       });
 
 
-      const discountAmount = (productsSubTotal * (invoiceData.discount / 100));
+      const discountAmount = (productsSubTotal * (invoiceData.discount  / 100));
       const discountedSubTotal = productsSubTotal - discountAmount;
       const sGstAmount = discountedSubTotal * (invoiceData.sGST / 100);
       const cGstAmount = discountedSubTotal * (invoiceData.cGST / 100);
@@ -399,13 +410,13 @@ export class InvoiceListComponent implements OnInit {
       // doc.text('Total : ', 165, 240);
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 225);
       doc.text('Disc % :', 124, 234);
-      doc.text(String(invoiceData.discount), 145, 234);
+      doc.text(String(invoiceData.discount  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + discountAmount) , 160, 234);
       doc.text('S.GST % :', 120, 243);
-      doc.text(String(invoiceData.sGST), 145, 243);
+      doc.text(String(invoiceData.sGST  + "%"), 145, 243);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 243);
       doc.text('C.GST % :', 120, 252);
-      doc.text(String(invoiceData.cGST), 145, 252);
+      doc.text(String(invoiceData.cGST  + "%"), 145, 252);
       doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 252);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 256, 100, 10, 'F');
@@ -433,7 +444,7 @@ export class InvoiceListComponent implements OnInit {
 
   }
 
-  invoice2(invoiceData: any): void {
+  generatePDF3Download(invoiceData: any){
     const doc = new jsPDF();
 
     const img = new Image();
@@ -574,13 +585,13 @@ export class InvoiceListComponent implements OnInit {
       // doc.text('Total : ', 165, 240);
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
-      doc.text(String(invoiceData.discount), 145, 225);
+      doc.text(String(invoiceData.discount  + "%"), 145, 225);
       doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
-      doc.text(String(invoiceData.sGST), 145, 234);
+      doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
-      doc.text(String(invoiceData.cGST), 145, 243);
+      doc.text(String(invoiceData.cGST  + "%"), 145, 243);
       doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');
@@ -605,7 +616,7 @@ export class InvoiceListComponent implements OnInit {
     };
   }
 
-  invoice3(invoiceData: any): void {
+  generatePDF4Download(invoiceData: any) {
     const doc = new jsPDF();
 
     // Add image
@@ -748,13 +759,13 @@ export class InvoiceListComponent implements OnInit {
       // doc.text('Total : ', 165, 240);
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
-      doc.text(String(invoiceData.discount), 145, 225);
+      doc.text(String(invoiceData.discount  + "%"), 145, 225);
       doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
-      doc.text(String(invoiceData.sGST), 145, 234);
+      doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
-      doc.text(String(invoiceData.cGST), 145, 243);
+      doc.text(String(invoiceData.cGST  + "%"), 145, 243);
       doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');
@@ -779,7 +790,7 @@ export class InvoiceListComponent implements OnInit {
 
   }
 
-  invoice4(invoiceData: any): void {
+  generatePDF5Download(invoiceData: any){
     const doc = new jsPDF();
 
     // Add image
@@ -920,13 +931,13 @@ export class InvoiceListComponent implements OnInit {
       // doc.text('Total : ', 165, 240);
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
-      doc.text(String(invoiceData.discount), 145, 225);
+      doc.text(String(invoiceData.discount  + "%"), 145, 225);
       doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
-      doc.text(String(invoiceData.sGST), 145, 234);
+      doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
-      doc.text(String(invoiceData.cGST), 145, 243);
+      doc.text(String(invoiceData.cGST  + "%"), 145, 243);
       doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');

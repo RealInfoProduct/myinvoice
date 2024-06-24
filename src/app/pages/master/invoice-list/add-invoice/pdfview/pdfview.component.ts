@@ -177,22 +177,22 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String(productsQty), 90, 207);
       doc.text(String(productsdefectiveItem), 103, 207);
     // doc.text('Total : ', 165, 240);
-    doc.text(String("Rs" + productsSubTotal), 160, 207);
+    doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
     doc.text('Disc % :', 124, 215);
     doc.text(String(invoiceData.discount), 145, 215);
-    doc.text(String("Rs" + discountAmount) , 160, 215);
+    doc.text(String("Rs"+' ' + discountAmount) , 160, 215);
     doc.text('S.GST % :', 120, 224);
     doc.text(String(invoiceData.sGST), 145, 224);
-    doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 224);
+    doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 224);
     doc.text('C.GST % :', 120, 234);
     doc.text(String(invoiceData.cGST), 145, 234);
-    doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 234);
+    doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 234);
     doc.setFillColor(245, 245, 245);
     doc.rect(117, 238, 100, 10, 'F');
     doc.setTextColor(0, 0, 0);
     doc.text("Final Amount : ", 120, 244);
     // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
-    doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 244);
+    doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 244);
 
 
       // PAN NO
@@ -377,22 +377,22 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String(productsdefectiveItem), 103, 207);
       doc.text(String(productsQty), 90, 210);
     // doc.text('Total : ', 165, 240);
-    doc.text(String("Rs" + productsSubTotal), 160, 207);
+    doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
     doc.text('Disc % :', 124, 215);
     doc.text(String(invoiceData.discount), 145, 215);
-    doc.text(String("Rs" + discountAmount), 160, 215);
+    doc.text(String("Rs"+' ' + discountAmount), 160, 215);
     doc.text('S.GST % :', 120, 224);
     doc.text(String(invoiceData.sGST), 145, 224);
-    doc.text(String("Rs" + sGstAmount.toFixed(2)), 160, 224);
+    doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)), 160, 224);
     doc.text('C.GST % :', 120, 234);
     doc.text(String(invoiceData.cGST), 145, 234);
-    doc.text(String("Rs" + cGstAmount.toFixed(2)), 160, 234);
+    doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)), 160, 234);
     doc.setFillColor(245, 245, 245);
     doc.rect(117, 238, 100, 10, 'F');
     doc.setTextColor(0, 0, 0);
     doc.text("Final Amount : ", 120, 244);
     // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
-        doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 244);
+        doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 244);
 
       // PAN NO
       doc.setFontSize(12);

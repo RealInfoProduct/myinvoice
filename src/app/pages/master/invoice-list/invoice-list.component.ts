@@ -215,22 +215,22 @@ export class InvoiceListComponent implements OnInit {
       doc.text(String(productsQty), 90, 206);
       doc.text(String(productsdefectiveItem), 103, 206);
       // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs" + productsSubTotal), 160, 206);
+      doc.text(String("Rs"+' ' + productsSubTotal), 160, 206);
       doc.text('Disc % :', 124, 215);
       doc.text(String(invoiceData.discount), 145, 215);
-      doc.text(String("Rs" + discountAmount) , 160, 215);
+      doc.text(String("Rs"+' ' + discountAmount) , 160, 215);
       doc.text('S.GST % :', 120, 224);
       doc.text(String(invoiceData.sGST), 145, 224);
-      doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 224);
+      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 224);
       doc.text('C.GST % :', 120, 234);
       doc.text(String(invoiceData.cGST), 145, 234);
-      doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 234);
+      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 234);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 238, 100, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text("Final Amount : ", 120, 244);
       // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 244);
-      doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 244);
+      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 244);
 
       // PAN NO
       doc.setFontSize(12);
@@ -386,22 +386,22 @@ export class InvoiceListComponent implements OnInit {
       doc.text(String(productsQty), 90, 225);
       doc.text(String(productsdefectiveItem), 103, 225);
       // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs" + productsSubTotal), 160, 225);
+      doc.text(String("Rs"+' ' + productsSubTotal), 160, 225);
       doc.text('Disc % :', 124, 234);
       doc.text(String(invoiceData.discount), 145, 234);
-      doc.text(String("Rs" + discountAmount) , 160, 234);
+      doc.text(String("Rs"+' ' + discountAmount) , 160, 234);
       doc.text('S.GST % :', 120, 243);
       doc.text(String(invoiceData.sGST), 145, 243);
-      doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 243);
+      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 243);
       doc.text('C.GST % :', 120, 252);
       doc.text(String(invoiceData.cGST), 145, 252);
-      doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 252);
+      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 252);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 256, 100, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text("Final Amount : ", 120, 262);
       // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 262);
-      doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 262);
+      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 262);
 
       
 
@@ -561,22 +561,22 @@ export class InvoiceListComponent implements OnInit {
       doc.text(String(productsQty), 90, 216);
       doc.text(String(productsdefectiveItem), 103, 216);
       // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs" + productsSubTotal), 160, 216);
+      doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount), 145, 225);
-      doc.text(String("Rs" + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST), 145, 234);
-      doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 234);
+      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
       doc.text(String(invoiceData.cGST), 145, 243);
-      doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 243);
+      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text("Final Amount : ", 120, 254);
       // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 255);
-      doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 255);
+      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 255);
 
 
 
@@ -735,22 +735,22 @@ export class InvoiceListComponent implements OnInit {
       doc.text(String(productsQty), 90, 216);
       doc.text(String(productsdefectiveItem), 103, 216);
       // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs" + productsSubTotal)+ "Rs", 160, 216);
+      doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount), 145, 225);
-      doc.text(String("Rs" + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST), 145, 234);
-      doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 234);
+      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
       doc.text(String(invoiceData.cGST), 145, 243);
-      doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 243);
+      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text("Final Amount : ", 120, 254);
       // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 255);
-      doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 255);
+      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 255);
 
 
 
@@ -907,22 +907,22 @@ export class InvoiceListComponent implements OnInit {
       doc.text(String(productsQty), 90, 216);
       doc.text(String(productsdefectiveItem), 103, 216);
       // doc.text('Total : ', 165, 240);
-      doc.text(String("Rs" + productsSubTotal), 160, 216);
+      doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount), 145, 225);
-      doc.text(String("Rs" + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST), 145, 234);
-      doc.text(String("Rs" + sGstAmount.toFixed(2)) , 160, 234);
+      doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
       doc.text('C.GST % :', 120, 243);
       doc.text(String(invoiceData.cGST), 145, 243);
-      doc.text(String("Rs" + cGstAmount.toFixed(2)) , 160, 243);
+      doc.text(String("Rs"+' ' + cGstAmount.toFixed(2)) , 160, 243);
       doc.setFillColor(245, 245, 245);
       doc.rect(117, 248, 100, 10, 'F');
       doc.setTextColor(0, 0, 0);
       doc.text("Final Amount : ", 120, 254);
       // doc.text(String(invoiceData.finalSubAmount)+ "Rs", 160, 255);
-      doc.text(String("Rs" + finalAmount.toFixed(2)) , 160, 255);
+      doc.text(String("Rs"+' ' + finalAmount.toFixed(2)) , 160, 255);
 
 
       doc.addImage(logoimg, 'JPEG', 0, 272, 211, 25);

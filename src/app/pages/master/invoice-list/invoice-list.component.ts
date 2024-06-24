@@ -72,7 +72,18 @@ export class InvoiceListComponent implements OnInit {
     })
   }
 
-  generatePDFDownload(invoiceData: any): void {
+  generatePDFDownload(invoiceData: any){
+    switch (invoiceData.firmName.isInvoiceTheme) {
+      case 1:
+        this.generatePDF1Download(invoiceData)
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+  generatePDF1Download(invoiceData: any) {
     this.loaderService.setLoader(true)
 
     const doc = new jsPDF();

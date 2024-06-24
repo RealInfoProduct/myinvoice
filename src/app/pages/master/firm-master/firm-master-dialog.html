@@ -34,11 +34,11 @@
           <input type="text" matInput formControlName="GSTNo" placeholder="{{'FirmMasterdialog.GSTNo' | translate}}" />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <!-- <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput formControlName="gstPercentage" placeholder="{{'FirmMasterdialog.GSTPercentage' | translate}}"  min="0" />
         </mat-form-field>
-      </div>
+      </div> -->
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="text" matInput formControlName="panNo" placeholder="{{'FirmMasterdialog.Panno' | translate}}" />
@@ -85,6 +85,22 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="number" matInput formControlName="bankAccountNo" placeholder="{{'FirmMasterdialog.Bankaccountno' | translate}}" min="0" />
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="outline" class="w-100 m-t-8" id="billbox">
+          <mat-select name="InvoiceTheme" formControlName="selectedInvoiceTheme" placeholder="Select Invoice Theme">
+            <mat-option *ngFor="let item of invoiceThemeList" [value]="item.value">
+              <div class="theme-option">
+                <span class="d-flex align-items-center">
+                  <img [src]="item.imageUrl" style="width: 17%;" class="theme-image">
+                  <div style="padding-left: 10px;">
+                    {{ item.name }}
+                  </div>
+                </span>
+              </div>
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>

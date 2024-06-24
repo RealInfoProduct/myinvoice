@@ -53,30 +53,23 @@
             {{'FirmMaster.GSTNo' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.gstNo }}
+            <div>
+              {{ element.gstNo }}
+            </div>
+            <div>
+              {{ element.panNo }}
+            </div>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="gst">
+        <!-- <ng-container matColumnDef="gst">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
             {{'FirmMaster.GST%' | translate}}
           </th>
-          <!-- <td mat-cell *matCellDef="let element" class="f-s-14">
-              {{ element.DateOfJoining | date : "fullDate" }}
-            </td> -->
           <td mat-cell *matCellDef="let element" class="f-s-14">
             {{ element.gstpercentage }}
           </td>
-        </ng-container>
-
-        <ng-container matColumnDef="PanNo">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            {{'FirmMaster.PanNo' | translate}}
-          </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.panNo }}
-          </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="MobileNo">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
@@ -101,16 +94,12 @@
             {{'FirmMaster.BankName' | translate}}
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.bankName }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="BankIFSC">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            {{'FirmMaster.BankIFSC' | translate}}
-          </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.bankIfsc }}
+            <div>
+              {{ element.bankName }}
+            </div>
+            <div>
+              {{ element.bankIfsc }}
+            </div>
           </td>
         </ng-container>
 

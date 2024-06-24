@@ -21,12 +21,9 @@ export class FirmMasterComponent implements OnInit {
     'header',
     'Subheader',
     'GSTMo',
-    'gst',
-    'PanNo',
     'MobileNo',
     'PersonalMobileNo',
     'BankName',
-    'BankIFSC',
     'BankAccountNo',
     'Address',
     'action',
@@ -80,14 +77,15 @@ export class FirmMasterComponent implements OnInit {
           subHeader: result.data.subHeader,
           address: result.data.address,
           gstNo: result.data.GSTNo,
-          gstpercentage: Number(result.data.gstPercentage),
+          // gstpercentage: Number(result.data.gstPercentage),
           panNo: result.data.panNo,
           mobileNo: Number(result.data.mobileNo),
           personalMobileNo: Number(result.data.personalMobileNo),
           bankName: result.data.bankName,
           bankIfsc: result.data.ifscCode,
           bankAccountNo: Number(result.data.bankAccountNo),
-          userId : localStorage.getItem("userId")
+          userId : localStorage.getItem("userId"),
+          isInvoiceTheme: result.data.isInvoiceTheme,
         }
         this.firebaseService.addFirm(payload).then((res) => {
           if (res) {
@@ -108,14 +106,15 @@ export class FirmMasterComponent implements OnInit {
               subHeader: result.data.subHeader,
               address: result.data.address,
               gstNo: result.data.GSTNo,
-              gstpercentage: Number(result.data.gstPercentage),
+              // gstpercentage: Number(result.data.gstPercentage),
               panNo: result.data.panNo,
               mobileNo: Number(result.data.mobileNo),
               personalMobileNo: Number(result.data.personalMobileNo),
               bankName: result.data.bankName,
               bankIfsc: result.data.ifscCode,
               bankAccountNo: Number(result.data.bankAccountNo),
-              userId : localStorage.getItem("userId")
+              userId : localStorage.getItem("userId"),
+              isInvoiceTheme: result.data.isInvoiceTheme,
             }
             this.firebaseService.updateFirm(result.data.id, payload).then((res: any) => {
               if (res) {
@@ -165,6 +164,14 @@ export class firmMasterDialogComponent implements OnInit {
   firmForm: FormGroup;
   action: string;
   local_data: any;
+  invoiceThemeList: any = [
+    { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice1.png', value: 1 },
+    { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
+    { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
+    { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
+    { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
+  ] 
+
 
   constructor(
     private fb: FormBuilder,
@@ -182,13 +189,14 @@ export class firmMasterDialogComponent implements OnInit {
       this.firmForm.controls['subHeader'].setValue(this.local_data.subHeader)
       this.firmForm.controls['address'].setValue(this.local_data.address)
       this.firmForm.controls['GSTNo'].setValue(this.local_data.gstNo)
-      this.firmForm.controls['gstPercentage'].setValue(this.local_data.gstpercentage)
+      // this.firmForm.controls['gstPercentage'].setValue(this.local_data.gstpercentage)
       this.firmForm.controls['panNo'].setValue(this.local_data.panNo)
       this.firmForm.controls['mobileNo'].setValue(this.local_data.mobileNo)
       this.firmForm.controls['personalMobileNo'].setValue(this.local_data.personalMobileNo)
       this.firmForm.controls['bankName'].setValue(this.local_data.bankName)
       this.firmForm.controls['ifscCode'].setValue(this.local_data.bankIfsc)
       this.firmForm.controls['bankAccountNo'].setValue(this.local_data.bankAccountNo)
+      this.firmForm.controls['selectedInvoiceTheme'].setValue(this.invoiceThemeList.find((id:any) => id.value === this.local_data.isInvoiceTheme ))
     }
   }
 
@@ -198,13 +206,14 @@ export class firmMasterDialogComponent implements OnInit {
       subHeader: [''],
       address: [''],
       GSTNo: [''],
-      gstPercentage: [''],
+      // gstPercentage: [''],
       panNo: [''],
       mobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       personalMobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       bankName: [''],
       ifscCode: [''],
       bankAccountNo: [''],
+      selectedInvoiceTheme: [''],
     })
   }
 
@@ -215,14 +224,17 @@ export class firmMasterDialogComponent implements OnInit {
       subHeader: this.firmForm.value.subHeader,
       address: this.firmForm.value.address,
       GSTNo: this.firmForm.value.GSTNo,
-      gstPercentage: this.firmForm.value.gstPercentage,
+      // gstPercentage: this.firmForm.value.gstPercentage,
       panNo: this.firmForm.value.panNo,
       mobileNo: this.firmForm.value.mobileNo,
       personalMobileNo: this.firmForm.value.personalMobileNo,
       bankName: this.firmForm.value.bankName,
       ifscCode: this.firmForm.value.ifscCode,
-      bankAccountNo: this.firmForm.value.bankAccountNo
+      bankAccountNo: this.firmForm.value.bankAccountNo,
+      isInvoiceTheme: this.firmForm.value.selectedInvoiceTheme,
     }
+    console.log(payload);
+    
     this.dialogRef.close({ event: this.action, data: payload });
 
   }

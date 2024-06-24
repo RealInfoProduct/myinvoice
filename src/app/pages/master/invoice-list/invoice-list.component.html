@@ -3,7 +3,8 @@
     <div class="row justify-content-between">
       <div class="col-lg-4">
         <mat-form-field appearance="outline" class="w-100 hide-hint">
-          <input matInput placeholder="{{'invoicelist.Searchinvoice' | translate}}" (keyup)="applyFilter($any($event.target).value)" />
+          <input matInput placeholder="{{'invoicelist.Searchinvoice' | translate}}"
+            (keyup)="applyFilter($any($event.target).value)" />
           <mat-icon matSuffix>
             <i-tabler name="search" class="icon-20"></i-tabler>
           </mat-icon>
@@ -17,6 +18,7 @@
     </div>
   </mat-card-content>
 </mat-card>
+
 
 <mat-card class="cardWithShadow">
   <mat-card-content class="p-24">
@@ -113,7 +115,7 @@
             <div class="d-flex align-items-center">
               <div class="m-l-16">
                 <p class="mat-subtitle-1 f-s-16 m-t-0">
-                  {{ element.finalSubAmount }}
+                  {{ element.finalSubAmount | number:'1.0-2' }}
                 </p>
               </div>
             </div>

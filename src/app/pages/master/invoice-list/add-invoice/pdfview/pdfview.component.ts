@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -7,6 +6,8 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-pdfview',
@@ -16,7 +17,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class PdfviewComponent  implements OnInit{
   blobUrl: any
   invoiceData :any
+  
   constructor(
+   
     private sanitizer: DomSanitizer,
     private loaderService : LoaderService,
     private firebaseService : FirebaseService,
@@ -53,6 +56,11 @@ export class PdfviewComponent  implements OnInit{
   }
   ngOnInit(): void {
    
+  }
+
+  back(){
+    this.loaderService.setInvoiceData(this.invoiceData)
+    this.router.navigate(['/master/addinvoice'])
   }
 
 
@@ -199,8 +207,8 @@ export class PdfviewComponent  implements OnInit{
     // doc.text('Total : ', 165, 240);
     doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
     doc.text('Disc % :', 124, 215);
-    doc.text(String(invoiceData.discount  + "%" + "%"), 145, 215);
-    doc.text(String("Rs"+' ' + discountAmount) , 160, 215);
+    doc.text(String(invoiceData.discount + "%"), 145, 215);
+    doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 215);
     doc.text('S.GST % :', 120, 224);
     doc.text(String(invoiceData.sGST + "%"), 145, 224);
     doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 224);
@@ -370,8 +378,8 @@ export class PdfviewComponent  implements OnInit{
       // doc.text('Total : ', 165, 240);
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 225);
       doc.text('Disc % :', 124, 234);
-      doc.text(String(invoiceData.discount  + "%" + "%"), 145, 234);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 234);
+      doc.text(String(invoiceData.discount + "%"), 145, 234);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 234);
       doc.text('S.GST % :', 120, 243);
       doc.text(String(invoiceData.sGST + "%"), 145, 243);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 243);
@@ -548,7 +556,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
@@ -724,7 +732,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
@@ -898,7 +906,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
@@ -1117,7 +1125,7 @@ export class PdfviewComponent  implements OnInit{
     doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
     doc.text('Disc % :', 124, 215);
     doc.text(String(invoiceData.discount  + "%"), 145, 215);
-    doc.text(String("Rs"+' ' + discountAmount), 160, 215);
+    doc.text(String("Rs"+' ' + discountAmount.toFixed(2)), 160, 215);
     doc.text('S.GST % :', 120, 224);
     doc.text(String(invoiceData.sGST  + "%"), 145, 224);
     doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)), 160, 224);
@@ -1287,7 +1295,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 225);
       doc.text('Disc % :', 124, 234);
       doc.text(String(invoiceData.discount  + "%"), 145, 234);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 234);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 234);
       doc.text('S.GST % :', 120, 243);
       doc.text(String(invoiceData.sGST  + "%"), 145, 243);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 243);
@@ -1462,7 +1470,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
@@ -1636,7 +1644,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);
@@ -1808,7 +1816,7 @@ export class PdfviewComponent  implements OnInit{
       doc.text(String("Rs"+' ' + productsSubTotal), 160, 216);
       doc.text('Disc % :', 124, 225);
       doc.text(String(invoiceData.discount  + "%"), 145, 225);
-      doc.text(String("Rs"+' ' + discountAmount) , 160, 225);
+      doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 225);
       doc.text('S.GST % :', 120, 234);
       doc.text(String(invoiceData.sGST  + "%"), 145, 234);
       doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 234);

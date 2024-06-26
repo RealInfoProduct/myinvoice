@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,7 @@ import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfviewComponent } from './pdfview/pdfview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Value } from 'sass';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -76,14 +77,30 @@ export interface InvoiceData {
     private loaderService: LoaderService,
     private sanitizer: DomSanitizer,
     private _snackBar: MatSnackBar,
-  ) { }
+    ) { }
   ngOnInit(): void {
     this.buildForm()
-    this.getProductList()
     this.getPartyList()
+    this.getProductList()
     this.getFirmList()
 
+    if (this.loaderService.getInvoiceData()) {
+      const getInvoiceData  = this.loaderService.getInvoiceData()
+        this.invoiceForm.controls['firm'].setValue(getInvoiceData.firmName.header)
+        this.invoiceForm.controls['party'].setValue(getInvoiceData.partyName.partyName)
+        this.invoiceForm.controls['discount'].setValue(getInvoiceData.discount)
+        this.invoiceForm.controls['sGST'].setValue(getInvoiceData.sGST)
+        this.invoiceForm.controls['cGST'].setValue(getInvoiceData.cGST)
+        this.invoiceForm.controls['date'].setValue(getInvoiceData.date)
+        this.invoiceForm.controls['totalitem'].setValue(getInvoiceData.products[0].qty)
+        this.invoiceForm.controls['defectiveitem'].setValue(getInvoiceData.products[0].defectiveItem)
+        this.invoiceForm.controls['price'].setValue(getInvoiceData.products[0].price)
+        this.invoiceForm.controls['product'].setValue(getInvoiceData.products[0].productName.productName)
+        this.invoiceForm.controls['poNumber'].setValue(getInvoiceData.products[0].poNumber)
 
+        console.log("this.loaderService.getInvoiceData()====>",this.loaderService.getInvoiceData());
+      }
+      
   }
 
   buildForm() {
@@ -120,7 +137,8 @@ export interface InvoiceData {
       this.invoiceForm.controls['totalitem'].reset()
       this.editMode = false;
     }
-
+      console.log(this.invoiceForm.value);
+      
   }
 
   openPdfViewDialog(pdfViewData?: any) {
@@ -129,9 +147,8 @@ export interface InvoiceData {
       height : '80%',
       data: pdfViewData
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      
+     
     });
     console.log(this.invoiceForm.value);
     

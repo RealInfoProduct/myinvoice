@@ -83,21 +83,22 @@ export interface InvoiceData {
     this.getPartyList()
     this.getProductList()
     this.getFirmList()
-
+      
     if (this.loaderService.getInvoiceData()) {
       const getInvoiceData  = this.loaderService.getInvoiceData()
-        this.invoiceForm.controls['firm'].setValue(getInvoiceData.firmName.header)
-        this.invoiceForm.controls['party'].setValue(getInvoiceData.partyName.partyName)
-        this.invoiceForm.controls['discount'].setValue(getInvoiceData.discount)
-        this.invoiceForm.controls['sGST'].setValue(getInvoiceData.sGST)
-        this.invoiceForm.controls['cGST'].setValue(getInvoiceData.cGST)
-        this.invoiceForm.controls['date'].setValue(getInvoiceData.date)
-        this.invoiceForm.controls['totalitem'].setValue(getInvoiceData.products[0].qty)
-        this.invoiceForm.controls['defectiveitem'].setValue(getInvoiceData.products[0].defectiveItem)
-        this.invoiceForm.controls['price'].setValue(getInvoiceData.products[0].price)
-        this.invoiceForm.controls['product'].setValue(getInvoiceData.products[0].productName.productName)
-        this.invoiceForm.controls['poNumber'].setValue(getInvoiceData.products[0].poNumber)
-
+        this.invoiceForm.setValue({
+          firm: (getInvoiceData.firmName && getInvoiceData.firmName.header)|| '',
+          party:  (getInvoiceData.partyName && getInvoiceData.partyName.partyName) || '',
+          discount: getInvoiceData.discount || 0,
+          sGST: getInvoiceData.sGST || 2.5,
+          cGST: getInvoiceData.cGST || 2.5,
+          date: new Date(getInvoiceData.date) || new Date(),
+          totalitem: getInvoiceData.products[0].qty || 0,
+          defectiveitem: getInvoiceData.products[0].defectiveItem || 0,
+          price: getInvoiceData.products[0].price || 0,
+          product: getInvoiceData.products[0].productName || '',
+          poNumber: getInvoiceData.products[0].poNumber || 0,
+        });
         console.log("this.loaderService.getInvoiceData()====>",this.loaderService.getInvoiceData());
       }
       
@@ -150,7 +151,7 @@ export interface InvoiceData {
     dialogRef.afterClosed().subscribe(result => {
      
     });
-    console.log(this.invoiceForm.value);
+    console.log("this.invoiceForm.value===>",this.invoiceForm.value);
     
   }
 

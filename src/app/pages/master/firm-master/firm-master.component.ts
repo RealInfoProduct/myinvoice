@@ -117,11 +117,8 @@ export class FirmMasterComponent implements OnInit {
               isInvoiceTheme: result.data.isInvoiceTheme,
             }
             this.firebaseService.updateFirm(result.data.id, payload).then((res: any) => {
-              if (res) {
                 this.getFirmList()
             this.openConfigSnackBar('record update successfully')
-
-              }
             }, (error) => {
               console.log("error => ", error);
 
@@ -131,11 +128,8 @@ export class FirmMasterComponent implements OnInit {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteFirm(result.data.id).then((res: any) => {
-          if (res) {
             this.getFirmList()
             this.openConfigSnackBar('record delete successfully')
-
-          }
         }, (error) => {
           console.log("error => ", error);
 

@@ -6,6 +6,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PdfgenService } from '../../../pdfgen.service';
 
 
 
@@ -25,10 +26,10 @@ export class PdfviewComponent  implements OnInit{
     private firebaseService : FirebaseService,
     private router : Router,
     private _snackBar: MatSnackBar,
+    private pdfgenService :PdfgenService
   ) {
     if (this.loaderService.getInvoiceData()) {
       this.invoiceData = this.loaderService.getInvoiceData()
-      console.log("this.loaderService.getInvoiceData()========>>>"  , this.loaderService.getInvoiceData());
       switch (this.loaderService.getInvoiceData().firmName.isInvoiceTheme) {
         case 1:
           this.generatePDF1(this.loaderService.getInvoiceData())
@@ -943,19 +944,19 @@ export class PdfviewComponent  implements OnInit{
           this.openConfigSnackBar('record create successfully')
           switch (this.loaderService.getInvoiceData().firmName.isInvoiceTheme) {
             case 1:
-              this.generatePDF1Download(this.invoiceData)
+              this.pdfgenService.generatePDF1Download(this.invoiceData)
               break;
             case 2:
-              this.generatePDF2Download(this.invoiceData)
+              this.pdfgenService.generatePDF2Download(this.invoiceData)
               break;
             case 3:
-              this.generatePDF3Download(this.invoiceData)
+              this.pdfgenService.generatePDF3Download(this.invoiceData)
               break;
             case 4:
-              this.generatePDF4Download(this.invoiceData)
+              this.pdfgenService.generatePDF4Download(this.invoiceData)
               break;
             case 5:
-              this.generatePDF5Download(this.invoiceData)
+              this.pdfgenService.generatePDF5Download(this.invoiceData)
               break;
           
             default:

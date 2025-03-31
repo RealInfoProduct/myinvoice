@@ -202,10 +202,18 @@ export class partyMasterDialogComponent implements OnInit {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllFirm().subscribe((res: any) => {
       if (res) {
-        this.firmList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
-        this.loaderService.setLoader(false)
+        this.firmList = res.filter((firm: any) => firm.userId === localStorage.getItem("userId"));
+  
+        if (this.action === 'Edit') {
+          const selectedFirm = this.firmList.find((firm: any) => firm.id === this.local_data.isFirm);
+          if (selectedFirm) {
+            this.partyForm.controls['isFirm'].setValue(selectedFirm);
+          }
+        }
       }
-    })
+      this.loaderService.setLoader(false);
+    });
   }
+  
   
 }

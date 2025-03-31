@@ -196,7 +196,7 @@ export class firmMasterDialogComponent implements OnInit {
       this.firmForm.controls['bankName'].setValue(this.local_data.bankName)
       this.firmForm.controls['ifscCode'].setValue(this.local_data.bankIfsc)
       this.firmForm.controls['bankAccountNo'].setValue(this.local_data.bankAccountNo)
-      this.firmForm.controls['selectedInvoiceTheme'].setValue(this.invoiceThemeList.find((id:any) => id.value === this.local_data.isInvoiceTheme ))
+      this.firmForm.controls['selectedInvoiceTheme'].setValue(this.invoiceThemeList.find((id:any) => id.value === this.local_data.isInvoiceTheme)?.value)
     }
   }
 

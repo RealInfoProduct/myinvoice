@@ -159,11 +159,11 @@ export class firmMasterDialogComponent implements OnInit {
   action: string;
   local_data: any;
   invoiceThemeList: any = [
-    { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice1.png', value: 1 },
-    { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
-    { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
-    { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
-    { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
+    { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice6.png', value: 1 },
+    // { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
+    // { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
+    // { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
+    // { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
   ] 
 
 
@@ -199,9 +199,9 @@ export class firmMasterDialogComponent implements OnInit {
       header: ['', Validators.required],
       subHeader: [''],
       address: [''],
-      GSTNo: [''],
+      GSTNo: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       // gstPercentage: [''],
-      panNo: [''],
+      panNo: ['', [Validators.pattern('^ [A - Z]{ 5}[0 - 9]{ 4}[A - Z]{ 1}$')]],
       mobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       personalMobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       bankName: [''],

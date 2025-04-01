@@ -1,11 +1,12 @@
-<div class="GenerateInvoice">
-    <div class="invoiceNumber">
-        <h3>{{'addinvoice.Invocie' | translate}}: {{maxInvoiceNumber}}</h3>
-    </div>
-    <button *ngIf="data.length > 0" mat-flat-button color="primary" (click)="generateInvoice()" routerLink="/master/invoiceview" ><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
-    <!-- <button *ngIf="data.length > 0" mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button> -->
-</div>
 <div class="invoiceTab">
+    <div class="GenerateInvoice">
+        <div class="invoiceNumber">
+            <h3>{{'addinvoice.Invocie' | translate}}: {{maxInvoiceNumber}}</h3>
+        </div>
+        <button *ngIf="data.length > 0" mat-flat-button color="primary" (click)="generateInvoice()"
+            routerLink="/master/invoiceview"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>
+        <!-- <button *ngIf="data.length > 0" mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button> -->
+    </div>
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedIndex">
       <form [formGroup]="invoiceForm">
   
@@ -194,7 +195,7 @@
               </mat-card-content>
           </mat-card>
   
-          <div class="table-responsive cardWithShadow m-15" *ngIf="data && data.length > 0; else noRecordsTemplate" >
+          <div class="table-responsive cardWithShadow m-15">
               <table mat-table [dataSource]="dataSource" class="w-100">
                   <ng-container matColumnDef="#">
                       <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'addinvoice.#' | translate}}</th>
@@ -281,18 +282,16 @@
       
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row" style="text-align: center;" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                        No record found
+                    </td>
+                </tr>
               </table>
               <div style="position: relative;">
                   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
               </div>
           </div>
-          <ng-template #noRecordsTemplate>
-              <div class="no-records text-center">
-                <span>
-                    {{'addinvoice.Norecordsfound' | translate}}
-                </span>
-              </div>
-            </ng-template>
       </mat-tab>
       </form>
     </mat-tab-group>

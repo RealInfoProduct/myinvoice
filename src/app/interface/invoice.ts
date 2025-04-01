@@ -59,8 +59,8 @@ export interface InvoiceList {
     discount: number;
     invoiceNumber: number;
     sGST: number;
-    firmName: any;
-    partyName: any;
+    firmId: any;
+    partyId: any;
     products: any;
     userId :any;
     finalSubAmount:any,

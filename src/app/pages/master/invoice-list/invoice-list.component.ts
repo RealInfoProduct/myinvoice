@@ -20,6 +20,8 @@ import { PdfgenService } from '../pdfgen.service';
 export class InvoiceListComponent implements OnInit {
 
   invoiceList: any = []
+  firmList: any = []
+  partyList: any = []
   displayedColumns: string[] = [
     'srno',
     'firmName',
@@ -42,6 +44,8 @@ export class InvoiceListComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.getInvoiceList()
+    this.getFirmList()
+    this.getPartyList()
 
   }
 
@@ -67,6 +71,8 @@ export class InvoiceListComponent implements OnInit {
           id.userId === localStorage.getItem("userId") &&
           id.accountYear === localStorage.getItem("accountYear")
         )
+        console.log('invoiceList===>>', this.invoiceList);
+        
         this.dataSource = new MatTableDataSource(this.invoiceList);
         this.dataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
@@ -75,28 +81,60 @@ export class InvoiceListComponent implements OnInit {
   }
 
   generatePDFDownload(invoiceData: any) {
+
+    const partyData = this.getPartyName(invoiceData.partyId)
+    const firmData = this.getFirmHeader(invoiceData.firmId)
+    invoiceData['firmName'] = firmData
+    invoiceData['partyName'] = partyData
     console.log(invoiceData);
-    
-    switch (invoiceData.firmName.isInvoiceTheme) {
+    switch (invoiceData?.firmName?.isInvoiceTheme) {
       case 1:
         this.pdfgenService.generatePDF1Download(invoiceData)
         break;
         case 2:
-          this.pdfgenService.generatePDF2Download(invoiceData)
+          // this.pdfgenService.generatePDF2Download(invoiceData)
           break;
         case 3:
-          this.pdfgenService.generatePDF3Download(invoiceData)
+          // this.pdfgenService.generatePDF3Download(invoiceData)
           break;
         case 4:
-          this.pdfgenService.generatePDF4Download(invoiceData)
+          // this.pdfgenService.generatePDF4Download(invoiceData)
           break;
         case 5:
-          this.pdfgenService.generatePDF5Download(invoiceData)
+          // this.pdfgenService.generatePDF5Download(invoiceData)
           break;
     
       default:
         break;
     }
+  }
+
+  getFirmList() {
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllFirm().subscribe((res: any) => {
+      if (res) {
+        this.firmList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
+        this.loaderService.setLoader(false)
+      }
+    })
+  }
+
+  getPartyList() {
+    this.loaderService.setLoader(true)
+    this.firebaseService.getAllParty().subscribe((res: any) => {
+      if (res) {
+        this.partyList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
+        this.loaderService.setLoader(false)
+      }
+    })
+  }
+
+  getPartyName(partyId:string) {
+    return this.partyList.find((obj: any) => obj.id === partyId) ?? ''
+  }
+
+  getFirmHeader(firmId: string) {
+    return this.firmList.find((obj: any) => obj.id === firmId) ?? ''
   }
 
 }

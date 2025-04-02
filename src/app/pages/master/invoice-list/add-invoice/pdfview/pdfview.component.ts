@@ -211,12 +211,28 @@ export class PdfviewComponent  implements OnInit{
     fieldsRight.forEach((field, index) => {
       const yPosition = rightYPosition + (index * 9.5);
 
+      if (index === 0) {
+        doc.setTextColor(255, 0, 0);
+      } else {
+        doc.setTextColor(0, 0, 0);
+      }
+
       doc.text(field, box2XPosition - 25, yPosition);
       const textWidth = doc.getTextWidth(field);
+
+      doc.setTextColor(0, 0, 0);
+      
+      if (index === 1) {
+        doc.setFont(undefined, 'bold');
+      }
 
       const valueXPosition = (box2XPosition - 28) + textWidth + 5;
       const valueYPosition = yPosition;
       doc.text(fieldsRightValues[index], valueXPosition, valueYPosition);
+
+      if (index === 1) {
+        doc.setFont(undefined, 'normal');
+      }
 
       const lineYPosition = valueYPosition + 1;
       doc.setLineWidth(0.3);
@@ -332,7 +348,8 @@ export class PdfviewComponent  implements OnInit{
     doc.setFontSize(13);
     doc.setTextColor(0, 0, 0);
     doc.text('Account Number:', 14, 259);
-    doc.text(invoiceData.firmName.bankAccountNo.toString(), 65, 259);
+    const accountNumber = invoiceData.firmName?.bankAccountNo?.toString() || "";
+    doc.text(accountNumber, 65, 259);
 
     doc.setFontSize(13);
     doc.setTextColor(0, 0, 0);

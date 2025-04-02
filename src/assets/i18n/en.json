@@ -115,7 +115,7 @@
     "Norecordsfound":"No records found"
   },
   "addinvoice":{
-    "Invocie":"Invocie",
+    "Invoice":"INVOICE",
     "SelectParty":"Select Party",
     "PartyDetails":"Party Details",
     "SelectFirm":"Select Firm",

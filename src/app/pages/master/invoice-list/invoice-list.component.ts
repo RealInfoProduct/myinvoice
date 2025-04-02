@@ -18,7 +18,7 @@ import { PdfgenService } from '../pdfgen.service';
   styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent implements OnInit {
-
+  dateInvoiceListForm: FormGroup;
   invoiceList: any = []
   firmList: any = []
   partyList: any = []
@@ -37,17 +37,47 @@ export class InvoiceListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(private router: Router,
+    private fb: FormBuilder,
     private dialog: MatDialog,
     private firebaseService: FirebaseService,
     private loaderService: LoaderService,
     private pdfgenService:PdfgenService
   ) { }
+
   ngOnInit(): void {
+    const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    this.dateInvoiceListForm = this.fb.group({
+      start: [startDate],
+      end: [endDate]
+    });
     this.getInvoiceList()
     this.getFirmList()
     this.getPartyList()
-
   }
+
+  filterDate() {
+    if (!this.invoiceList) return;
+    const startDate = this.dateInvoiceListForm.value.start ? new Date(this.dateInvoiceListForm.value.start) : null;
+    const endDate = this.dateInvoiceListForm.value.end ? new Date(this.dateInvoiceListForm.value.end) : null;
+    if (startDate && endDate) {
+      this.dataSource.data = this.invoiceList.filter((invoice: any) => {
+        if (!invoice.date) return false;
+        let invoiceDate;
+        if (typeof invoice.date === 'string') {
+          const dateParts = invoice.date.split('/');
+          invoiceDate = new Date(`${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`);
+        } else {
+          return false; 
+        }
+        return invoiceDate >= startDate && invoiceDate <= endDate;
+      });
+    } else {
+      this.dataSource.data = this.invoiceList;
+    }
+  }
+
 
   addProduct(obj: any) {
     const dialogRef = this.dialog.open(productdialog, { data: obj, width: '70%' });
@@ -56,9 +86,11 @@ export class InvoiceListComponent implements OnInit {
   showAmountList(obj: any) {
     const dialogRef = this.dialog.open(amountlistdialog, { data: obj, width: '70%' });
   }
+
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
   addInvoice() {
     this.router.navigate(['/master/addinvoice']);
   }
@@ -71,7 +103,6 @@ export class InvoiceListComponent implements OnInit {
           id.userId === localStorage.getItem("userId") &&
           id.accountYear === localStorage.getItem("accountYear")
         )
-        console.log('invoiceList===>>', this.invoiceList);
         
         this.dataSource = new MatTableDataSource(this.invoiceList);
         this.dataSource.paginator = this.paginator;
@@ -86,7 +117,6 @@ export class InvoiceListComponent implements OnInit {
     const firmData = this.getFirmHeader(invoiceData.firmId)
     invoiceData['firmName'] = firmData
     invoiceData['partyName'] = partyData
-    console.log(invoiceData);
     switch (invoiceData?.firmName?.isInvoiceTheme) {
       case 1:
         this.pdfgenService.generatePDF1Download(invoiceData)

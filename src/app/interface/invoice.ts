@@ -38,6 +38,7 @@ export interface FirmList {
     mobileNo: number,
     personalMobileNo: number,
     bankName: string,
+    accountholdersname: string; 
     bankIfsc: string,
     bankAccountNo: number,
     userId :any,

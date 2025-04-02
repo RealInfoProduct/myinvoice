@@ -25,6 +25,7 @@ export class FirmMasterComponent implements OnInit {
     'PersonalMobileNo',
     'BankName',
     'BankAccountNo',
+    'accountholdersname',
     'Address',
     'action',
   ];
@@ -66,7 +67,6 @@ export class FirmMasterComponent implements OnInit {
     obj.action = action;
     const dialogRef = this.dialog.open(firmMasterDialogComponent, {
       data: obj,
-      width: '40%'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -82,6 +82,7 @@ export class FirmMasterComponent implements OnInit {
           mobileNo: Number(result.data.mobileNo),
           personalMobileNo: Number(result.data.personalMobileNo),
           bankName: result.data.bankName,
+          accountholdersname: result.data.accountholdersname,
           bankIfsc: result.data.ifscCode,
           bankAccountNo: Number(result.data.bankAccountNo),
           userId : localStorage.getItem("userId"),
@@ -111,6 +112,7 @@ export class FirmMasterComponent implements OnInit {
               mobileNo: Number(result.data.mobileNo),
               personalMobileNo: Number(result.data.personalMobileNo),
               bankName: result.data.bankName,
+              accountholdersname: result.data.accountholdersname,
               bankIfsc: result.data.ifscCode,
               bankAccountNo: Number(result.data.bankAccountNo),
               userId : localStorage.getItem("userId"),
@@ -188,6 +190,7 @@ export class firmMasterDialogComponent implements OnInit {
       this.firmForm.controls['mobileNo'].setValue(this.local_data.mobileNo)
       this.firmForm.controls['personalMobileNo'].setValue(this.local_data.personalMobileNo)
       this.firmForm.controls['bankName'].setValue(this.local_data.bankName)
+      this.firmForm.controls['accountholdersname'].setValue(this.local_data.accountholdersname)
       this.firmForm.controls['ifscCode'].setValue(this.local_data.bankIfsc)
       this.firmForm.controls['bankAccountNo'].setValue(this.local_data.bankAccountNo)
       this.firmForm.controls['selectedInvoiceTheme'].setValue(this.invoiceThemeList.find((id:any) => id.value === this.local_data.isInvoiceTheme)?.value)
@@ -201,10 +204,11 @@ export class firmMasterDialogComponent implements OnInit {
       address: [''],
       GSTNo: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       // gstPercentage: [''],
-      panNo: ['', [Validators.pattern('^ [A - Z]{ 5}[0 - 9]{ 4}[A - Z]{ 1}$')]],
+      panNo: ['', [Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
       mobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       personalMobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       bankName: [''],
+      accountholdersname: [''],
       ifscCode: [''],
       bankAccountNo: [''],
       selectedInvoiceTheme: [''],
@@ -223,12 +227,11 @@ export class firmMasterDialogComponent implements OnInit {
       mobileNo: this.firmForm.value.mobileNo,
       personalMobileNo: this.firmForm.value.personalMobileNo,
       bankName: this.firmForm.value.bankName,
+      accountholdersname: this.firmForm.value.accountholdersname,
       ifscCode: this.firmForm.value.ifscCode,
       bankAccountNo: this.firmForm.value.bankAccountNo,
       isInvoiceTheme: this.firmForm.value.selectedInvoiceTheme,
     }
-    console.log(payload);
-    
     this.dialogRef.close({ event: this.action, data: payload });
 
   }

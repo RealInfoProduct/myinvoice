@@ -66,6 +66,7 @@ export interface InvoiceData {
   blobUrl :any
   dataSource = new MatTableDataSource(this.data);
   selectedIndex: number = 0;
+  paymentDays = new Date()
   readonly dialog = inject(MatDialog);
  
   constructor(
@@ -81,7 +82,7 @@ export interface InvoiceData {
     this.getPartyList()
     this.getProductList()
     this.getFirmList()
-      
+    this.dataSource.paginator = this.paginator;
     if (this.loaderService.getInvoiceData()) {
       const getInvoiceData  = this.loaderService.getInvoiceData()
         this.invoiceForm.setValue({
@@ -100,7 +101,6 @@ export interface InvoiceData {
       ['firm', 'party','discount','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
         this.invoiceForm.controls[control].reset();
       })
-        console.log("this.loaderService.getInvoiceData()====>",this.loaderService.getInvoiceData());
       } 
   }
 
@@ -116,8 +116,10 @@ export interface InvoiceData {
       defectiveitem: [0, [Validators.required,Validators.min(0)]],
       price: ['',[Validators.required,Validators.min(0)]],
       product: ['', Validators.required],
-      poNumber: ['', [Validators.required,Validators.min(0)]],
+      poNumber: ['', [Validators.required, Validators.min(0)]],
+      paymentDays: [30]
     })
+    this.paymentDaysChange(30)
     }
     
   addData(): void {
@@ -137,20 +139,18 @@ export interface InvoiceData {
       })
       this.editMode = false;
     }
-      console.log(this.invoiceForm.value);
       
   }
 
   openPdfViewDialog(pdfViewData?: any) {
     const dialogRef = this.dialog.open(PdfviewComponent , {
       width: '100%',
-      height : '80%',
+      height : '100%',
       data: pdfViewData
     });
     dialogRef.afterClosed().subscribe(result => {
      
     });
-    console.log("this.invoiceForm.value===>",this.invoiceForm.value);
     
   }
 
@@ -245,35 +245,46 @@ export interface InvoiceData {
     this.selectedIndex = (this.selectedIndex + 1) % 3; // Assuming there are 3 tabs
   }
   
-  generateInvoice(){
-    const invoiceData = this.transformInvoiceList(this.data)  
-    const finalSubAmount = this.calculateSubTotal(invoiceData)
-    debugger
-    const partyData = this.getPartyName(invoiceData.partyId)
-    const firmData = this.getFirmHeader(invoiceData.firmId)
-    const payload: any = {
-      id : '',
-      accountYear: invoiceData.accountYear,
-      cGST: invoiceData.cGST,
-      date: invoiceData.date,
-      discount: invoiceData.discount,
-      invoiceNumber: invoiceData.invoiceNumber,
-      sGST: invoiceData.sGST,
-      firmId: invoiceData.firmId,
-      partyId: invoiceData.partyId,
-      products: invoiceData.products  ,
-      userId : localStorage.getItem("userId"),
-      finalSubAmount : finalSubAmount,
-      isPayment : false,
-      receivePayment : []
-    }
-    // this.openPdfViewDialog(payload)  
-    console.log("Generated Invoice Payload:", payload);
-    payload['firmName'] = firmData
-    payload['partyName'] = partyData
+    generateInvoice() {
+      const invoiceData = this.transformInvoiceList(this.data);
+      const finalSubAmount = this.calculateSubTotal(invoiceData);
 
-    this.loaderService.setInvoiceData(payload)
+      const partyData = this.getPartyName(invoiceData.partyId);
+      const firmData = this.getFirmHeader(invoiceData.firmId);
+
+   
+      const paymentDays = 30;
+
+      
+      const invoiceDate = new Date(invoiceData.date);
+      const dueDate = new Date(invoiceDate);
+      dueDate.setDate(invoiceDate.getDate() + paymentDays);
+
+      const payload: any = {
+        id: '',
+        accountYear: invoiceData.accountYear,
+        cGST: invoiceData.cGST,
+        date: invoiceData.date,
+        discount: invoiceData.discount,
+        invoiceNumber: invoiceData.invoiceNumber,
+        sGST: invoiceData.sGST,
+        firmId: invoiceData.firmId,
+        partyId: invoiceData.partyId,
+        products: invoiceData.products,
+        userId: localStorage.getItem("userId"),
+        finalSubAmount: finalSubAmount,
+        isPayment: false,
+        receivePayment: [],
+        dueDate: dueDate.toISOString().split('T')[0] 
+      };
+
+      // this.openPdfViewDialog(payload)  
+      payload['firmName'] = firmData;
+      payload['partyName'] = partyData;
+
+      this.loaderService.setInvoiceData(payload);
     }
+
     
     getPartyName(partyId: string) {
       return this.partyList.find((obj: any) => obj.id === partyId) ?? ''
@@ -561,7 +572,17 @@ export interface InvoiceData {
       // open PDF
       window.open(doc.output('bloburl'))
     }
-  }
+    }
+    
+    paymentDaysChange(value: any) {
+      let date = this.invoiceForm.get('date')?.value;
+      if (date) {
+        const dateValue = new Date(date);
+        dateValue.setDate(dateValue.getDate() + (value ?? this.invoiceForm.get('paymentDays')?.value ?? 30));
+
+        this.paymentDays = dateValue;
+      }
+    }
 
 }
 

@@ -43,7 +43,7 @@ export class ProductMasterComponent {
   addParty(action: string, obj: any) {
     obj.action = action;
 
-    const dialogRef = this.dialog.open(productMasterDialogComponent, { data: obj, width: '40%' });
+    const dialogRef = this.dialog.open(productMasterDialogComponent, { data: obj });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {

@@ -166,13 +166,12 @@ export class PdfgenService {
     const columns = ["Sr", "Product", "Chalan No",  "Qty", "Plain", "Rate", "Amount"];
     const data: any = invoiceData.products;
     data.forEach((ele: any) => { ele.total = Number(ele.qty) * Number(ele.price) })
-
     const body: any = [];
     for (let i = 0; i < 10; i++) {
       const bodyRows = [
         i + 1, // Convert number to string
-        data[i]?.poNumber ? data[i]?.poNumber.toString() : '',
         data[i]?.productName?.productName ? data[i]?.productName?.productName : '',
+        data[i]?.poNumber ? data[i]?.poNumber.toString() : '',
         data[i]?.qty ? Number(data[i]?.qty).toFixed(2).toString() : '',
         data[i]?.defectiveItem ? Number(data[i]?.defectiveItem).toFixed(2).toString() : '',
         data[i]?.price ? Number(data[i]?.price).toFixed(2).toString() : '',
@@ -195,7 +194,7 @@ export class PdfgenService {
     const cGstAmountFormatted = cGstAmount.toFixed(2);
     const roundedAmount = Math.round(finalAmount);
     const formattedRoundedAmount = new Intl.NumberFormat('en-IN').format(roundedAmount);
-    const finalAmountInWords = this.toWords.convert(Number(formattedRoundedAmount));
+    const finalAmountInWords = this.toWords.convert(Number(roundedAmount));
     body.push(
       ['', '', '', '', '', { content: 'Gross Total', styles: { halign: 'left' } }, `Rs. ${formattedAmount}`],
       ['', '', '', '', '', { content: `Discount ${invoiceData.discount}%`, styles: { halign: 'left' } }, `Rs. ${discountAmountFormatted}`],
@@ -203,11 +202,6 @@ export class PdfgenService {
       [{ content: `${finalAmountInWords}`, rowSpan: 3, colSpan: 5, styles: { halign: 'center', fontStyle: 'bold' } }, `SGST ${invoiceData.sGST}%`, `Rs. ${sGstAmountFormatted}`],
       [{ content: 'Total Amount' }, `Rs. ${Amount}`, { styles: { FontFace: 'left' } }],
       [{ content: 'Final Amount' }, `Rs. ${formattedRoundedAmount}.00`, { styles: { FontFace: 'left' } }],
-      // [
-      //   {content: `Bank Name: ${invoiceData.firmName.bankName}`, styles: { fontStyle: 'bold' }, colSpan: 2 },
-      //   { content: `IFSC Code: ${invoiceData.firmName.bankIfsc}`, styles: { fontStyle: 'bold' }, colSpan: 3 },
-      //   { content: `Account Number: ${invoiceData.firmName.bankAccountNo}`, styles: { fontStyle: 'bold' }, colSpan: 3 }
-      // ],
     );
 
     const footer = (doc: any, pageNumber: any, totalPages: any) => {
@@ -239,7 +233,6 @@ export class PdfgenService {
         lineColor: [0, 0, 0]
       },
       didParseCell: (data) => {
-        debugger
         const { row, column } = data;
         const lastRowIndex = body.length;
 
@@ -265,6 +258,26 @@ export class PdfgenService {
       },
     });
 
+    doc.setFontSize(13);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Bank Name:', 14, 243);
+    doc.text(invoiceData.firmName.bankName, 65, 243);
+
+    doc.setFontSize(13);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Account holder`s name:', 14, 251);
+    doc.text(invoiceData.firmName.accountholdersname, 65, 251);
+
+    doc.setFontSize(13);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Account Number:', 14, 259);
+    doc.text(invoiceData.firmName.bankAccountNo.toString(), 65, 259);
+
+    doc.setFontSize(13);
+    doc.setTextColor(0, 0, 0);
+    doc.text('IFSC Code:', 14, 268);
+    doc.text(invoiceData.firmName.bankIfsc, 65, 268);
+    
     const signatureYPosition = doc.internal.pageSize.height - 35;
     const signatureXPosition = doc.internal.pageSize.width - 60;
     const signatureLineLength = 50;

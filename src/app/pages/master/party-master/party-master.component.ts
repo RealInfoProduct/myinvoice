@@ -44,8 +44,7 @@ export class PartyMasterComponent implements OnInit {
   
   addParty(action: string, obj: any) {
     obj.action = action;
-    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj ,width: '40%' });
-
+    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj });
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {
         const payload: PartyList = {
@@ -168,9 +167,9 @@ export class partyMasterDialogComponent implements OnInit {
     this.partyForm = this.fb.group({
       partyName: [''],
       partyAddress: [''],
-      partyGSTIN: [''],
+      partyGSTIN: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       partyChalanNoSeries: [''],
-      partyPanNo: [''],
+      partyPanNo: ['', [Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
       partyMobile: ['', [Validators.required,Validators.pattern(/^\d{10}$/)]],
       isFirm : []
     })

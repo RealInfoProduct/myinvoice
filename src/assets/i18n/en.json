@@ -35,7 +35,9 @@
     "Partynameisrequired":"Party name is required",
     "Partyaddressisrequired":"Party address is required",
     "Mobilenoisrequired":"Mobile no is required",
-    "Invalidmobilenoisrequired":"Invalid mobile no is required"
+    "Invalidmobilenoisrequired":"Invalid mobile no is required",
+    "InvalidGstisrequired": "Invalid Gst no is required",
+    "InvalidpanNoisrequired": "Invalid pan no is required"
   },
   "FirmMaster":{
     "SearchFirm":"Search Firm",
@@ -50,7 +52,8 @@
     "BankAccountNo":"Bank AccountNo",
     "Address":"Address",
     "Action":"Action",
-    "Norecordsfound":"No records found"
+    "Norecordsfound":"No records found",
+    "Accountholdersname": "Account holder`s name "
   },
   "FirmMasterdialog":{
     "Firm":"Firm",
@@ -66,7 +69,8 @@
     "IFSCcode":"IFSC code",
     "Bankaccountno":"Bank account no",
     "Cancel":"Cancel",
-    "Suretodelete ":"Sure to delete "
+    "Suretodelete ":"Sure to delete ",
+    "Accountholdersname":"Account holder`s name "
   },
   "FirmMasterdialogerror":{
     "Headerisrequired":"Header is required",

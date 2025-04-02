@@ -44,8 +44,7 @@ export class PartyMasterComponent implements OnInit {
   
   addParty(action: string, obj: any) {
     obj.action = action;
-    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj ,width: '40%' });
-
+    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj });
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {
         const payload: PartyList = {
@@ -85,10 +84,8 @@ export class PartyMasterComponent implements OnInit {
               userId : localStorage.getItem("userId")
             }
               this.firebaseService.updateParty(result.data.id , payload).then((res:any) => {
-                if (res) {
                   this.getPartyList()
                   this.openConfigSnackBar('record update successfully')
-                }
               }, (error) => {
                 console.log("error => " , error);
                 
@@ -98,10 +95,8 @@ export class PartyMasterComponent implements OnInit {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteParty(result.data.id).then((res:any) => {
-          if (res) {
             this.getPartyList()
             this.openConfigSnackBar('record delete successfully')
-          }
         }, (error) => {
           console.log("error => " , error);
           
@@ -172,9 +167,9 @@ export class partyMasterDialogComponent implements OnInit {
     this.partyForm = this.fb.group({
       partyName: [''],
       partyAddress: [''],
-      partyGSTIN: [''],
+      partyGSTIN: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       partyChalanNoSeries: [''],
-      partyPanNo: [''],
+      partyPanNo: ['', [Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
       partyMobile: ['', [Validators.required,Validators.pattern(/^\d{10}$/)]],
       isFirm : []
     })

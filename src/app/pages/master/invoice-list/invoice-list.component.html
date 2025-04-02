@@ -10,6 +10,17 @@
           </mat-icon>
         </mat-form-field>
       </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100  hide-hint">
+          <mat-label>Select Invoice Date</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [formGroup]="dateInvoiceListForm">
+            <input matStartDate placeholder="Start date" formControlName="start">
+            <input matEndDate placeholder="End date" formControlName="end">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker (closed)="filterDate()"></mat-date-range-picker>
+        </mat-form-field>
+      </div>
       <div class="col-lg-4 d-flex align-items-center justify-content-end">
         <button mat-flat-button color="primary" (click)="addInvoice()">
           {{'invoicelist.AddInvoice' | translate}}
@@ -22,7 +33,7 @@
 
 <mat-card class="cardWithShadow">
   <mat-card-content class="p-24">
-    <div class="table-responsive" *ngIf="invoiceList && invoiceList.length > 0; else noRecordsTemplate">
+    <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container matColumnDef="srno">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.SRNo' | translate}}</th>
@@ -35,9 +46,9 @@
             <div class="d-flex align-items-center">
               <div class="m-l-16">
                 <p class="mat-subtitle-1 f-s-16 m-t-0">
-                  {{ element.partyName.partyName }}
-                  <br>
-                  {{ element.firmName.header }}
+                  {{getPartyName(element.partyId).partyName}}
+                  <!-- <br> -->
+                  <!-- {{getFirmHeader(element.firmId).header}} -->
                 </p>
               </div>
             </div>
@@ -140,15 +151,13 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" style="text-align: center;" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+            No record found
+          </td>
+        </tr>
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
-    <ng-template #noRecordsTemplate>
-      <div class="no-records text-center">
-        <span>
-          {{'invoicelist.Norecordsfound' | translate}}
-        </span>
-      </div>
-    </ng-template>
   </mat-card-content>
 </mat-card>

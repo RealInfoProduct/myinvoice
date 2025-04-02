@@ -38,6 +38,7 @@ export interface FirmList {
     mobileNo: number,
     personalMobileNo: number,
     bankName: string,
+    accountholdersname: string; 
     bankIfsc: string,
     bankAccountNo: number,
     userId :any,
@@ -59,8 +60,8 @@ export interface InvoiceList {
     discount: number;
     invoiceNumber: number;
     sGST: number;
-    firmName: any;
-    partyName: any;
+    firmId: any;
+    partyId: any;
     products: any;
     userId :any;
     finalSubAmount:any,

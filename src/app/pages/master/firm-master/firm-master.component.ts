@@ -25,6 +25,7 @@ export class FirmMasterComponent implements OnInit {
     'PersonalMobileNo',
     'BankName',
     'BankAccountNo',
+    'accountholdersname',
     'Address',
     'action',
   ];
@@ -66,7 +67,6 @@ export class FirmMasterComponent implements OnInit {
     obj.action = action;
     const dialogRef = this.dialog.open(firmMasterDialogComponent, {
       data: obj,
-      width: '40%'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -82,6 +82,7 @@ export class FirmMasterComponent implements OnInit {
           mobileNo: Number(result.data.mobileNo),
           personalMobileNo: Number(result.data.personalMobileNo),
           bankName: result.data.bankName,
+          accountholdersname: result.data.accountholdersname,
           bankIfsc: result.data.ifscCode,
           bankAccountNo: Number(result.data.bankAccountNo),
           userId : localStorage.getItem("userId"),
@@ -111,17 +112,15 @@ export class FirmMasterComponent implements OnInit {
               mobileNo: Number(result.data.mobileNo),
               personalMobileNo: Number(result.data.personalMobileNo),
               bankName: result.data.bankName,
+              accountholdersname: result.data.accountholdersname,
               bankIfsc: result.data.ifscCode,
               bankAccountNo: Number(result.data.bankAccountNo),
               userId : localStorage.getItem("userId"),
               isInvoiceTheme: result.data.isInvoiceTheme,
             }
             this.firebaseService.updateFirm(result.data.id, payload).then((res: any) => {
-              if (res) {
                 this.getFirmList()
             this.openConfigSnackBar('record update successfully')
-
-              }
             }, (error) => {
               console.log("error => ", error);
 
@@ -131,11 +130,8 @@ export class FirmMasterComponent implements OnInit {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteFirm(result.data.id).then((res: any) => {
-          if (res) {
             this.getFirmList()
             this.openConfigSnackBar('record delete successfully')
-
-          }
         }, (error) => {
           console.log("error => ", error);
 
@@ -165,11 +161,11 @@ export class firmMasterDialogComponent implements OnInit {
   action: string;
   local_data: any;
   invoiceThemeList: any = [
-    { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice1.png', value: 1 },
-    { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
-    { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
-    { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
-    { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
+    { name: 'Invoice 1', imageUrl: '../../../../assets/invoice/Invoice6.png', value: 1 },
+    // { name: 'Invoice 2', imageUrl: '../../../../assets/invoice/Invoice2.png', value: 2 },
+    // { name: 'Invoice 3', imageUrl: '../../../../assets/invoice/Invoice3.png', value: 3 },
+    // { name: 'Invoice 4', imageUrl: '../../../../assets/invoice/Invoice4.png', value: 4 },
+    // { name: 'Invoice 5', imageUrl: '../../../../assets/invoice/Invoice5.png', value: 5 },
   ] 
 
 
@@ -194,6 +190,7 @@ export class firmMasterDialogComponent implements OnInit {
       this.firmForm.controls['mobileNo'].setValue(this.local_data.mobileNo)
       this.firmForm.controls['personalMobileNo'].setValue(this.local_data.personalMobileNo)
       this.firmForm.controls['bankName'].setValue(this.local_data.bankName)
+      this.firmForm.controls['accountholdersname'].setValue(this.local_data.accountholdersname)
       this.firmForm.controls['ifscCode'].setValue(this.local_data.bankIfsc)
       this.firmForm.controls['bankAccountNo'].setValue(this.local_data.bankAccountNo)
       this.firmForm.controls['selectedInvoiceTheme'].setValue(this.invoiceThemeList.find((id:any) => id.value === this.local_data.isInvoiceTheme)?.value)
@@ -205,12 +202,13 @@ export class firmMasterDialogComponent implements OnInit {
       header: ['', Validators.required],
       subHeader: [''],
       address: [''],
-      GSTNo: [''],
+      GSTNo: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       // gstPercentage: [''],
-      panNo: [''],
+      panNo: ['', [Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
       mobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       personalMobileNo: ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
       bankName: [''],
+      accountholdersname: [''],
       ifscCode: [''],
       bankAccountNo: [''],
       selectedInvoiceTheme: [''],
@@ -229,12 +227,11 @@ export class firmMasterDialogComponent implements OnInit {
       mobileNo: this.firmForm.value.mobileNo,
       personalMobileNo: this.firmForm.value.personalMobileNo,
       bankName: this.firmForm.value.bankName,
+      accountholdersname: this.firmForm.value.accountholdersname,
       ifscCode: this.firmForm.value.ifscCode,
       bankAccountNo: this.firmForm.value.bankAccountNo,
       isInvoiceTheme: this.firmForm.value.selectedInvoiceTheme,
     }
-    console.log(payload);
-    
     this.dialogRef.close({ event: this.action, data: payload });
 
   }

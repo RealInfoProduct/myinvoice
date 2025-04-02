@@ -43,7 +43,7 @@ export class ProductMasterComponent {
   addParty(action: string, obj: any) {
     obj.action = action;
 
-    const dialogRef = this.dialog.open(productMasterDialogComponent, { data: obj, width: '40%' });
+    const dialogRef = this.dialog.open(productMasterDialogComponent, { data: obj });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {
@@ -72,11 +72,8 @@ export class ProductMasterComponent {
               userId : localStorage.getItem("userId")
             }
               this.firebaseService.updateProduct(result.data.id , payload).then((res:any) => {
-                if (res) {
                   this.getProductList()
                   this.openConfigSnackBar('record update successfully')
-
-                }
               }, (error) => {
                 console.log("error => " , error);
                 
@@ -86,10 +83,8 @@ export class ProductMasterComponent {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteProduct(result.data.id).then((res:any) => {
-          if (res) {
             this.getProductList()
             this.openConfigSnackBar('record delete successfully')
-          }
         }, (error) => {
           console.log("error => " , error);
           

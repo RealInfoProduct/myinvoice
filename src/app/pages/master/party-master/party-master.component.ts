@@ -44,7 +44,7 @@ export class PartyMasterComponent implements OnInit {
   
   addParty(action: string, obj: any) {
     obj.action = action;
-    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj });
+    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj, width:'30%' });
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {
         const payload: PartyList = {

@@ -1,7 +1,7 @@
 <div class="invoiceTab">
     <div class="GenerateInvoice">
-        <div class="invoiceNumber">
-            <h3>{{'addinvoice.Invocie' | translate}}: {{maxInvoiceNumber}}</h3>
+        <div class="invoiceNumber" *ngIf="invoiceForm.get('party')?.value">
+            <h3>{{'addinvoice.Invoice' | translate}} :- {{maxInvoiceNumber}}</h3>
         </div>
         <button *ngIf="data.length > 0" mat-flat-button color="primary" (click)="generateInvoice()"
             routerLink="/master/invoiceview"><i-tabler name="eye" class="icon-18 d-flex"></i-tabler></button>

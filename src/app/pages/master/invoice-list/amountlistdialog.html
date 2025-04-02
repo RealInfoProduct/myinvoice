@@ -1,73 +1,90 @@
-<h2 mat-dialog-title>Invoice Amount List</h2>
-<mat-dialog-content>
-    <form [formGroup]="amountForm">
-    <div class="row">
-      <div class="col-12 m-t-20" *ngIf="amountdata.isPayment">
-        <h3 style="color: green;">this invoice payment ready and done</h3>
+<h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20">Invoice Amount List </h2>
+<mat-dialog-content class="mat-typography" style="max-width: 750px">
+  <form [formGroup]="amountForm">
+    <div class="row align-items-baseline">
+
+      <div class="col-12 col-sm-12 col-md-4">
+        <div>
+          <mat-label class="f-s-13 f-w-600">
+            Final Total : <span class="f-s-13 f-w-600">{{amountdata.finalSubAmount | number:'1.0-2'}}</span>
+          </mat-label>
+        </div>
       </div>
-      <div class="col-4 m-t-20" *ngIf="!amountdata.isPayment">
-        <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Select Date<span class="required">
-            *</span></mat-label>
-        <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input matInput [matDatepicker]="picker" formControlName="paymentDate" required />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    
-      </div>
-      <div class="col-4 m-t-20" *ngIf="!amountdata.isPayment">
-        <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Amount<span class="required">
-            *</span></mat-label>
-        <mat-form-field appearance="outline" class="w-100 m-t-8">
-          <input type="number" matInput required placeholder="Enter amount" formControlName="paymentAmount" min="0" />
-        </mat-form-field>
-      </div>
-      <div class="col-4 m-t-20" *ngIf="!amountdata.isPayment">
-        <button style="margin-top: 30px;" mat-flat-button color="primary" (click)="addPayment()">Add Payment</button>
-        <span></span>
-      </div>
-      <div class="col-8">
-        <mat-card class="cardWithShadow">
-          <mat-card-content>
-            <div style="max-height: 300px; overflow: scroll;">
-              <table mat-table [dataSource]="dataSource" class="mat-table">
-    
-                <!-- Defective Item Column -->
-                <ng-container matColumnDef="Payment Date">
-                  <th mat-header-cell *matHeaderCellDef> Payment Date </th>
-                  <td mat-cell *matCellDef="let element"> {{element.paymentDate}} </td>
-                </ng-container>
-    
-                <!-- Final Amount Column -->
-                <ng-container matColumnDef="Payment Amount">
-                  <th mat-header-cell *matHeaderCellDef> Payment Amount </th>
-                  <td mat-cell *matCellDef="let element"> {{element.paymentAmount | number:'1.0-2'}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-4">
-        <mat-card class="cardWithShadow">
-          <mat-card-content>
-            <div class="row">
-              <div class="col-6">
-                <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Final Amount</mat-label>
-                <h3>{{amountdata.finalSubAmount | number:'1.0-2'}}</h3>
-              </div>
-              <div class="col-6">
-                <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">Pending Amount</mat-label>
-                <h3>{{amountdata.pendingAmount | number:'1.0-2'}}</h3>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+
+      <div class="col-12 col-sm-12 col-md-5">
+        <div *ngIf="!amountdata.isPayment">
+          <mat-label class="f-s-13 f-w-600">
+            Pending Payment : {{amountdata.pendingAmount | number:'1.0-2'}}
+          </mat-label>
+        </div>
+        <div class="d-flex" style="color:green;"  *ngIf="amountdata.isPayment">
+          <div>
+            <span class="f-w-600 f-s-15">Payment Recived</span>
+          </div>
+          <div class="m-l-8">
+            <i-tabler name="checkbox" class="icon-18"></i-tabler>
+          </div>
+        </div>
       </div>
     </div>
-</form>
+
+    <div class="row align-items-baseline m-t-15">
+
+      <div class="col-12 col-sm-12 col-md-5" *ngIf="!amountdata.isPayment">
+        <mat-form-field appearance="outline" class="w-100 m-t-10 hide-hint">
+          <mat-label>Payment Receive</mat-label>
+          <input type="number" formControlName="paymentAmount" matInput placeholder="Payment receive" min="0">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-3" *ngIf="!amountdata.isPayment">
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+          <mat-label>Payment Date</mat-label>
+          <input matInput formControlName="paymentDate" [matDatepicker]="Date" placeholder="Enter payment date">
+          <mat-datepicker-toggle matSuffix [for]="Date"></mat-datepicker-toggle>
+          <mat-datepicker #Date></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-4" *ngIf="!amountdata.isPayment">
+        <button mat-flat-button 
+         color="primary" (click)="addPayment()">
+          Add Payment
+        </button>
+      </div>
+    </div>
+  </form>
+  <mat-card class="cardWithShadow m-t-20">
+    <mat-card-content class="p-24">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="w-100">
+
+          <ng-container matColumnDef="srNo">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Sr No.</th>
+            <td mat-cell *matCellDef="let element; let i = index" class="f-s-14">{{ i + 1 }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="productPrice">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Receive Amount</th>
+            <td mat-cell *matCellDef="let element" class="f-s-14">{{element.paymentAmount | number:'1.0-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalAmount">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Payment Date</th>
+            <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.paymentDate }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" style="text-align: center;" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              No record found
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

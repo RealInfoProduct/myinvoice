@@ -84,7 +84,7 @@ export class FirmMasterComponent implements OnInit {
           bankName: result.data.bankName,
           accountholdersname: result.data.accountholdersname,
           bankIfsc: result.data.ifscCode,
-          bankAccountNo: Number(result.data.bankAccountNo),
+          bankAccountNo: result.data.bankAccountNo,
           userId : localStorage.getItem("userId"),
           isInvoiceTheme: result.data.isInvoiceTheme,
         }
@@ -114,7 +114,7 @@ export class FirmMasterComponent implements OnInit {
               bankName: result.data.bankName,
               accountholdersname: result.data.accountholdersname,
               bankIfsc: result.data.ifscCode,
-              bankAccountNo: Number(result.data.bankAccountNo),
+              bankAccountNo: result.data.bankAccountNo,
               userId : localStorage.getItem("userId"),
               isInvoiceTheme: result.data.isInvoiceTheme,
             }

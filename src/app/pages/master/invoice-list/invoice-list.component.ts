@@ -78,13 +78,17 @@ export class InvoiceListComponent implements OnInit {
     }
   }
 
+  calculateTotalReceivedPayment(receivePayment: any[]): number {
+    if (!receivePayment) return 0;
+    return receivePayment.reduce((total, payment) => total + payment.paymentAmount, 0);
+  }
 
   addProduct(obj: any) {
-    const dialogRef = this.dialog.open(productdialog, { data: obj, width: '70%' });
+    const dialogRef = this.dialog.open(productdialog, { data: obj });
   }
 
   showAmountList(obj: any) {
-    const dialogRef = this.dialog.open(amountlistdialog, { data: obj, width: '70%' });
+    const dialogRef = this.dialog.open(amountlistdialog, { data: obj });
   }
 
   applyFilter(filterValue: string): void {
@@ -202,7 +206,7 @@ export class productdialog implements OnInit {
 })
 
 export class amountlistdialog  implements OnInit {
-  displayedColumns: string[] = ['Payment Date' , 'Payment Amount'];
+  displayedColumns: string[] = ['srNo', 'productPrice','totalAmount'];
   dataSource :any = [] 
   amountForm: FormGroup
   constructor(
@@ -218,6 +222,7 @@ export class amountlistdialog  implements OnInit {
   }
   ngOnInit(): void {
     this.buildForm()
+    
   }
 
   buildForm() {
@@ -281,7 +286,9 @@ export class amountlistdialog  implements OnInit {
          this.dataSource = this.amountdata.receivePayment
          this.amountdata['pendingAmount'] = (this.amountdata.finalSubAmount) - (this.amountdata.receivePayment.reduce((total:any, payment :any) => total + payment.paymentAmount, 0))
          this.loaderService.setLoader(false)
-      }
+        console.log("{[res]}", res);
+         console.log("{[this.amountdata]}", this.amountdata);
+        }
     })
   }
 }

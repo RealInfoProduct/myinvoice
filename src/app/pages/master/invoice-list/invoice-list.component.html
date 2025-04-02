@@ -120,12 +120,26 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="finalSubAmount">
+        <!-- <ng-container matColumnDef="finalSubAmount">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.FinalAmount' | translate}}</th>
           <td mat-cell *matCellDef="let element">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
                 <p class="mat-subtitle-1 f-s-16 m-t-0">
+                  {{ element.finalSubAmount | number:'1.0-2' }}
+                </p>
+              </div>
+            </div>
+          </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="finalSubAmount">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">{{'invoicelist.FinalAmount' | translate}}</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="d-flex align-items-center">
+              <div class="m-l-16">
+                <p class="mat-subtitle-1 f-s-16 m-t-0"
+                  [class.receivePayment]="element.finalSubAmount === calculateTotalReceivedPayment(element.receivePayment)">
                   {{ element.finalSubAmount | number:'1.0-2' }}
                 </p>
               </div>

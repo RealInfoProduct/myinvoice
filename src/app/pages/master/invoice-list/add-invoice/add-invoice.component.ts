@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,7 @@ import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfviewComponent } from './pdfview/pdfview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Value } from 'sass';
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -67,23 +68,40 @@ export interface InvoiceData {
   selectedIndex: number = 0;
   readonly dialog = inject(MatDialog);
  
-
-
-
   constructor(
     private fb: FormBuilder,
     private firebaseService: FirebaseService,
     private loaderService: LoaderService,
     private sanitizer: DomSanitizer,
     private _snackBar: MatSnackBar,
-  ) { }
+    ) { }
+    
   ngOnInit(): void {
     this.buildForm()
-    this.getProductList()
     this.getPartyList()
+    this.getProductList()
     this.getFirmList()
-
-
+      
+    if (this.loaderService.getInvoiceData()) {
+      const getInvoiceData  = this.loaderService.getInvoiceData()
+        this.invoiceForm.setValue({
+          firm: '',
+          party: '',
+          discount: getInvoiceData.discount || 0,
+          sGST: getInvoiceData.sGST || 2.5,
+          cGST: getInvoiceData.cGST || 2.5,
+          date: new Date(getInvoiceData.date) || new Date(),
+          totalitem: getInvoiceData.products[0].qty || 0,
+          defectiveitem: getInvoiceData.products[0].defectiveItem || 0,
+          price: getInvoiceData.products[0].price || 0,
+          product: getInvoiceData.products[0].productName || '',
+          poNumber: getInvoiceData.products[0].poNumber || 0,
+        });
+      ['firm', 'party','discount','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
+        this.invoiceForm.controls[control].reset();
+      })
+        console.log("this.loaderService.getInvoiceData()====>",this.loaderService.getInvoiceData());
+      } 
   }
 
   buildForm() {
@@ -100,7 +118,8 @@ export interface InvoiceData {
       product: ['', Validators.required],
       poNumber: ['', [Validators.required,Validators.min(0)]],
     })
-  }
+    }
+    
   addData(): void {
    
     if (this.invoiceForm.valid) {
@@ -113,14 +132,13 @@ export interface InvoiceData {
       addtoData.date = moment(this.invoiceForm.value.date).format('L');
       this.data.push(addtoData);
       this.dataSource.data = [...this.data];
-      this.invoiceForm.controls['product'].reset()
-      this.invoiceForm.controls['defectiveitem'].reset()
-      this.invoiceForm.controls['poNumber'].reset()
-      this.invoiceForm.controls['price'].reset()
-      this.invoiceForm.controls['totalitem'].reset()
+      ['product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
+        this.invoiceForm.controls[control].reset();
+      })
       this.editMode = false;
     }
-
+      console.log(this.invoiceForm.value);
+      
   }
 
   openPdfViewDialog(pdfViewData?: any) {
@@ -129,11 +147,10 @@ export interface InvoiceData {
       height : '80%',
       data: pdfViewData
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      
+     
     });
-    console.log(this.invoiceForm.value);
+    console.log("this.invoiceForm.value===>",this.invoiceForm.value);
     
   }
 
@@ -155,7 +172,8 @@ export interface InvoiceData {
     });
     this.data = this.data.filter(item => item.id !== element.id);
     this.dataSource.data = [...this.data];
-  }
+    }
+    
   updateData() {
     if (this.invoiceForm.valid) {
       const updatedData = { id: this.currentEditId, ...this.invoiceForm.value };
@@ -171,11 +189,13 @@ export interface InvoiceData {
       this.invoiceForm.controls['totalitem'].reset()
       this.editMode = false;
     }
-  }
+    }
+    
   deletedata(id: number) {
     this.data = this.data.filter(item => item.id !== id);
     this.dataSource.data = [...this.data];
-  }
+    }
+    
   getPartyList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllParty().subscribe((res: any) => {
@@ -184,7 +204,8 @@ export interface InvoiceData {
         this.loaderService.setLoader(false)
       }
     })
-  }
+    }
+    
   getProductList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllProduct().subscribe((res: any) => {
@@ -193,7 +214,8 @@ export interface InvoiceData {
         this.loaderService.setLoader(false)
       }
     })
-  }
+    }
+    
   getFirmList() {
     this.loaderService.setLoader(true)
     this.firebaseService.getAllFirm().subscribe((res: any) => {
@@ -202,10 +224,12 @@ export interface InvoiceData {
         this.loaderService.setLoader(false)
       }
     })
-  }
+    }
+    
   calculateProductTotal(productData: any): number {
     return (productData.totalitem - productData.defectiveitem) * (productData.price)
-  }
+    }
+    
   calculateSubTotal(productData: any): number {
     const netItems = productData.products.reduce((acc: number, product: any) => acc + product.qty - product.defectiveItem, 0);
     const baseAmount = productData.products.reduce((acc: number, product: any) => acc + (product.qty - product.defectiveItem) * product.price, 0);
@@ -217,16 +241,17 @@ export interface InvoiceData {
     return Math.round(finalSubAmount);
 }
 
-
-
-
   goToNextTab(): void {
     this.selectedIndex = (this.selectedIndex + 1) % 3; // Assuming there are 3 tabs
   }
+  
   generateInvoice(){
     const invoiceData = this.transformInvoiceList(this.data)  
     const finalSubAmount = this.calculateSubTotal(invoiceData)
-    const payload: InvoiceList = {
+    debugger
+    const partyData = this.getPartyName(invoiceData.partyId)
+    const firmData = this.getFirmHeader(invoiceData.firmId)
+    const payload: any = {
       id : '',
       accountYear: invoiceData.accountYear,
       cGST: invoiceData.cGST,
@@ -234,25 +259,40 @@ export interface InvoiceData {
       discount: invoiceData.discount,
       invoiceNumber: invoiceData.invoiceNumber,
       sGST: invoiceData.sGST,
-      firmName: invoiceData.firmName,
-      partyName: invoiceData.partyName,
+      firmId: invoiceData.firmId,
+      partyId: invoiceData.partyId,
       products: invoiceData.products  ,
       userId : localStorage.getItem("userId"),
       finalSubAmount : finalSubAmount,
       isPayment : false,
       receivePayment : []
     }
-    // this.openPdfViewDialog(payload)    
+    // this.openPdfViewDialog(payload)  
+    console.log("Generated Invoice Payload:", payload);
+    payload['firmName'] = firmData
+    payload['partyName'] = partyData
+
     this.loaderService.setInvoiceData(payload)
-  }
+    }
+    
+    getPartyName(partyId: string) {
+      return this.partyList.find((obj: any) => obj.id === partyId) ?? ''
+    }
+
+    getFirmHeader(firmId: string) {
+      return this.firmList.find((obj: any) => obj.id === firmId) ?? ''
+    }
+
 
   transformInvoiceList(invoiceList: any[]): any {
     if (!invoiceList.length) return {};
 
     // Initialize the single object with common fields from the first invoice
     const transformedObject :any = {
-      firmName: invoiceList[0].firm,
-      partyName: invoiceList[0].party,
+      // firmName: invoiceList[0].firm,
+      firmId: invoiceList[0].firm.id,
+      partyId: invoiceList[0].party.id,
+      // partyName: invoiceList[0].party,
       date: invoiceList[0].date,
       discount: invoiceList[0].discount,
       sGST: invoiceList[0].sGST,
@@ -295,7 +335,7 @@ export interface InvoiceData {
         this.invoiceList = res.filter((id:any) => 
           id.userId === localStorage.getItem("userId") && 
           id.accountYear === localStorage.getItem("accountYear") &&
-          id.firmName.id === firmId
+          id.firmId === firmId
          )     
         this.maxInvoiceNumber = this.invoiceList.length > 0 
         ? Math.max(...this.invoiceList.map((invoice: any) => invoice.invoiceNumber)) + 1 
@@ -303,10 +343,12 @@ export interface InvoiceData {
         this.loaderService.setLoader(false)
       }
     })
-  }
+    }
+    
   seletedFirm(event :any){
     this.getInvoiceList(event.value.id)    
-  }
+    }
+    
   seletedParty(event: any) {
     if (event.value.isFirm) {
       this.invoiceForm.controls['firm'].setValue(this.firmList.find((id: any) => id.id === event.value.isFirm))
@@ -317,7 +359,6 @@ export interface InvoiceData {
     }
   }
   
-
   submitInvoice(){
     const invoiceData = this.transformInvoiceList(this.data)  
     const finalSubAmount = this.calculateSubTotal(invoiceData)
@@ -329,8 +370,8 @@ export interface InvoiceData {
       discount: invoiceData.discount,
       invoiceNumber: invoiceData.invoiceNumber,
       sGST: invoiceData.sGST,
-      firmName: invoiceData.firmName,
-      partyName: invoiceData.partyName,
+      firmId: invoiceData.firmId,
+      partyId: invoiceData.partyId,
       products: invoiceData.products  ,
       userId : localStorage.getItem("userId"),
       finalSubAmount : finalSubAmount,
@@ -382,21 +423,21 @@ export interface InvoiceData {
 
       doc.setFontSize(25);
       doc.setTextColor(255, 255, 255);
-      doc.text(invoiceData.firmName.header, 15, 17);
+      doc.text(invoiceData?.firmName?.header, 15, 17);
       doc.setFontSize(10);
       doc.setTextColor(5, 5, 5);
-      const addresseLines = doc.splitTextToSize(invoiceData.firmName.address, 60);
+      const addresseLines = doc.splitTextToSize(invoiceData?.firmName?.address, 60);
       let startYFirm = 60;
       addresseLines.forEach((line: string) => {
         doc.text(line, 15, startYFirm);
         startYFirm += 5;
       });
       doc.text('Mob No:', 15, 70);
-      doc.text(String(invoiceData.firmName.mobileNo), 30, 70);
+      doc.text(String(invoiceData?.firmName?.mobileNo), 30, 70);
       doc.setFontSize(13);
       doc.setTextColor(0, 0, 0);
       doc.text('GST:', 14, 90);
-      doc.text(invoiceData.firmName.gstNo, 28, 90);
+      doc.text(invoiceData?.firmName?.gstNo, 28, 90);
 
 
       //  //  Customer Details
@@ -493,10 +534,10 @@ export interface InvoiceData {
       doc.text(String(productsQty), 90, 207);
       doc.text(String(productsdefectiveItem), 103, 207);
     // doc.text('Total : ', 165, 240);
-    doc.text(String("Rs"+' ' + productsSubTotal), 160, 207);
+    doc.text(String("Rs"+' ' + productsSubTotal.toFixed(2)), 160, 207);
     doc.text('Disc % :', 124, 215);
     doc.text(String(invoiceData.discount), 145, 215);
-    doc.text(String("Rs"+' ' + discountAmount) , 160, 215);
+    doc.text(String("Rs"+' ' + discountAmount.toFixed(2)) , 160, 215);
     doc.text('S.GST % :', 120, 224);
     doc.text(String(invoiceData.sGST), 145, 224);
     doc.text(String("Rs"+' ' + sGstAmount.toFixed(2)) , 160, 224);
@@ -515,7 +556,7 @@ export interface InvoiceData {
       doc.setFontSize(12);
       doc.setTextColor(33, 52, 66);
       doc.text('PAN NO :', 16, 215);
-      doc.text(invoiceData.firmName.panNo, 35, 215);
+      doc.text(invoiceData?.firmName?.panNo, 35, 215);
 
       // open PDF
       window.open(doc.output('bloburl'))

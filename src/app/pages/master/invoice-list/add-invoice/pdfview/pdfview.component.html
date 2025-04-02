@@ -1,6 +1,6 @@
 <!-- <mat-dialog-content> -->
   <div class="submitButton">
-    <button mat-flat-button color="primary" style="margin-left: 10px;" routerLink="/master/addinvoice">{{'pdfview.Back' | translate}}</button>
+    <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="back()">{{'pdfview.Back' | translate}}</button>
     <button mat-flat-button color="primary" style="margin-left: 10px;" (click)="submitInvoice()"><i-tabler name="printer" class="icon-18  d-flex"></i-tabler></button>
   </div>
   <div *ngIf="blobUrl">

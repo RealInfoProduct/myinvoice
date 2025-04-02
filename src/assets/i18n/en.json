@@ -74,6 +74,8 @@
     "Addressisrequired":"Address is required",
     "Mobilenoisrequired":" Mobile no is required",
     "Invalidmobilenoisrequired":"Invalid mobile no is required",
+    "InvalidGstisrequired":"Invalid Gst no is required",
+    "InvalidpanNoisrequired":"Invalid pan no is required",
     "PersonalMobilenoisrequired":"PersonalMobile no is required",
     "InvalidPersonalMobilenoisrequired":"Invalid PersonalMobile no is required"
   },

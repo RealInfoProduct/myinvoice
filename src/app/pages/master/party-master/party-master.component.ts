@@ -85,10 +85,8 @@ export class PartyMasterComponent implements OnInit {
               userId : localStorage.getItem("userId")
             }
               this.firebaseService.updateParty(result.data.id , payload).then((res:any) => {
-                if (res) {
                   this.getPartyList()
                   this.openConfigSnackBar('record update successfully')
-                }
               }, (error) => {
                 console.log("error => " , error);
                 
@@ -98,10 +96,8 @@ export class PartyMasterComponent implements OnInit {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteParty(result.data.id).then((res:any) => {
-          if (res) {
             this.getPartyList()
             this.openConfigSnackBar('record delete successfully')
-          }
         }, (error) => {
           console.log("error => " , error);
           

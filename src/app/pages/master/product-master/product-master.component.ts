@@ -72,11 +72,8 @@ export class ProductMasterComponent {
               userId : localStorage.getItem("userId")
             }
               this.firebaseService.updateProduct(result.data.id , payload).then((res:any) => {
-                if (res) {
                   this.getProductList()
                   this.openConfigSnackBar('record update successfully')
-
-                }
               }, (error) => {
                 console.log("error => " , error);
                 
@@ -86,10 +83,8 @@ export class ProductMasterComponent {
       }
       if (result?.event === 'Delete') {
         this.firebaseService.deleteProduct(result.data.id).then((res:any) => {
-          if (res) {
             this.getProductList()
             this.openConfigSnackBar('record delete successfully')
-          }
         }, (error) => {
           console.log("error => " , error);
           

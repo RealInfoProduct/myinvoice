@@ -32,6 +32,10 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="text" matInput formControlName="GSTNo" placeholder="{{'FirmMasterdialog.GSTNo' | translate}}" />
+          <mat-hint *ngIf="firmForm.get('GSTNo')?.hasError('pattern') && firmForm.get('GSTNo')?.touched"
+            class="error-message error-color">
+            {{'FirmMasterdialogerror.InvalidGstisrequired' | translate}}
+          </mat-hint>
         </mat-form-field>
       </div>
       <!-- <div class="col-6">
@@ -42,6 +46,10 @@
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-8">
           <input type="text" matInput formControlName="panNo" placeholder="{{'FirmMasterdialog.Panno' | translate}}" />
+          <mat-hint *ngIf="firmForm.get('panNo')?.hasError('pattern') && firmForm.get('panNo')?.touched"
+            class="error-message error-color">
+            {{'FirmMasterdialogerror.InvalidpanNoisrequired' | translate}}
+          </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">

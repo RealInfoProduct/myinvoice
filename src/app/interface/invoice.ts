@@ -67,5 +67,5 @@ export interface InvoiceList {
     finalSubAmount:any,
     isPayment : boolean,
     receivePayment : any
-
+    paymentDays:number
 }

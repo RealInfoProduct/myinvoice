@@ -40,8 +40,6 @@
       }
 
       button[mat-flat-button] {
-          height: 50px;
-          padding: 0 24px;
           font-weight: 500;
 
           .mat-icon {
@@ -79,6 +77,7 @@
           }
 
           button[mat-flat-button] {
+            width: 100%;
               justify-content: center;
           }
       }

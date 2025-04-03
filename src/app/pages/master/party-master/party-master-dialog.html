@@ -1,5 +1,5 @@
 <h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20">{{'actions.' + action | translate}} {{'PartyMasterdialog.Party' | translate}}</h2>
-<mat-dialog-content class="mat-typography" *ngIf="action !== 'Delete'; else elseTemplate" >
+<mat-dialog-content class="mat-typography" style="max-width: 600px" *ngIf="action !== 'Delete'; else elseTemplate" >
   <form [formGroup]="partyForm">
     <div class="row">
       <div class="col-6">

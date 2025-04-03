@@ -1,9 +1,8 @@
-import { Component, Inject, OnInit, Optional, ViewChild, inject } from '@angular/core';
+import { Component,  OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { log } from 'console';
 import moment from 'moment';
 import { InvoiceList } from 'src/app/interface/invoice';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -13,7 +12,7 @@ import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfviewComponent } from './pdfview/pdfview.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Value } from 'sass';
+
 export interface InvoiceData {
   id: number;
   firm: string;
@@ -64,7 +63,7 @@ export interface InvoiceData {
   invoiceList: any = []
   maxInvoiceNumber: number = 0
   blobUrl :any
-  dataSource = new MatTableDataSource(this.data);
+  addinvoiceDataSource = new MatTableDataSource(this.data);
   selectedIndex: number = 0;
   paymentDays = new Date()
   readonly dialog = inject(MatDialog);
@@ -82,7 +81,7 @@ export interface InvoiceData {
     this.getPartyList()
     this.getProductList()
     this.getFirmList()
-    this.dataSource.paginator = this.paginator;
+    this.addinvoiceDataSource.paginator = this.paginator;
     if (this.loaderService.getInvoiceData()) {
       const getInvoiceData  = this.loaderService.getInvoiceData()
         this.invoiceForm.setValue({
@@ -97,8 +96,9 @@ export interface InvoiceData {
           price: getInvoiceData.products[0].price || 0,
           product: getInvoiceData.products[0].productName || '',
           poNumber: getInvoiceData.products[0].poNumber || 0,
+          paymentDays:getInvoiceData.paymentDays || 30
         });
-      ['firm', 'party','discount','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
+      ['firm', 'party','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
         this.invoiceForm.controls[control].reset();
       })
       } 
@@ -108,7 +108,7 @@ export interface InvoiceData {
     this.invoiceForm = this.fb.group({
       firm: ['', Validators.required],
       party: ['', Validators.required],
-      discount: ['', [Validators.required,Validators.min(0),Validators.max(100)]],
+      discount: [0, [Validators.required,Validators.min(0),Validators.max(100)]],
       sGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
       cGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
@@ -133,7 +133,7 @@ export interface InvoiceData {
       // addtoData.finalSubAmount = this.calculateSubTotal(addtoData)
       addtoData.date = moment(this.invoiceForm.value.date).format('L');
       this.data.push(addtoData);
-      this.dataSource.data = [...this.data];
+      this.addinvoiceDataSource.data = [...this.data];
       ['product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
         this.invoiceForm.controls[control].reset();
       })
@@ -171,7 +171,7 @@ export interface InvoiceData {
       poNumber: element.poNumber
     });
     this.data = this.data.filter(item => item.id !== element.id);
-    this.dataSource.data = [...this.data];
+    this.addinvoiceDataSource.data = [...this.data];
     }
     
   updateData() {
@@ -181,7 +181,7 @@ export interface InvoiceData {
       // updatedData.finalSubAmount = this.calculateSubTotal(updatedData)
       updatedData.date = moment(this.invoiceForm.value.date).format('L');
       this.data.push(updatedData);
-      this.dataSource.data = [...this.data];
+      this.addinvoiceDataSource.data = [...this.data];
       this.invoiceForm.controls['product'].reset()
       this.invoiceForm.controls['defectiveitem'].reset()
       this.invoiceForm.controls['poNumber'].reset()
@@ -193,7 +193,7 @@ export interface InvoiceData {
     
   deletedata(id: number) {
     this.data = this.data.filter(item => item.id !== id);
-    this.dataSource.data = [...this.data];
+    this.addinvoiceDataSource.data = [...this.data];
     }
     
   getPartyList() {
@@ -386,6 +386,7 @@ export interface InvoiceData {
       products: invoiceData.products  ,
       userId : localStorage.getItem("userId"),
       finalSubAmount : finalSubAmount,
+      paymentDays : invoiceData.paymentDays,
       isPayment : false,
       receivePayment : []
     }

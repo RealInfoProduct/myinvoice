@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PdfgenService } from '../pdfgen.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-invoice-list',
@@ -23,7 +24,7 @@ export class InvoiceListComponent implements OnInit {
   firmList: any = []
   partyList: any = []
   displayedColumns: string[] = [
-    'srno',
+    '#',
     'firmName',
     // 'partyName',
     'invoiceNo',
@@ -33,8 +34,10 @@ export class InvoiceListComponent implements OnInit {
     'finalSubAmount',
     'action',
   ];
-  dataSource: any
+  invoiceDataSource = new MatTableDataSource(this.invoiceList);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatSort) sort! :MatSort
 
   constructor(private router: Router,
     private fb: FormBuilder,
@@ -62,7 +65,7 @@ export class InvoiceListComponent implements OnInit {
     const startDate = this.dateInvoiceListForm.value.start ? new Date(this.dateInvoiceListForm.value.start) : null;
     const endDate = this.dateInvoiceListForm.value.end ? new Date(this.dateInvoiceListForm.value.end) : null;
     if (startDate && endDate) {
-      this.dataSource.data = this.invoiceList.filter((invoice: any) => {
+      this.invoiceDataSource.data = this.invoiceList.filter((invoice: any) => {
         if (!invoice.date) return false;
         let invoiceDate;
         if (typeof invoice.date === 'string') {
@@ -74,8 +77,13 @@ export class InvoiceListComponent implements OnInit {
         return invoiceDate >= startDate && invoiceDate <= endDate;
       });
     } else {
-      this.dataSource.data = this.invoiceList;
+      this.invoiceDataSource.data = this.invoiceList;
     }
+  }
+
+  getSerialNumber(index: number): number {
+    if (!this.paginator) return index + 1;
+    return (this.paginator.pageIndex * this.paginator.pageSize) + index + 1;
   }
 
   calculateTotalReceivedPayment(receivePayment: any[]): number {
@@ -92,11 +100,17 @@ export class InvoiceListComponent implements OnInit {
   }
 
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.invoiceDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   addInvoice() {
     this.router.navigate(['/master/addinvoice']);
+  }
+
+  invoiceSorting() {
+    this.invoiceDataSource.data.sort((a: any, b: any) => a.invoiceNumber - b.invoiceNumber)
+    this.invoiceDataSource.paginator = this.paginator
+    this.invoiceDataSource.sort = this.sort
   }
 
   getInvoiceList() {
@@ -108,9 +122,10 @@ export class InvoiceListComponent implements OnInit {
           id.accountYear === localStorage.getItem("accountYear")
         )
         
-        this.dataSource = new MatTableDataSource(this.invoiceList);
-        this.dataSource.paginator = this.paginator;
+        this.invoiceDataSource = new MatTableDataSource(this.invoiceList);
+        this.invoiceDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
+        this.invoiceSorting()
       }
     })
   }
@@ -183,14 +198,14 @@ export class InvoiceListComponent implements OnInit {
 
 export class productdialog implements OnInit {
   displayedColumns: string[] = ['productName', 'price', 'qty', 'defectiveItem', 'poNumber', 'finalAmount'];
-  dataSource: any = []
+  productDataSource: any = []
   constructor(
     public dialogRef: MatDialogRef<productdialog>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     data.forEach((element: any) => {
-      this.dataSource.push(element)
+      this.productDataSource.push(element)
     });
 
   }
@@ -207,7 +222,7 @@ export class productdialog implements OnInit {
 
 export class amountlistdialog  implements OnInit {
   displayedColumns: string[] = ['srNo', 'productPrice','totalAmount'];
-  dataSource :any = [] 
+  amountDataSource :any = [] 
   amountForm: FormGroup
   constructor(
     public dialogRef: MatDialogRef<amountlistdialog>,
@@ -217,7 +232,7 @@ export class amountlistdialog  implements OnInit {
     private _snackBar: MatSnackBar,
     private loaderService: LoaderService,
   ) {
-    this.dataSource = amountdata.receivePayment
+    this.amountDataSource = amountdata.receivePayment
     amountdata['pendingAmount'] = (amountdata.finalSubAmount) - (amountdata.receivePayment.reduce((total:any, payment :any) => total + payment.paymentAmount, 0))
   }
   ngOnInit(): void {
@@ -283,11 +298,9 @@ export class amountlistdialog  implements OnInit {
           id.id === this.amountdata.id
          )              
 
-         this.dataSource = this.amountdata.receivePayment
+         this.amountDataSource = this.amountdata.receivePayment
          this.amountdata['pendingAmount'] = (this.amountdata.finalSubAmount) - (this.amountdata.receivePayment.reduce((total:any, payment :any) => total + payment.paymentAmount, 0))
          this.loaderService.setLoader(false)
-        console.log("{[res]}", res);
-         console.log("{[this.amountdata]}", this.amountdata);
         }
     })
   }

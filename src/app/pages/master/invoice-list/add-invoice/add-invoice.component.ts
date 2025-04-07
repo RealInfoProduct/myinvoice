@@ -52,7 +52,7 @@ export interface InvoiceData {
     'FinalAmount',
     'action',
   ];
-  partyList: any;
+  partyList: any =[];
   invoiceForm: FormGroup
   editMode = false;
   nextId: number = 1;

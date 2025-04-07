@@ -33,6 +33,7 @@
   },
   "PartyMasterdialogerror":{
     "Partynameisrequired":"Party name is required",
+    "Pleaseentervalidpartyname": "Please enter valid party name",
     "Partyaddressisrequired":"Party address is required",
     "Mobilenoisrequired":"Mobile no is required",
     "Invalidmobilenoisrequired":"Invalid mobile no is required",
@@ -74,7 +75,9 @@
   },
   "FirmMasterdialogerror":{
     "Headerisrequired":"Header is required",
+    "Pleaseentervalidheader":"Please enter valid Header",
     "Subheaderisrequired":"Sub header is required",
+    "Pleaseentervalidsubheader":"Please enter valid Sub header",
     "Addressisrequired":"Address is required",
     "Mobilenoisrequired":" Mobile no is required",
     "Invalidmobilenoisrequired":"Invalid mobile no is required",

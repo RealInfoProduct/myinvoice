@@ -9,14 +9,22 @@
             class="error-message error-color">
             {{'FirmMasterdialogerror.Headerisrequired' | translate}}
           </mat-hint>
+          <mat-hint *ngIf="firmForm.get('header')?.hasError('pattern') && firmForm.get('header')?.touched"
+            class="error-message error-color">
+            {{'FirmMasterdialogerror.Pleaseentervalidheader' | translate}}
+          </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
-          <input type="text" matInput required formControlName="subHeader" placeholder="{{'FirmMasterdialog.Entersubheader' | translate}}" /> <mat-hint
-            *ngIf="firmForm.get('subHeader')?.hasError('required') && firmForm.get('subHeader')?.touched"
+          <input type="text" matInput required formControlName="subHeader" placeholder="{{'FirmMasterdialog.Entersubheader' | translate}}" />
+           <mat-hint *ngIf="firmForm.get('subHeader')?.hasError('required') && firmForm.get('subHeader')?.touched"
             class="error-message error-color">
             {{'FirmMasterdialogerror.Subheaderisrequired' | translate}}
+          </mat-hint>
+           <mat-hint *ngIf="firmForm.get('subHeader')?.hasError('pattern') && firmForm.get('subHeader')?.touched"
+            class="error-message error-color">
+            {{'FirmMasterdialogerror.Pleaseentervalidsubheader' | translate}}
           </mat-hint>
         </mat-form-field>
       </div>

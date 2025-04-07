@@ -9,6 +9,10 @@
             class="error-message error-color">
             {{'PartyMasterdialogerror.Partynameisrequired' | translate}}
           </mat-hint>
+          <mat-hint *ngIf="partyForm.get('partyName')?.hasError('pattern') && partyForm.get('partyName')?.touched"
+            class="error-message error-color">
+            {{'PartyMasterdialogerror.Pleaseentervalidpartyname' | translate}}
+          </mat-hint>
         </mat-form-field>
       </div>
       <div class="col-6">

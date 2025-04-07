@@ -203,8 +203,8 @@ export class firmMasterDialogComponent implements OnInit {
 
   formBuild() {
     this.firmForm = this.fb.group({
-      header: ['', Validators.required],
-      subHeader: [''],
+      header: ['',[Validators.required, Validators.pattern('^[a-zA-Z]+(?: [a-zA-Z]+)*$')]],
+      subHeader: ['',[Validators.required, Validators.pattern('^[a-zA-Z]+(?: [a-zA-Z]+)*$')]],
       address: [''],
       GSTNo: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       // gstPercentage: [''],

@@ -2,7 +2,7 @@
 <mat-dialog-content class="mat-typography" style="max-width: 600px" *ngIf="action !== 'Delete'; else elseTemplate">
   <form [formGroup]="firmForm">
     <div class="row">
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="header" placeholder="{{'FirmMasterdialog.Enterheader' | translate}}" />
           <mat-hint *ngIf="firmForm.get('header')?.hasError('required') && firmForm.get('header')?.touched"
@@ -15,7 +15,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="subHeader" placeholder="{{'FirmMasterdialog.Entersubheader' | translate}}" />
            <mat-hint *ngIf="firmForm.get('subHeader')?.hasError('required') && firmForm.get('subHeader')?.touched"
@@ -28,7 +28,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="address" placeholder="{{'FirmMasterdialog.EnterAddress' | translate}}" />
           <mat-hint *ngIf="firmForm.get('address')?.hasError('required') && firmForm.get('address')?.touched"
@@ -37,7 +37,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="GSTNo" placeholder="{{'FirmMasterdialog.GSTNo' | translate}}" />
           <mat-hint *ngIf="firmForm.get('GSTNo')?.hasError('pattern') && firmForm.get('GSTNo')?.touched"
@@ -46,12 +46,12 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <!-- <div class="col-6">
+      <!-- <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="number" matInput formControlName="gstPercentage" placeholder="{{'FirmMasterdialog.GSTPercentage' | translate}}"  min="0" />
         </mat-form-field>
       </div> -->
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="panNo" placeholder="{{'FirmMasterdialog.Panno' | translate}}" />
           <mat-hint *ngIf="firmForm.get('panNo')?.hasError('pattern') && firmForm.get('panNo')?.touched"
@@ -60,7 +60,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="number" matInput  required
             formControlName="mobileNo" placeholder="{{'FirmMasterdialog.Mobileno' | translate}}"   min="0"/>
@@ -74,7 +74,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="number" matInput 
             formControlName="personalMobileNo" placeholder="{{'FirmMasterdialog.Personalmobileno' | translate}}"   min="0"/>
@@ -88,27 +88,27 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="bankName" placeholder="{{'FirmMasterdialog.Bankname' | translate}}" />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="accountholdersname" placeholder="{{'FirmMasterdialog.Accountholdersname' | translate}}" />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="ifscCode" placeholder="{{'FirmMasterdialog.IFSCcode' | translate}}" />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="number" matInput formControlName="bankAccountNo" placeholder="{{'FirmMasterdialog.Bankaccountno' | translate}}"  />
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10" id="billbox">
           <mat-select name="InvoiceTheme" formControlName="selectedInvoiceTheme" placeholder="Select Invoice Theme">
             <mat-option *ngFor="let item of invoiceThemeList" [value]="item.value">

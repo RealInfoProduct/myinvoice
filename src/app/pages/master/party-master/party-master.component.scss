@@ -1,10 +1,17 @@
 .error-color{
     color: red;
 }
+
+.error-message {
+    position: absolute;
+    left: 0;
+}
+
 .wrap-address {
     white-space: pre-wrap;  
     word-wrap: break-word; 
   }
+
   .cardWithShadow {
       margin: 16px;
       border-radius: 8px;

@@ -2,7 +2,7 @@
 <mat-dialog-content class="mat-typography" style="max-width: 600px" *ngIf="action !== 'Delete'; else elseTemplate" >
   <form [formGroup]="partyForm">
     <div class="row">
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="partyName" placeholder="{{'PartyMasterdialog.PartyName' | translate}}" />
           <mat-hint *ngIf="partyForm.get('partyName')?.hasError('required') && partyForm.get('partyName')?.touched"
@@ -15,7 +15,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="partyAddress" placeholder="{{'PartyMasterdialog.Partyaddress' | translate}}" />
           <mat-hint *ngIf="partyForm.get('partyAddress')?.hasError('required') && partyForm.get('partyAddress')?.touched"
@@ -25,7 +25,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="partyGSTIN" placeholder="{{'PartyMasterdialog.PartyGSTIN' | translate}}" />
           <mat-hint *ngIf="partyForm.get('partyGSTIN')?.hasError('pattern') && partyForm.get('partyGSTIN')?.touched"
@@ -34,7 +34,7 @@
           </mat-hint>
         </mat-form-field>
       </div>
-      <!-- <div class="col-6">
+      <!-- <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput required formControlName="partyChalanNoSeries" placeholder="Chalan no series" />
           <mat-hint
@@ -44,14 +44,14 @@
           </mat-hint>
         </mat-form-field>
       </div> -->
-      <div class="col-6">
+      <div class="col-12 col-md-6">
       <mat-form-field appearance="outline" class="w-100 m-t-10">
           <mat-select value="no" formControlName="isFirm" placeholder="{{'PartyMasterdialog.Selectafirm' | translate}}">
               <mat-option *ngFor="let item of firmList" [value]="item">{{item.header}}</mat-option>
           </mat-select>
       </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="text" matInput formControlName="partyPanNo" placeholder="{{'PartyMasterdialog.Partypanno' | translate}}" />
             <mat-hint *ngIf="partyForm.get('partyPanNo')?.hasError('pattern') && partyForm.get('partyPanNo')?.touched"
@@ -60,7 +60,7 @@
             </mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
           <input type="number" matInput 
             formControlName="partyMobile" placeholder="{{'PartyMasterdialog.Partymobile' | translate}}"  min="0" />

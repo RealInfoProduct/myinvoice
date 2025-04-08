@@ -1,0 +1,168 @@
+.cardWithShadow {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+
+    .p-24 {
+        padding: 24px;
+    }
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+
+    [class*="col-"] {
+        padding: 0 12px;
+    }
+}
+
+/* Column widths for different screen sizes */
+.col-4,
+.col-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 16px;
+}
+
+@media (min-width: 576px) {
+    .col-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .col-2 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-4 {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+
+    .col-2 {
+        flex: 0 0 16.666%;
+        max-width: 16.666%;
+    }
+}
+
+/* Form field styles */
+mat-form-field {
+    width: 100%;
+
+    &.hide-hint {
+        .mat-form-field-wrapper {
+            padding-bottom: 0;
+
+            .mat-form-field-subscript-wrapper {
+                display: none;
+            }
+        }
+    }
+}
+
+/* Button styles */
+button[mat-flat-button] {
+    width: 100%;
+
+    @media (min-width: 576px) {
+        width: auto;
+    }
+}
+
+/* Table styles */
+.table-responsive {
+    overflow-x: auto;
+
+    table {
+        width: 100%;
+        min-width: 600px; // Ensures table doesn't get too narrow on small screens
+
+        th {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        td {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .action-link {
+            white-space: nowrap;
+
+            a {
+                display: inline-block;
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .mat-row,
+        .mat-header-row {
+            height: auto;
+            padding: 8px 0;
+        }
+
+        .mat-cell,
+        .mat-header-cell {
+            padding: 0 16px;
+
+            &:first-child {
+                padding-left: 24px;
+            }
+
+            &:last-child {
+                padding-right: 24px;
+            }
+        }
+    }
+}
+
+/* Paginator styles */
+mat-paginator {
+    margin-top: 16px;
+    background: transparent;
+}
+
+/* Utility classes */
+.f-s-14 {
+    font-size: 14px;
+}
+
+.f-s-16 {
+    font-size: 16px;
+}
+
+.f-w-600 {
+    font-weight: 600;
+}
+
+.m-r-10 {
+    margin-right: 10px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.icon-18 {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-20 {
+    width: 20px;
+    height: 20px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

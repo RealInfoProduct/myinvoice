@@ -81,17 +81,6 @@ button[mat-flat-button] {
         width: 100%;
         min-width: 600px; // Ensures table doesn't get too narrow on small screens
 
-        th {
-            font-size: 16px;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.87);
-        }
-
-        td {
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
-        }
-
         .action-link {
             white-space: nowrap;
 

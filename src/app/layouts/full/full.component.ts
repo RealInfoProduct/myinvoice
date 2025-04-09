@@ -221,16 +221,16 @@ export class FullComponent implements OnInit {
   ngOnInit(): void {
     const lg :any = localStorage.getItem('languageCode')
     this.translate.use(lg);
-    this.translate.get('menuBar').subscribe((res: any) => {
-      this.navItems[0].navCap = res.HOME
-      this.navItems[1].displayName = res.Dashboard
-      this.navItems[2].navCap = res.MASTER
-      this.navItems[3].displayName = res.AddInvoice
-      this.navItems[4].displayName = res.InvoiceList
-      this.navItems[5].displayName = res.ProductMaster
-      this.navItems[6].displayName = res.PartyMaster
-      this.navItems[7].displayName = res.FirmMaster      
-    });
+    // this.translate.get('menuBar').subscribe((res: any) => {
+    //   this.navItems[0].navCap = res.HOME
+    //   this.navItems[1].displayName = res.Dashboard
+    //   this.navItems[2].navCap = res.MASTER
+    //   this.navItems[3].displayName = res.AddInvoice
+    //   this.navItems[4].displayName = res.InvoiceList
+    //   this.navItems[5].displayName = res.ProductMaster
+    //   this.navItems[6].displayName = res.PartyMaster
+    //   this.navItems[7].displayName = res.FirmMaster      
+    // });
     this.getLoginUser()
   }
 

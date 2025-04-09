@@ -113,7 +113,10 @@ export class FirebaseService {
     return updateDoc(dataRef, payload)
   }
 
-
+  deleteInvoice(deleteId: any) {
+    let docRef = doc(collection(this.fService, 'InvoiceList'), deleteId);
+    return deleteDoc(docRef)
+  }
 
   getAllInvoice() {
     let dataRef = collection(this.fService, 'InvoiceList')

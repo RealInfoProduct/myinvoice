@@ -345,7 +345,7 @@ export interface InvoiceData {
       if (res) {
         this.invoiceList = res.filter((id:any) => 
           id.userId === localStorage.getItem("userId") && 
-          id.accountYear === localStorage.getItem("accountYear") &&
+          // id.accountYear === localStorage.getItem("accountYear") &&
           id.firmId === firmId
          )     
         this.maxInvoiceNumber = this.invoiceList.length > 0 

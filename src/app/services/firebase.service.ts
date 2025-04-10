@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collectionData, deleteDoc, doc, Firestore, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
-import { PartyList, FirmList, ProductList, RegisterUser, InvoiceList } from '../interface/invoice';
+import { PartyList, FirmList, ProductList, RegisterUser, InvoiceList, IncomeList, ExpensesList, ExpensesmasterList } from '../interface/invoice';
 import { collection } from '@firebase/firestore';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Auth } from '@angular/fire/auth';
@@ -113,12 +113,71 @@ export class FirebaseService {
     return updateDoc(dataRef, payload)
   }
 
-
+  deleteInvoice(deleteId: any) {
+    let docRef = doc(collection(this.fService, 'InvoiceList'), deleteId);
+    return deleteDoc(docRef)
+  }
 
   getAllInvoice() {
     let dataRef = collection(this.fService, 'InvoiceList')
     return collectionData(dataRef, { idField: 'id' })
   }
 
+  /////////////////////// Income List ////////////////////////
 
+
+  addIncome(data: IncomeList) {
+    data.id = doc(collection(this.fService, 'id')).id
+    return addDoc(collection(this.fService, 'IncomeList'), data)
+  }
+
+  getAllIncome() {
+    let dataRef = collection(this.fService, 'IncomeList')
+    return collectionData(dataRef, { idField: 'id' })
+  }
+  
+  updateIncome(updateId: number, payload: any) {
+    let dataRef = doc(this.fService, `IncomeList/${updateId}`);
+    return updateDoc(dataRef, payload)
+  }
+
+  deleteIncome(deleteId: any) {
+    let docRef = doc(collection(this.fService, 'IncomeList'), deleteId);
+    return deleteDoc(docRef)
+  }
+
+  /////////////////////// Expenses List ////////////////////////
+
+
+  addExpenses(data: ExpensesList) {
+    data.id = doc(collection(this.fService, 'id')).id
+    return addDoc(collection(this.fService, 'expensesList'), data)
+  }
+
+  getAllExpenses() {
+    let dataRef = collection(this.fService, 'expensesList')
+    return collectionData(dataRef, { idField: 'id' })
+  }
+  
+  updateExpenses(updateId: number, payload: any) {
+    let dataRef = doc(this.fService, `expensesList/${updateId}`);
+    return updateDoc(dataRef, payload)
+  }
+
+  deleteExpenses(deleteId: any) {
+    let docRef = doc(collection(this.fService, 'expensesList'), deleteId);
+    return deleteDoc(docRef)
+  }
+
+  /////////////////////// Expenses Master List ////////////////////////
+
+  addExpensesmaster(data: ExpensesmasterList) {
+    data.id = doc(collection(this.fService, 'id')).id
+    return addDoc(collection(this.fService, 'expensesmasterList'), data)
+  }
+
+  getAllExpensesmaster() {
+    let dataRef = collection(this.fService, 'expensesmasterList')
+    return collectionData(dataRef, { idField: 'id' })
+  }
 }

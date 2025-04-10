@@ -7,6 +7,7 @@ import { ProductMasterComponent } from './product-master/product-master.componen
 import { AddInvoiceComponent } from './invoice-list/add-invoice/add-invoice.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.component';
+import { ExpensesComponent } from './expenses/expenses.component';
 
 
 export const MasterRoutes: Routes = [
@@ -77,6 +78,17 @@ export const MasterRoutes: Routes = [
           urls: [
             { title: 'Master', url: '/master/addinvoice' },
             { title: 'Add Invoice' },
+          ],
+        },
+      },
+      {
+        path: 'expenses',
+        component: ExpensesComponent,
+        data: {
+          title: 'Expenses',
+          urls: [
+            { title: 'Master', url: '/master/expenses' },
+            { title: 'Expenses' },
           ],
         },
       },

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20"><strong>{{action}} Expenses Master</strong></h2>
+<mat-dialog-content class="mat-typography" style="max-width: 600px">
+    <form [formGroup]="expensesMasterForm">
+
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+            <mat-label>Type</mat-label>
+            <input type="text" matInput placeholder="Enter type" formControlName="type">
+        </mat-form-field>
+
+        <mat-divider></mat-divider>
+        <mat-dialog-actions class="p-24 justify-content-end">
+            <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+            <button mat-flat-button [mat-dialog-close]="true" [disabled]="expensesMasterForm.invalid" color="primary"
+                (click)="doAction()">
+                {{action}}
+            </button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>

@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>{{'productdialog.ProductList' | translate}}</h2>
-<mat-card class="cardWithShadow m-20">
-    <mat-card-content>
-        <table mat-table [dataSource]="dataSource" class="mat-table">
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="productDataSource" class="mat-table">
           
           <!-- Defective Item Column -->
           <ng-container matColumnDef="defectiveItem">
@@ -42,6 +43,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        </div>
     </mat-card-content>
 </mat-card>
 <mat-dialog-actions align="end">

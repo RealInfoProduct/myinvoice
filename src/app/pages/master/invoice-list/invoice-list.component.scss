@@ -85,6 +85,14 @@
         }
     }
 }
+
+@mixin status-border($borderColor) {
+    border: 1px solid $borderColor;
+    border-radius: 12px;
+    padding: 5px 10px;
+}
+
 .receivePayment{
     color: green;
+    @include status-border(green);
 }

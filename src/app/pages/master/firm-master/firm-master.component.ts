@@ -15,7 +15,6 @@ import { LoaderService } from 'src/app/services/loader.service';
   styleUrls: ['./firm-master.component.scss']
 })
 export class FirmMasterComponent implements OnInit {
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   displayedColumns: string[] = [
     '#',
     'header',
@@ -29,8 +28,9 @@ export class FirmMasterComponent implements OnInit {
     'Address',
     'action',
   ];
-  firmList: any
-  dataSource: any
+  firmList: any =[]
+  firmDataSource = new MatTableDataSource(this.firmList);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(private dialog: MatDialog, 
@@ -42,9 +42,13 @@ export class FirmMasterComponent implements OnInit {
     this.getFirmList()
   }
 
-
+  getSerialNumber(index: number): number {
+    if (!this.paginator) return index + 1;
+    return (this.paginator.pageIndex * this.paginator.pageSize) + index + 1;
+  }
+  
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.firmDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   generateRandomNumber(min: number, max: number): number {
@@ -56,8 +60,8 @@ export class FirmMasterComponent implements OnInit {
     this.firebaseService.getAllFirm().subscribe((res: any) => {
       if (res) {
         this.firmList = res.filter((id:any) => id.userId === localStorage.getItem("userId"))
-        this.dataSource = new MatTableDataSource(this.firmList);
-        this.dataSource.paginator = this.paginator;
+        this.firmDataSource = new MatTableDataSource(this.firmList);
+        this.firmDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
       }
     })
@@ -199,8 +203,8 @@ export class firmMasterDialogComponent implements OnInit {
 
   formBuild() {
     this.firmForm = this.fb.group({
-      header: ['', Validators.required],
-      subHeader: [''],
+      header: ['',[Validators.required, Validators.pattern('^[a-zA-Z]+(?: [a-zA-Z]+)*$')]],
+      subHeader: ['',[Validators.required, Validators.pattern('^[a-zA-Z]+(?: [a-zA-Z]+)*$')]],
       address: [''],
       GSTNo: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       // gstPercentage: [''],

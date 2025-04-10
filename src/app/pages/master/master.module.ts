@@ -17,6 +17,9 @@ import { PdfviewComponent } from './invoice-list/add-invoice/pdfview/pdfview.com
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient } from '@angular/common/http';
+import { ExpensesDialogComponent } from './expenses/expenses-dialog/expenses-dialog.component';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { ExpensesmasterDialogComponent } from './expenses/expensesmaster-dialog/expensesmaster-dialog.component';
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { HttpClient } from '@angular/common/http';
     AddInvoiceComponent,
     PdfviewComponent,
     productdialog,
-    amountlistdialog
+    amountlistdialog,
+    ExpensesComponent,
+    ExpensesDialogComponent,
+    ExpensesmasterDialogComponent
   ],
   imports: [
     CommonModule,

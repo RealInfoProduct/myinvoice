@@ -14,7 +14,6 @@ import { LoaderService } from 'src/app/services/loader.service';
   styleUrls: ['./party-master.component.scss']
 })
 export class PartyMasterComponent implements OnInit {
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   displayedColumns: string[] = [
     'srno',
     'PartyName',
@@ -24,8 +23,9 @@ export class PartyMasterComponent implements OnInit {
     'action',
   ];
   partyList :any = []
-
-  dataSource: any
+  
+  partyDataSource = new MatTableDataSource(this.partyList);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(private dialog: MatDialog , 
@@ -38,13 +38,18 @@ export class PartyMasterComponent implements OnInit {
   this.getPartyList()
   }
 
+  getSerialNumber(index: number): number {
+    if (!this.paginator) return index + 1;
+    return (this.paginator.pageIndex * this.paginator.pageSize) + index + 1;
+  }
+
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.partyDataSource.filter = filterValue.trim().toLowerCase();
   }
   
   addParty(action: string, obj: any) {
     obj.action = action;
-    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj, width:'30%' });
+    const dialogRef = this.dialog.open(partyMasterDialogComponent, { data: obj });
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.event === 'Add') {
         const payload: PartyList = {
@@ -110,8 +115,8 @@ export class PartyMasterComponent implements OnInit {
     this.firebaseService.getAllParty().subscribe((res: any) => {
       if (res) {
         this.partyList = res.filter((id:any) => id.userId === localStorage.getItem("userId"))
-        this.dataSource = new MatTableDataSource(this.partyList);
-        this.dataSource.paginator = this.paginator;
+        this.partyDataSource = new MatTableDataSource(this.partyList);
+        this.partyDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
       }
     })
@@ -165,7 +170,7 @@ export class partyMasterDialogComponent implements OnInit {
 
   buildForm() {
     this.partyForm = this.fb.group({
-      partyName: [''],
+      partyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+(?: [a-zA-Z]+)*$')]],
       partyAddress: [''],
       partyGSTIN: ['', [Validators.pattern('^([0-3][0-9])([A-Z]{5}[0-9]{4}[A-Z])([1-9A-Z])Z([0-9A-Z])$')]],
       partyChalanNoSeries: [''],

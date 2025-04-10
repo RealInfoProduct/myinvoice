@@ -15,15 +15,14 @@ import { LoaderService } from 'src/app/services/loader.service';
 })
 export class ProductMasterComponent {
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   displayedColumns: string[] = [
     'srno',
     'ProductName',
     'action',
   ];
   productList :any = []
-
-  dataSource: any
+  productDataSource = new MatTableDataSource(this.productList);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(private dialog: MatDialog , 
@@ -37,7 +36,12 @@ export class ProductMasterComponent {
   }
 
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.productDataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  getSerialNumber(index: number): number {
+    if (!this.paginator) return index + 1;
+    return (this.paginator.pageIndex * this.paginator.pageSize) + index + 1;
   }
   
   addParty(action: string, obj: any) {
@@ -98,8 +102,8 @@ export class ProductMasterComponent {
     this.firebaseService.getAllProduct().subscribe((res: any) => {
       if (res) {
         this.productList = res.filter((id:any) => id.userId === localStorage.getItem("userId"))
-        this.dataSource = new MatTableDataSource(this.productList);
-        this.dataSource.paginator = this.paginator;
+        this.productDataSource = new MatTableDataSource(this.productList);
+        this.productDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)
       }
     })

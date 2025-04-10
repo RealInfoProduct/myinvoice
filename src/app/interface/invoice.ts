@@ -67,5 +67,27 @@ export interface InvoiceList {
     finalSubAmount:any,
     isPayment : boolean,
     receivePayment : any
+    paymentDays:number
+}
 
+export interface IncomeList {
+    id: string,
+    incomename:string,
+    userId: any,
+    creditDate: string,
+    amount:number
+}
+
+export interface ExpensesList {
+    id: string,
+    expensesname:string,
+    userId: any,
+    creditDate: string,
+    description:string,
+    amount:number
+}
+
+export interface ExpensesmasterList{
+    id:string
+    type:string
 }

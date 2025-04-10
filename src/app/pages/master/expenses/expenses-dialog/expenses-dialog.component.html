@@ -1,0 +1,43 @@
+<h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20"><strong> {{action}} Expenses </strong></h2>
+<mat-dialog-content class="mat-typography" style="max-width: 600px" *ngIf="action !== 'Delete'; else elseTemplate">
+    <form [formGroup]="expensesForm">
+
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+            <mat-label>Expenses Type</mat-label>
+            <mat-select #dropdown formControlName="expensesname" placeholder="Enter expenses">
+                <mat-option *ngFor="let item of expensesmasterList" [value]="item.type">{{item.type}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+            <mat-label>CreditDate</mat-label>
+            <input matInput [matDatepicker]="creditDate" formControlName="creditDate" placeholder="Select creditdate">
+            <mat-datepicker-toggle matSuffix [for]="creditDate"></mat-datepicker-toggle>
+            <mat-datepicker #creditDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput placeholder="Enter description" formControlName="description">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 m-t-10">
+            <mat-label>Amount</mat-label>
+            <input type="number" matInput placeholder="Enter amount" formControlName="amount" min="0">
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions class="p-24 justify-content-end">
+    <button mat-stroked-button color="warn" mat-dialog-close (click)="closeDialog()">Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="true" [disabled]="action !== 'Delete' && !expensesForm.valid"
+        color="primary" (click)="doAction()">
+        {{action}}
+    </button>
+</mat-dialog-actions>
+<ng-template #elseTemplate>
+    <div class="p-x-24">
+        <p>Sure to delete <span class="f-w-600">{{local_data.Name}}</span> ?</p>
+    </div>
+</ng-template>

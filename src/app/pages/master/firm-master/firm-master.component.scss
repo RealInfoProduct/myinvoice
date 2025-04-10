@@ -1,6 +1,12 @@
 .error-color{
     color: red;
 }
+
+.error-message {
+    position: absolute;
+    left: 0;
+}
+
 .cardWithShadow {
     margin: 16px;
     border-radius: 8px;
@@ -36,8 +42,6 @@
     }
 
     button[mat-flat-button] {
-        height: 50px;
-        padding: 0 24px;
         font-weight: 500;
 
         .mat-icon {

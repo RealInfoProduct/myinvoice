@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -9,8 +9,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PdfgenService } from '../../../pdfgen.service';
 import autoTable from 'jspdf-autotable';
 import { ToWords } from 'to-words';
-
-
 
 @Component({
   selector: 'app-pdfview',
@@ -30,8 +28,8 @@ export class PdfviewComponent  implements OnInit{
       ignoreZeroCurrency: false,
     },
   });
+
   constructor(
-   
     private sanitizer: DomSanitizer,
     private loaderService : LoaderService,
     private firebaseService : FirebaseService,
@@ -63,13 +61,12 @@ export class PdfviewComponent  implements OnInit{
       }
     } else {
       this.router.navigate(['/master/addinvoice'])
-    }
-    
+    }  
   }
+
   ngOnInit(): void {
     this.getFirmList()
     this.getPartyList()
-
   }
 
   back() {

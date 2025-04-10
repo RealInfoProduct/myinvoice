@@ -4,7 +4,7 @@
 
         <mat-form-field appearance="outline" class="w-100 m-t-10">
             <mat-label>Expenses Type</mat-label>
-            <mat-select #dropdown formControlName="expensesname" placeholder="Enter expenses">
+            <mat-select #dropdown formControlName="expensesname" placeholder="Select expenses">
                 <mat-option *ngFor="let item of expensesmasterList" [value]="item.type">{{item.type}}</mat-option>
             </mat-select>
         </mat-form-field>

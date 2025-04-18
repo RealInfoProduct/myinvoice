@@ -1,0 +1,117 @@
+<mat-card class="cardWithShadow" *ngIf="invoiceDetail" id="invoiceToPDF">
+  <mat-card-content class="p-24">
+
+    <!-- Header -->
+    <div class="row m-b-24">
+      <div class="col-sm-4 d-flex align-items-center">
+        <h4 class="mat-subtitle-2 f-s-18 f-w-600">#{{ invoiceDetail.id }}</h4>
+      </div>
+      <div class="col-sm-8 text-right"  id="viewPdfButton">
+        <a routerLink="/master/invoicelist" mat-stroked-button color="primary" class="m-r-10">Back to Invoice</a>
+        <!-- <a mat-flat-button color="primary" (click)="sendWhatsAppWithPDF()">Send Whatsapp</a> -->
+        <a mat-flat-button color="primary" (click)="viewPDF()">View PDF</a>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Invoice Info -->
+    <div class="row p-y-24">
+      <div class="col-sm-6">
+        <span class="f-w-600 f-s-15 mat-body-1"> Order Status: </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.status }}
+        </h6>
+      </div>
+      <div class="col-sm-6 text-right">
+        <span class="f-w-600 f-s-15 mat-body-1"> Order Date: </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.orderDate | date : "fullDate" }}
+        </h6>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Bill Info -->
+    <div class="row p-y-24">
+      <div class="col-sm-6">
+        <span class="f-w-600 f-s-15 mat-body-1"> Bill From: </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billFrom }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billFromEmail }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billFromAddress }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billFromPhone }}
+        </h6>
+      </div>
+      <div class="col-sm-6 text-right">
+        <span class="f-w-600 f-s-15 mat-body-1"> Bill To: </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billTo }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billToEmail }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billToAddress }}
+        </h6>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ invoiceDetail.billToPhone }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Invoice Table -->
+    <div class="table-responsive b-1">
+      <table class="table table-hover no-wrap w-100 rounded">
+        <thead>
+          <tr>
+            <th class="p-16 text-center">#</th>
+            <th class="p-16 text-center">Name</th>
+            <th class="p-16 text-center">Price (MRP)</th>
+            <th class="p-16 text-center">Discount (%)</th>
+            <th class="p-16 text-center">Final Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredPurchaseList.length === 0">
+            <td class="text-center p-16" colspan="5">No records found</td>
+          </tr>
+
+          <tr *ngFor="let row of filteredPurchaseList; let i = index">
+            <td class="p-16 text-center">{{ i + 1 }}</td>
+            <td class="p-16 text-center">
+              {{ getProductName(row.productid) }} ({{ row.productUniqueNumber }})
+            </td>
+            <td class="p-16 text-center">₹{{ row.shellAmount | number:'1.2-2' }}/-</td>
+            <td class="p-16 text-center">{{ row.shellDiscount || 0 }}%</td>
+            <td class="p-16 text-center">
+              ₹{{ row.shellAmount - ((row.shellDiscount || 0) / 100 * row.shellAmount) | number:'1.2-2' }}/-
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Totals -->
+    <div class="text-right m-t-30">
+      <h5 class="m-b-5 f-w-600 f-s-16">
+        Sub total: ₹{{ productsubTotal | number:'1.2-2' }}/-
+      </h5>
+      <h5 class="m-b-5 f-w-600 f-s-16">
+        Total Discount: ₹{{ totalDiscount | number:'1.2-2' }}/-
+      </h5>
+      <mat-divider></mat-divider>
+      <h3 class="m-b-0 p-t-20 f-s-18">
+        Grand Total: ₹{{ productgrandTotal | number:'1.2-2' }}/-
+      </h3>
+    </div>
+
+  </mat-card-content>
+</mat-card>

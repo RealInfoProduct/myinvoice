@@ -75,43 +75,7 @@ export class AppTopCardsComponent {
       this.topcards[2].title = res[2].TotalInvoice
       this.topcards[3].title = res[3].PendingBills
     })
-    this.firebaseService.getAllFirm().subscribe((res:any) => {
-      if (res) {        
-        this.topcards[0].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
-        this.loaderService.setLoader(false)
-      }
-    })
-    this.firebaseService.getAllParty().subscribe((res:any) => {
-      if (res) {        
-        this.topcards[1].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
-        this.loaderService.setLoader(false)
-      }
-    })
-    this.firebaseService.getAllProduct().subscribe((res:any) => {
-      if (res) {        
-        this.topcards[5].subtitle = res.filter((id:any) => id.userId === localStorage.getItem("userId")).length          
-        this.loaderService.setLoader(false)
-      }
-    })
-    this.firebaseService.getAllInvoice().subscribe((res:any) => {
-      if (res) {        
-        this.topcards[2].subtitle = res.filter((id:any) => 
-          id.userId === localStorage.getItem("userId") && 
-          id.accountYear === localStorage.getItem("accountYear")
-         ).length          
-        this.loaderService.setLoader(false)
-      }
-    })
-    this.firebaseService.getAllInvoice().subscribe((res:any) => {
-      if (res) {
-        this.topcards[3].subtitle = res.filter((id:any) => 
-          id.userId === localStorage.getItem("userId") && 
-          id.accountYear === localStorage.getItem("accountYear") && 
-          id.isPayment === false
-         ).length          
-        this.loaderService.setLoader(false)
-      }
-    })
+    this.loaderService.setLoader(false)
 
   }
 }

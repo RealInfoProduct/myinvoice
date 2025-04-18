@@ -3,12 +3,11 @@ export const environment = {
     production: true,
 
      firebaseConfig: {
-        apiKey: "AIzaSyAxLrlpDvckEdy1xPH_Up_tCVb7XINKuyg",
-        authDomain: "myinvoice-e4e41.firebaseapp.com",
-        projectId: "myinvoice-e4e41",
-        storageBucket: "myinvoice-e4e41.appspot.com",
-        messagingSenderId: "364972721626",
-        appId: "1:364972721626:web:2647fef078ef3581ec6ce3",
-        measurementId: "G-143NM6E0N7"
+      apiKey: "AIzaSyDpdUYQ1fqT7Kx05IPXMTH__fMhlYz_cVk",
+      authDomain: "mystock-65739.firebaseapp.com",
+      projectId: "mystock-65739",
+      storageBucket: "mystock-65739.firebasestorage.app",
+      messagingSenderId: "1010962707603",
+      appId: "1:1010962707603:web:81b268c18da5aba43c4966"
       }
 }

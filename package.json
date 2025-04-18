@@ -30,6 +30,7 @@
     "apexcharts": "^3.40.0",
     "date-fns": "^2.29.3",
     "firebase": "^10.12.2",
+    "jsbarcode": "^3.11.6",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "moment": "^2.30.1",

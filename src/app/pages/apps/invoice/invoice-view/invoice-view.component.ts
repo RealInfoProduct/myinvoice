@@ -17,5 +17,7 @@ export class AppInvoiceViewComponent {
   constructor(activatedRouter: ActivatedRoute, private invoiceService: ServiceinvoiceService) {
     this.id = activatedRouter.snapshot.paramMap.get('id');
     this.invoiceDetail = this.invoiceService.getInvoiceList().filter((x) => x?.id === +this.id)[0];
+    console.log('invoiceDetail===>>' , this.invoiceDetail);
+    
   }
 }

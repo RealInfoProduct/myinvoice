@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { PartyList, ProductList } from 'src/app/interface/invoice';
+import { ProductList } from 'src/app/interface/invoice';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoaderService } from 'src/app/services/loader.service';
 
@@ -140,6 +140,7 @@ export class productMasterDialogComponent implements OnInit {
 
     this.local_data = { ...data };
     this.action = this.local_data.action;
+    
   }
   ngOnInit(): void {
     this.buildForm()

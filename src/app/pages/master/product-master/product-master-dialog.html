@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20">{{'actions.' + action | translate}} {{'productMasterdialog.Product' | translate}}</h2>
+<h2 mat-dialog-title class="m-b-24 b-b-1 p-b-20">{{'actions.' + action | translate}} <ng-container *ngIf="!local_data.isPurchase">{{'productMasterdialog.Product' | translate}}</ng-container></h2>
 <mat-dialog-content class="mat-typography" style="max-width: 600px" *ngIf="action !== 'Delete'; else elseTemplate" >
   <form [formGroup]="productForm">
     <div class="row">

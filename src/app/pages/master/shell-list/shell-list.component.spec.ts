@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PdfviewComponent } from './pdfview.component';
+import { ShellListComponent } from './shell-list.component';
 
-describe('PdfviewComponent', () => {
-  let component: PdfviewComponent;
-  let fixture: ComponentFixture<PdfviewComponent>;
+describe('ShellListComponent', () => {
+  let component: ShellListComponent;
+  let fixture: ComponentFixture<ShellListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PdfviewComponent]
+      declarations: [ShellListComponent]
     });
-    fixture = TestBed.createComponent(PdfviewComponent);
+    fixture = TestBed.createComponent(ShellListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

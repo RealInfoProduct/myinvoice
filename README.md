@@ -1,2 +1,2 @@
-# myinvoice
-create a invoice 
+# mystock
+stock management system

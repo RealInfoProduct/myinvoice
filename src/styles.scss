@@ -10,3 +10,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .required {
     color: red;
 }
+
+.mat-mdc-table .mdc-data-table__row{
+    height: 40px !important;
+}
+
+.table-responsive td, .table-responsive mat-cell {
+    padding: 6px !important;
+}

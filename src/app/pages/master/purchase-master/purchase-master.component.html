@@ -1,0 +1,160 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <div class="row justify-content-between">
+        <!-- <div class="col-lg-4">
+          <mat-form-field appearance="outline" class="w-100 hide-hint">
+            <input matInput placeholder="Search Purchase" (keyup)="applyFilter($any($event.target).value)" />
+            <mat-icon matSuffix>
+              <i-tabler name="search" class="icon-20"></i-tabler>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 d-flex align-items-center justify-content-end">
+          <button mat-flat-button color="primary" (click)="addParty('Add', {})">
+            Add Purchase
+          </button>
+        </div> -->
+        <form [formGroup]="productForm">
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <input matInput [matDatepicker]="picker" formControlName="productDate" required />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-8">
+                        <mat-select value="no" formControlName="productid" placeholder="{{'addinvoice.SelectProduct' | translate}}">
+                            <mat-option [value]="item" *ngFor="let item of productList">{{item.productName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Purchase Price</mat-label>
+                        <input type="number" matInput min="0"
+                            formControlName="purchaseAmount" placeholder="Enter appearance Price">
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Shell Price</mat-label>
+                        <input type="number" matInput min="0"
+                            formControlName="shellAmount" placeholder="Enter Shell Price">
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Description</mat-label>
+                        <input type="text" matInput
+                            formControlName="productDes" placeholder="Enter Ddescription">
+                    </mat-form-field>
+                </div>
+                <div class="col-1">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Size</mat-label>
+                        <input type="text" matInput
+                            formControlName="productSize" placeholder="Enter Size">
+                    </mat-form-field>
+                </div>
+                <div class="col-">
+                    <button mat-flat-button [mat-dialog-close]="true" [disabled]="!productForm.valid" color="primary" (click)="addPurchase()">
+                        {{editRecode?.id ? 'Edit' : 'Save'}}
+                      </button>
+                </div>
+            </div>
+          </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="cardWithShadow" >
+    <mat-card-content class="p-24">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="purchaseDataSource" class="w-100">
+          <ng-container matColumnDef="srno">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">PU No.</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ element.productUniqueNumber }}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="ProductName">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Name</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <p class="mat-subtitle-1 f-s-16 m-t-0">
+                    {{getProductName(element.productid)}}
+                  </p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="productDes">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Des</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <p class="mat-subtitle-1 f-s-16 m-t-0">
+                   {{element.productDes}}
+                  </p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="shellAmount">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Shell Price</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <p class="mat-subtitle-1 f-s-16 m-t-0">
+                   {{element.shellAmount}}
+                  </p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="productSize">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">Size</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <p class="mat-subtitle-1 f-s-16 m-t-0">
+                   {{element.productSize}}
+                  </p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+  
+    
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+              {{'productMaster.Action' | translate}}
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-link">
+              <a class="m-r-10 cursor-pointer" (click)="cerateQrCode('0ms', '0ms' , element)">
+                <i-tabler name="barcode" class="icon-18"></i-tabler>
+              </a>
+              <a class="m-r-10 cursor-pointer"><i-tabler name="edit" (click)="setValue(element)"
+                  class="icon-18"></i-tabler></a>
+              <a class="m-r-10 cursor-pointer" (click)="deleterecode(element)">
+                <i-tabler name="trash" class="icon-18"></i-tabler>
+              </a>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" style="text-align: center;" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              No record found
+            </td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>

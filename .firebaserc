@@ -1,15 +1,14 @@
 {
   "projects": {
-    "default": "myinvoice-e4e41"
+    "default": "mystock-65739"
   },
   "targets": {
-    "myinvoice-e4e41": {
+    "mystock-65739": {
       "hosting": {
-        "production": [
-          "mycustomer"
+        "tr": [
+          "mystockm"
         ]
       }
     }
-  },
-  "etags": {}
+  }
 }

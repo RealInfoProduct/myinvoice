@@ -1,0 +1,101 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-4">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Select Product Unique Numbers</mat-label>
+                    <mat-select [multiple]="true" [(ngModel)]="selectedProductUniqueNumbers"
+                        (openedChange)="onDropdownOpen()">
+                        <mat-select-trigger>
+                            {{ selectedProductUniqueNumbers.join(', ') }}
+                        </mat-select-trigger>
+
+                        <input matInput placeholder="Search by Unique Number" [(ngModel)]="searchText"
+                            (click)="$event.stopPropagation()" />
+
+                        <mat-option *ngFor="let item of filteredData()" [value]="item.productUniqueNumber">
+                            {{ item.productUniqueNumber }} - {{ item.productDes }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <ng-container *ngIf="filteredPurchaseList.length > 0">
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Customer Name</mat-label>
+                        <input type="text" [(ngModel)]="customerName" matInput placeholder="Enter Name">
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline" class="w-100 m-t-10">
+                        <mat-label>Customer Mobile Number</mat-label>
+                        <input type="number" [(ngModel)]="customerMobileNumber" matInput
+                            placeholder="Enter Mobile Number">
+                    </mat-form-field>
+                </div>
+            </ng-container>
+            <div class="col-lg-4">
+                <button mat-flat-button color="primary" (click)="shellProduct()">
+                    Add Product
+                </button>
+                <button mat-flat-button color="primary" href="/apps/addInvoice">
+                    Add Invocie
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+  <div class="row">
+    <div class="col-sm-6 col-lg-4" *ngFor="let element of filteredPurchaseList; let i = index">
+      <mat-card class="cardWithShadow overflow-hidden">
+        <mat-card-header
+          class="course-header bg-primary d-flex justify-content-between card-title"
+        >
+          <mat-card-title class="m-b-0 f-s-16">
+            {{ getProductName(element.productid) }}
+          </mat-card-title>
+          <span class="d-flex align-items-center gap-4"><i-tabler name="clock" class="icon-16 d-flex"></i-tabler>{{ element.productUniqueNumber }}</span>
+        </mat-card-header>
+        <mat-card-content class="text-center p-y-24">
+          <h3 class="m-b-4 mat-subtitle-2 f-s-16 f-w-600">
+           MRP :- {{ element.shellAmount }}/-
+          </h3>
+          <div class="info-row d-flex align-items-center gap-2 m-t-12 d-flex flex-column">
+            <span class="label f-w-600 m-b-0 f-s-16">Discount</span>
+            <mat-form-field appearance="outline" class="discount-input flex-grow-1 m-0">
+              <input
+                matInput
+                type="number"
+                min="0"
+                [max]="element.shellAmount"
+                placeholder="₹"
+                [(ngModel)]="discounts[i]"
+                (ngModelChange)="validateDiscount(i, element.shellAmount)"
+              />
+            </mat-form-field>
+          </div>
+          
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions class="text-center p-y-8">
+          <a
+            mat-button
+            class="w-100"
+          >
+         Final MRP :- ₹{{ element.shellAmount - (discounts[i] || 0) }}/-
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  
+
+<div *ngIf="filteredPurchaseList.length > 0">
+    <button mat-flat-button color="primary" (click)="updatePurchase()">
+        Shell
+    </button>
+</div>
+
+<h3>new </h3>
+<app-createinvoice></app-createinvoice>

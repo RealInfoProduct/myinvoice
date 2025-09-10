@@ -27,7 +27,7 @@
 
       <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
-          <input type="text" matInput formControlName="partyGSTIN" placeholder="{{'PartyMasterdialog.PartyGSTIN' | translate}}" />
+          <input type="text" matInput formControlName="partyGSTIN" placeholder="{{'PartyMasterdialog.PartyGSTIN' | translate}}"  class="text-uppercase"/>
           <mat-hint *ngIf="partyForm.get('partyGSTIN')?.hasError('pattern') && partyForm.get('partyGSTIN')?.touched"
             class="error-message error-color">
             {{'PartyMasterdialogerror.InvalidGstisrequired' | translate}}
@@ -53,7 +53,7 @@
       </div>
       <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100 m-t-10">
-          <input type="text" matInput formControlName="partyPanNo" placeholder="{{'PartyMasterdialog.Partypanno' | translate}}" />
+          <input type="text" matInput formControlName="partyPanNo" placeholder="{{'PartyMasterdialog.Partypanno' | translate}}"  class="text-uppercase"/>
             <mat-hint *ngIf="partyForm.get('partyPanNo')?.hasError('pattern') && partyForm.get('partyPanNo')?.touched"
               class="error-message error-color">
               {{'PartyMasterdialogerror.InvalidpanNoisrequired' | translate}}

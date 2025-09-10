@@ -276,27 +276,59 @@ export class PdfgenService {
       },
     });
 
-    doc.setFontSize(13);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Bank Name:', 14, 243);
-    doc.text(invoiceData.firmName.bankName, 65, 243);
+    // doc.setFontSize(13);
+    // doc.setTextColor(0, 0, 0);
+    // doc.text('Bank Name:', 14, 243);
+    // doc.text(invoiceData.firmName.bankName, 65, 243);
 
-    doc.setFontSize(13);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Account holder`s name:', 14, 251);
-    doc.text(invoiceData.firmName.accountholdersname, 65, 251);
+    // doc.setFontSize(13);
+    // doc.setTextColor(0, 0, 0);
+    // doc.text('Account holder`s name:', 14, 251);
+    // doc.text(invoiceData.firmName.accountholdersname, 65, 251);
 
-    doc.setFontSize(13);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Account Number:', 14, 259);
-    const accountNumber = invoiceData.firmName?.bankAccountNo?.toString() || "";
-    doc.text(accountNumber, 65, 259);
+    // doc.setFontSize(13);
+    // doc.setTextColor(0, 0, 0);
+    // doc.text('Account Number:', 14, 259);
+    // const accountNumber = invoiceData.firmName?.bankAccountNo?.toString() || "";
+    // doc.text(accountNumber, 65, 259);
 
-    doc.setFontSize(13);
-    doc.setTextColor(0, 0, 0);
-    doc.text('IFSC Code:', 14, 268);
-    doc.text(invoiceData.firmName.bankIfsc, 65, 268);
-    
+    // doc.setFontSize(13);
+    // doc.setTextColor(0, 0, 0);
+    // doc.text('IFSC Code:', 14, 268);
+    // doc.text(invoiceData.firmName.bankIfsc, 65, 268);
+
+    const bank = invoiceData.firmName?.bankName?.trim();
+    if (bank) {
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Bank Name:', 14, 243);
+      doc.text(bank, 65, 243);
+    }
+
+    const accountholdersname = invoiceData.firmName?.accountholdersname?.trim();
+    if (accountholdersname) {
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Account holder`s name:', 14, 251);
+      doc.text(accountholdersname, 65, 251);
+    }
+
+   const bankAccountNo = invoiceData.firmName?.bankAccountNo?.toString().trim();
+    if (bankAccountNo) {
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Account Number:', 14, 259);
+      doc.text(bankAccountNo, 65, 259);
+    }
+
+    const ifsc = invoiceData.firmName?.bankIfsc?.trim();
+    if (ifsc) {
+      doc.setFontSize(13);
+      doc.setTextColor(0, 0, 0);
+      doc.text('IFSC Code:', 14, 268);
+      doc.text(ifsc, 65, 268);
+    }
+
     const signatureYPosition = doc.internal.pageSize.height - 35;
     const signatureXPosition = doc.internal.pageSize.width - 60;
     const signatureLineLength = 50;

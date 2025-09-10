@@ -98,7 +98,7 @@ export interface InvoiceData {
           poNumber: getInvoiceData.products[0].poNumber || 0,
           paymentDays:getInvoiceData.paymentDays || 30
         });
-      ['firm', 'party','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
+      ['firm', 'party','discount','product', 'defectiveitem', 'poNumber', 'price', 'totalitem'].forEach(control => {
         this.invoiceForm.controls[control].reset();
       })
       } 

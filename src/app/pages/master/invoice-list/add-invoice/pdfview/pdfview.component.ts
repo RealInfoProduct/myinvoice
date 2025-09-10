@@ -20,6 +20,7 @@ export class PdfviewComponent  implements OnInit{
   invoiceData :any
   firmList: any = []
   partyList: any = []
+  isBtnDisabled = false;
   toWords = new ToWords({
     localeCode: 'en-IN',
     converterOptions: {
@@ -83,7 +84,8 @@ export class PdfviewComponent  implements OnInit{
       doc.rect(0, 0, doc.internal.pageSize.width, 10, 'F');
       const yPosition = 10;
 
-      doc.setFillColor('#ffbb00');
+      doc.setFillColor('#eee');
+      // doc.setFillColor('#ffbb00');
       const rowHeight = 18;
       doc.rect(0, yPosition - rowHeight, doc.internal.pageSize.width, rowHeight, 'F');
 
@@ -293,7 +295,8 @@ export class PdfviewComponent  implements OnInit{
       margin: { top: 0, right: 10, bottom: 0, left: 10 },
       tableWidth: 'auto',
       headStyles: {
-        fillColor: '#ffbb00',
+        fillColor: '#eee',
+        // fillColor: '#ffbb00',
         textColor: '#000',
         fontSize: 11,
         font: 'helvetica',
@@ -316,7 +319,8 @@ export class PdfviewComponent  implements OnInit{
 
         if (data.row.index === body.length - 1) {
           data.cell.styles.textColor = '#000';
-          data.cell.styles.fillColor = '#ffbb00';
+          // data.cell.styles.fillColor = '#ffbb00';
+          data.cell.styles.fillColor = '#eee';
           data.cell.styles.fontStyle = 'bold';
         }
 
@@ -1244,6 +1248,7 @@ export class PdfviewComponent  implements OnInit{
   // }
 
   submitInvoice(){
+    this.isBtnDisabled = true;
     this.firebaseService.addInvoice(this.invoiceData).then((res) => {
       const partyData = this.getPartyName(this.invoiceData.partyId)
       const firmData = this.getFirmHeader(this.invoiceData.firmId)

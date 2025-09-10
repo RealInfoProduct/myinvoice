@@ -21,11 +21,12 @@ export class PdfgenService {
     this.loaderService.setLoader(true)
     const doc: any = new jsPDF();
     const header = (doc: any) => {
-      doc.setFillColor('#fff');
+      doc.setFillColor('#000');
       doc.rect(0, 0, doc.internal.pageSize.width, 10, 'F');
       const yPosition = 10;
 
-      doc.setFillColor('#ffbb00');
+      // doc.setFillColor('#ffbb00');
+      doc.setFillColor('#eee');
       const rowHeight = 18;
       doc.rect(0, yPosition - rowHeight, doc.internal.pageSize.width, rowHeight, 'F');
 
@@ -234,7 +235,8 @@ export class PdfgenService {
       margin: { top: 0, right: 10, bottom: 0, left: 10 },
       tableWidth: 'auto',
       headStyles: {
-        fillColor: '#ffbb00',
+        // fillColor: '#ffbb00',
+        fillColor: '#eee',
         textColor: '#000',
         fontSize: 11,
         font: 'helvetica',
@@ -257,7 +259,8 @@ export class PdfgenService {
 
         if (data.row.index === body.length - 1) {
           data.cell.styles.textColor = '#000';
-          data.cell.styles.fillColor = '#ffbb00';
+          // data.cell.styles.fillColor = '#ffbb00';
+          data.cell.styles.fillColor = '#eee';
           data.cell.styles.fontStyle = 'bold';
         }
 

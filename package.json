@@ -5,9 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-prod": "ng build --configuration=production --build-optimizer --aot",
+    "build:prod": "ng build --configuration=production --build-optimizer --aot",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:dev": "ng build --configuration=development --build-optimizer --aot",
+    "deploy:dev": "firebase use staging && npm run build:dev && firebase deploy --only hosting:newsite",
+    "deploy:prod": "firebase use default && npm run build:prod && firebase deploy --only hosting:newsite"
   },
   "private": true,
   "dependencies": {

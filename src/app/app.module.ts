@@ -30,7 +30,7 @@ import { provideFirebaseApp,initializeApp} from '@angular/fire/app'
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from "@angular/fire/storage";
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { LoaderPageComponent } from './loader-page/loader-page.component';
 
 

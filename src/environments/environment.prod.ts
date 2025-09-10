@@ -1,14 +1,12 @@
 export const environment = {
-
-    production: true,
-
-     firebaseConfig: {
-        apiKey: "AIzaSyAxLrlpDvckEdy1xPH_Up_tCVb7XINKuyg",
-        authDomain: "myinvoice-e4e41.firebaseapp.com",
-        projectId: "myinvoice-e4e41",
-        storageBucket: "myinvoice-e4e41.appspot.com",
-        messagingSenderId: "364972721626",
-        appId: "1:364972721626:web:2647fef078ef3581ec6ce3",
-        measurementId: "G-143NM6E0N7" 
-      }
-}
+  production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyDKABtX1PVl-pDSYcFKHyfKLFXFPMAlC38",
+    authDomain: "my-billing-ae194.firebaseapp.com",
+    projectId: "my-billing-ae194",
+    storageBucket: "my-billing-ae194.appspot.com",
+    messagingSenderId: "445104080997",
+    appId: "1:445104080997:web:f2a3b3eba9327bdb77de8c",
+    measurementId: "G-B7MFGQ4XEZ"
+  }
+};

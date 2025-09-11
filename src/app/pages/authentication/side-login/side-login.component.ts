@@ -51,7 +51,11 @@ export class AppSideLoginComponent {
         this.firebaseService.getUserList().subscribe((res => {
           if (res) {
             const userData: any = res.find((id: any) => id.email === this.form.value.uname && id.password === this.form.value.password)
-            if (userData) {
+
+            const date = new Date(userData?.expiry?.seconds * 1000);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (userData && (date > today)) {
               if (userData.isActive) {
                 window.localStorage.setItem('userId', (userData.id));
                 const accountYear :any = this.form.value.accountYear;
@@ -64,8 +68,11 @@ export class AppSideLoginComponent {
               } else {
                 this.openConfigSnackBar('user can not active !!')
                 this.loaderService.setLoader(false)
-
               }
+            } else {
+              this.openConfigSnackBar('Your account has been expired !!')
+              this.loaderService.setLoader(false)
+              this.router.navigate(['/authentication/side-login']);
             }
           }
         }))

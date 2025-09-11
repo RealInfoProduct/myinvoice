@@ -109,7 +109,7 @@ export class InvoiceListComponent implements OnInit {
   }
 
   invoiceSorting() {
-    this.invoiceDataSource.data.sort((a: any, b: any) => a.invoiceNumber - b.invoiceNumber)
+    this.invoiceDataSource.data.sort((a: any, b: any) => b.invoiceNumber - a.invoiceNumber)
     this.invoiceDataSource.paginator = this.paginator
     this.invoiceDataSource.sort = this.sort
   }

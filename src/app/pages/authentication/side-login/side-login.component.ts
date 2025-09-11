@@ -21,6 +21,7 @@ export class AppSideLoginComponent {
   accountYearList:any = [];
   yearBase = 2000;
   financialYear:any
+  accountExpiryError = false;
 
   constructor(private settings: CoreService,
     private router: Router,
@@ -51,10 +52,10 @@ export class AppSideLoginComponent {
         this.firebaseService.getUserList().subscribe((res => {
           if (res) {
             const userData: any = res.find((id: any) => id.email === this.form.value.uname && id.password === this.form.value.password)
-
             const date = new Date(userData?.expiry?.seconds * 1000);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
+            localStorage.setItem('expiryTimeSlot', JSON.stringify(userData));
             if (userData && (date > today)) {
               if (userData.isActive) {
                 window.localStorage.setItem('userId', (userData.id));
@@ -70,9 +71,9 @@ export class AppSideLoginComponent {
                 this.loaderService.setLoader(false)
               }
             } else {
-              this.openConfigSnackBar('Your account has been expired !!')
               this.loaderService.setLoader(false)
               this.router.navigate(['/authentication/side-login']);
+              this.accountExpiryError = true;
             }
           }
         }))

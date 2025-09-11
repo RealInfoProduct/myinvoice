@@ -185,6 +185,8 @@ export class FullComponent implements OnInit {
     },
   ];
   userData :any
+  accountExpiryError = false;
+  noOfDays:any;
   constructor(
     private settings: CoreService,
     private mediaMatcher: MediaMatcher,
@@ -219,20 +221,37 @@ export class FullComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const expiryTimeSlot:any = localStorage.getItem('expiryTimeSlot');
+    const date = JSON.parse(expiryTimeSlot) || '';
+    this.noOfDays = this.getDaysFromNow(date);
+  
+    if(this.isExpiringSoon(date.expiry)) {
+      this.accountExpiryError = true;
+    } else {
+      this.accountExpiryError = false;
+    }
     const lg :any = localStorage.getItem('languageCode')
     this.translate.use(lg);
-    // this.translate.get('menuBar').subscribe((res: any) => {
-    //   this.navItems[0].navCap = res.HOME
-    //   this.navItems[1].displayName = res.Dashboard
-    //   this.navItems[2].navCap = res.MASTER
-    //   this.navItems[3].displayName = res.AddInvoice
-    //   this.navItems[4].displayName = res.InvoiceList
-    //   this.navItems[5].displayName = res.ProductMaster
-    //   this.navItems[6].displayName = res.PartyMaster
-    //   this.navItems[7].displayName = res.FirmMaster      
-    // });
     this.getLoginUser()
   }
+
+  getDaysFromNow(unixSeconds:any) {
+    const targetDate:any = new Date(unixSeconds?.expiry?.seconds * 1000);
+    const today:any = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffTime = targetDate - today;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+}
+
+  isExpiringSoon(timestamp:any) {
+    const expiryDate:any = new Date(timestamp.seconds * 1000);
+    const today:any = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffTime = expiryDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 3 && diffDays >= 0;
+}
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();

@@ -1,3 +1,6 @@
+  <div class="account-expiry-error" *ngIf="accountExpiryError">
+    <marquee behavior="scroll" duration="right" style="padding-top: 2px;"> Your account has been expire in {{noOfDays}} days. please renew your subscription</marquee>
+  </div>
 <mat-sidenav-container
   class="mainWrapper"
   autosize

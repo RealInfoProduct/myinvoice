@@ -53,10 +53,12 @@ export interface ProductList {
 }
 
 export interface InvoiceList {
-    id:string
-    accountYear: string
-    cGST: any
-    date: string
+    id:string;
+    accountYear: string;
+    cGST: any;
+    iGST: any;
+    tds: any;
+    date: string;
     discount: number;
     invoiceNumber: number;
     sGST: number;
@@ -64,10 +66,10 @@ export interface InvoiceList {
     partyId: any;
     products: any;
     userId :any;
-    finalSubAmount:any,
-    isPayment : boolean,
-    receivePayment : any
-    paymentDays:number
+    finalSubAmount:any;
+    isPayment : boolean;
+    receivePayment : any;
+    paymentDays:number;
 }
 
 export interface IncomeList {

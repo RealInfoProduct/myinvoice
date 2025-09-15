@@ -196,29 +196,39 @@ export class PdfgenService {
       body.push(bodyRows);
     }
 
-    const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0);
+    const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0).toFixed(2);
     const discountAmount = (productsSubTotal * (invoiceData.discount / 100));
+    const taxableAmount = productsSubTotal - discountAmount;
     const discountedSubTotal = productsSubTotal - discountAmount;
     const sGstAmount = discountedSubTotal * (invoiceData.sGST / 100);
     const cGstAmount = discountedSubTotal * (invoiceData.cGST / 100);
-    const finalAmount = discountedSubTotal + sGstAmount + cGstAmount;
+    const iGstAmount = discountedSubTotal * ((invoiceData?.iGST || 0) / 100);
+    const tdsAmount = discountedSubTotal * ((invoiceData?.tds || 0) / 100);
+    const totalAmount = discountedSubTotal + sGstAmount + cGstAmount + iGstAmount;
+    const finalAmount = (discountedSubTotal + sGstAmount + cGstAmount + iGstAmount) - tdsAmount;
 
-    const formattedAmount = new Intl.NumberFormat('en-IN').format(parseFloat(productsSubTotal.toFixed(2)));
-    const Amount = new Intl.NumberFormat('en-IN').format(parseFloat(finalAmount.toFixed(2))); 
-    const discountAmountFormatted = discountAmount.toFixed(2);
-    const sGstAmountFormatted = sGstAmount.toFixed(2);
-    const cGstAmountFormatted = cGstAmount.toFixed(2);
+    const formattedAmount = new Intl.NumberFormat('en-IN').format(parseFloat(productsSubTotal));
+    const Amount = new Intl.NumberFormat('en-IN').format(parseFloat(totalAmount.toFixed(2)));
+    const discountAmountFormatted = new Intl.NumberFormat('en-IN').format(parseFloat(discountAmount.toFixed(2)));
+    const sGstAmountFormatted = new Intl.NumberFormat('en-IN').format(parseFloat(sGstAmount.toFixed(2)));
+    const cGstAmountFormatted = new Intl.NumberFormat('en-IN').format(parseFloat( cGstAmount.toFixed(2)));
+    const iGstAmountFormatted = new Intl.NumberFormat('en-IN').format(parseFloat( iGstAmount.toFixed(2)));
+    const tdsAmountFormatted = new Intl.NumberFormat('en-IN').format(parseFloat( tdsAmount.toFixed(2)));
     const roundedAmount = Math.round(finalAmount);
     const formattedRoundedAmount = new Intl.NumberFormat('en-IN').format(roundedAmount);
     const finalAmountInWords = this.toWords.convert(Number(roundedAmount));
     body.push(
-      ['', '', '', '', '', { content: 'Gross Total', styles: { halign: 'left' } }, `Rs. ${formattedAmount}`],
+        ['', '', '', '', '', { content: 'Gross Total', styles: { halign: 'left' } }, `Rs. ${formattedAmount}`],
       ['', '', '', '', '', { content: `Discount ${invoiceData.discount}%`, styles: { halign: 'left' } }, `Rs. ${discountAmountFormatted}`],
+      ['', '', '', '', '', { content: `Taxable Value`, styles: { halign: 'left' } }, `Rs. ${taxableAmount}`],
       ['', '', '', '', '', { content: `CGST ${invoiceData.cGST}%` }, `Rs. ${cGstAmountFormatted}`],
-      [{ content: `${finalAmountInWords}`, rowSpan: 3, colSpan: 5, styles: { halign: 'center', fontStyle: 'bold' } }, `SGST ${invoiceData.sGST}%`, `Rs. ${sGstAmountFormatted}`],
+      [{ content: `${finalAmountInWords}`, rowSpan: 5, colSpan: 5, styles: { halign: 'center', fontStyle: 'bold' } }, `SGST ${invoiceData.sGST}%`, `Rs. ${sGstAmountFormatted}`],
+      [{ content: `IGST ${(invoiceData?.iGST || 0)}%` }, `Rs. ${iGstAmountFormatted}`,{ styles: { FontFace: 'left' }}],
       [{ content: 'Total Amount' }, `Rs. ${Amount}`, { styles: { FontFace: 'left' } }],
+      [{ content: `TDS ${(invoiceData?.tds || 0)}%` }, `Rs. ${tdsAmountFormatted}`, { styles: { FontFace: 'left' } }],
       [{ content: 'Final Amount' }, `Rs. ${formattedRoundedAmount}.00`, { styles: { FontFace: 'left' } }],
     );
+
 
     const footer = (doc: any, pageNumber: any, totalPages: any) => {
       doc.setFontSize(10);
@@ -276,57 +286,36 @@ export class PdfgenService {
       },
     });
 
-    // doc.setFontSize(13);
-    // doc.setTextColor(0, 0, 0);
-    // doc.text('Bank Name:', 14, 243);
-    // doc.text(invoiceData.firmName.bankName, 65, 243);
-
-    // doc.setFontSize(13);
-    // doc.setTextColor(0, 0, 0);
-    // doc.text('Account holder`s name:', 14, 251);
-    // doc.text(invoiceData.firmName.accountholdersname, 65, 251);
-
-    // doc.setFontSize(13);
-    // doc.setTextColor(0, 0, 0);
-    // doc.text('Account Number:', 14, 259);
-    // const accountNumber = invoiceData.firmName?.bankAccountNo?.toString() || "";
-    // doc.text(accountNumber, 65, 259);
-
-    // doc.setFontSize(13);
-    // doc.setTextColor(0, 0, 0);
-    // doc.text('IFSC Code:', 14, 268);
-    // doc.text(invoiceData.firmName.bankIfsc, 65, 268);
-
     const bank = invoiceData.firmName?.bankName?.trim();
     if (bank) {
-      doc.setFontSize(13);
+      doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      doc.text('Bank Name:', 14, 243);
-      doc.text(bank, 65, 243);
+      doc.text('Bank Name:', 10, 259);
+      doc.text(bank, 40, 259);
     }
 
     const accountholdersname = invoiceData.firmName?.accountholdersname?.trim();
     if (accountholdersname) {
-      doc.setFontSize(13);
+      doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      doc.text('Account holder`s name:', 14, 251);
-      doc.text(accountholdersname, 65, 251);
+      doc.text('Account holder`s name:', 80, 259);
+      doc.text(accountholdersname, 120, 259);
     }
 
    const bankAccountNo = invoiceData.firmName?.bankAccountNo?.toString().trim();
     if (bankAccountNo) {
-      doc.setFontSize(13);
+      doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      doc.text('Account Number:', 14, 259);
-      doc.text(bankAccountNo, 65, 259);
+      doc.text('Account Number:', 10, 267);
+      doc.text(bankAccountNo, 40, 267);
     }
 
     const ifsc = invoiceData.firmName?.bankIfsc?.trim();
     if (ifsc) {
-      doc.setFontSize(13);
+      doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      doc.text('IFSC Code:', 14, 268);
-      doc.text(ifsc, 65, 268);
+      doc.text('IFSC Code:', 80, 267);
+      doc.text(ifsc, 120, 267);
     }
 
     const signatureYPosition = doc.internal.pageSize.height - 35;

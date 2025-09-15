@@ -124,6 +124,54 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-4">
+                                <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.IGST' |
+                                    translate}}<span class="required">
+                                        *</span></mat-label>
+                                <mat-form-field appearance="outline" class="w-100 m-t-8">
+                                    <input type="number" matInput required formControlName="iGST"
+                                        placeholder="{{'addinvoice.EnterIGST' | translate}}" min="0" max="100" />
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('iGST')?.hasError('required') && invoiceForm.get('iGST')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.iGSTisrequired' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('iGST')?.hasError('min') && invoiceForm.get('iGST')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.iGSTmustbeatleast0%' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('iGST')?.hasError('max') && invoiceForm.get('iGST')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.iGSTmustbeatmost100%' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                                <mat-label class="mat-subtitle-2 f-w-600 m-b-1 d-block">{{'addinvoice.TDS' |
+                                    translate}}<span class="required">
+                                        *</span></mat-label>
+                                <mat-form-field appearance="outline" class="w-100 m-t-8">
+                                    <input type="number" matInput required formControlName="tds"
+                                        placeholder="{{'addinvoice.EnterTDS' | translate}}" min="0" max="100" />
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('tds')?.hasError('required') && invoiceForm.get('tds')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.tdsisrequired' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('tds')?.hasError('min') && invoiceForm.get('tds')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.tdsmustbeatleast0%' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="invoiceForm.get('tds')?.hasError('max') && invoiceForm.get('tds')?.touched"
+                                        class="error-message error-color">
+                                        {{'addinvoiceerror.tdsmustbeatmost100%' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4">
                                 <mat-form-field appearance="outline" class="w-100 m-t-10">
                                     <mat-label>Payment Day's</mat-label>
                                     <input type="number" matInput required (ngModelChange)="paymentDaysChange($event)"

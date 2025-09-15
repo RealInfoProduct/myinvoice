@@ -20,6 +20,8 @@ export interface InvoiceData {
   discount: number;
   sGST: number;
   cGST: number;
+  iGST: number;
+  tds: number;
   date: string;
   totalitem: number;
   price: number;
@@ -90,6 +92,8 @@ export interface InvoiceData {
           discount: getInvoiceData.discount || 0,
           sGST: getInvoiceData.sGST || 2.5,
           cGST: getInvoiceData.cGST || 2.5,
+          iGST: getInvoiceData.iGST || 0,
+          tds: getInvoiceData.tds || 0,
           date: new Date(getInvoiceData.date) || new Date(),
           totalitem: getInvoiceData.products[0].qty || 0,
           defectiveitem: getInvoiceData.products[0].defectiveItem || 0,
@@ -111,6 +115,8 @@ export interface InvoiceData {
       discount: [0, [Validators.required,Validators.min(0),Validators.max(100)]],
       sGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
       cGST: [2.5,[Validators.required,Validators.min(0),Validators.max(100)]],
+      iGST: [0,[Validators.required,Validators.min(0),Validators.max(100)]],
+      tds: [0,[Validators.required,Validators.min(0),Validators.max(100)]],
       date: [new Date()],
       totalitem: ['', [Validators.required,Validators.min(0)]],
       defectiveitem: [0, [Validators.required,Validators.min(0)]],
@@ -163,6 +169,8 @@ export interface InvoiceData {
       discount: element.discount,
       sGST: element.sGST,
       cGST: element.cGST,
+      iGST: element.iGST,
+      tds: element.tds,
       date: new Date(element.date),
       totalitem: element.totalitem,
       product: element.product,
@@ -237,7 +245,9 @@ export interface InvoiceData {
     const discountedAmount = baseAmount - discountAmount;
     const sGSTAmount = (productData.sGST / 100) * discountedAmount;
     const cGSTAmount = (productData.cGST / 100) * discountedAmount;
-    const finalSubAmount = discountedAmount + sGSTAmount + cGSTAmount;
+    const iGSTAmount = (productData.iGST / 100) * discountedAmount;
+    const tdsAmount = (productData.tds / 100) * discountedAmount;
+    const finalSubAmount = discountedAmount + sGSTAmount + cGSTAmount + iGSTAmount;
     return Math.round(finalSubAmount);
 }
 
@@ -264,6 +274,8 @@ export interface InvoiceData {
         id: '',
         accountYear: invoiceData.accountYear,
         cGST: invoiceData.cGST,
+        iGST: invoiceData.iGST,
+        tds: invoiceData.tds,
         date: invoiceData.date,
         discount: invoiceData.discount,
         invoiceNumber: invoiceData.invoiceNumber,
@@ -308,6 +320,8 @@ export interface InvoiceData {
       discount: invoiceList[0].discount,
       sGST: invoiceList[0].sGST,
       cGST: invoiceList[0].cGST,
+      iGST: invoiceList[0].iGST,
+      tds: invoiceList[0].tds,
       invoiceNumber: this.maxInvoiceNumber,
       accountYear: localStorage.getItem('accountYear'),
       finalSubAmount: invoiceList[0].finalSubAmount,
@@ -377,6 +391,8 @@ export interface InvoiceData {
       id : '',
       accountYear: invoiceData.accountYear,
       cGST: invoiceData.cGST,
+      iGST: invoiceData.iGST,
+      tds: invoiceData.tds,
       date: invoiceData.date,
       discount: invoiceData.discount,
       invoiceNumber: invoiceData.invoiceNumber,

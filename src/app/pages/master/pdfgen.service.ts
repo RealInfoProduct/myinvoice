@@ -146,8 +146,16 @@ export class PdfgenService {
     doc.rect(box2XPosition - 25, boxYPosition, box2Width, boxHeight, 'F');
 
     const fieldsRight = ["Invoice: ", "Date: ", "PAN: "];
-    const fieldsRightValues = [`${invoiceData.invoiceNumber}`, `${invoiceData.date}`, `${invoiceData.partyName.partyPanNo}`]; // Corresponding values
+    const fieldsRightValues = [`${invoiceData.invoiceNumber}`, `${formatDate(invoiceData.date)}`, `${invoiceData.partyName.partyPanNo}`];
     const rightYPosition = boxYPosition + 5;
+      function formatDate(dateInput: string | Date): string {
+      const date = new Date(dateInput);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
 
     fieldsRight.forEach((field, index) => {
       const yPosition = rightYPosition + (index * 9.5);

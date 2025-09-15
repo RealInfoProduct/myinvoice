@@ -28,9 +28,11 @@ export class InvoiceListComponent implements OnInit {
     'firmName',
     // 'partyName',
     'invoiceNo',
-    'CGST',
-    'SGST',
-    'discount',
+    // 'CGST',
+    // 'SGST',
+    // 'discount',
+    'date',
+    'paymentDate',
     'finalSubAmount',
     'action',
   ];
@@ -122,7 +124,6 @@ export class InvoiceListComponent implements OnInit {
           id.userId === localStorage.getItem("userId") &&
           id.accountYear === localStorage.getItem("accountYear")
         )
-        
         this.invoiceDataSource = new MatTableDataSource(this.invoiceList);
         this.invoiceDataSource.paginator = this.paginator;
         this.loaderService.setLoader(false)

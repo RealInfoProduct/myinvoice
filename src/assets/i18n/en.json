@@ -110,9 +110,8 @@
     "FirmName":"Firm Name",
     "PartyName":"Party Name",
     "InvoiceNo":"Invoice No",
-    "CGST":"CGST",
-    "SGST":"SGST",
-    "Discount":"Discount",
+    "Date":"Date",
+    "PaymentDate":" Payment Due Date",
     "FinalAmount":"FinalAmount",
     "Action":"Action",
     "Norecordsfound":"No records found"

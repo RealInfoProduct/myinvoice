@@ -203,8 +203,12 @@ export class PdfgenService {
       ];
       body.push(bodyRows);
     }
+      const totalQty = invoiceData.products.reduce((acc: number, product: any) => acc + Number(product.qty || 0), 0);
+      const formattedTotalQty = Number(totalQty).toFixed(2);
+      const totalPlain = invoiceData.products.reduce((acc: number, product: any) => acc + (Number(product.defectiveItem) || 0), 0);
+      const formattedTotalplain = totalPlain > 0 ? totalPlain.toFixed(2).toString() : '';
 
-    const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0).toFixed(2);
+     const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0).toFixed(2);
     const discountAmount = (productsSubTotal * (invoiceData.discount / 100));
     const taxableAmount = productsSubTotal - discountAmount;
     const discountedSubTotal = productsSubTotal - discountAmount;
@@ -226,7 +230,7 @@ export class PdfgenService {
     const formattedRoundedAmount = new Intl.NumberFormat('en-IN').format(roundedAmount);
     const finalAmountInWords = this.toWords.convert(Number(roundedAmount));
     body.push(
-        ['', '', '', '', '', { content: 'Gross Total', styles: { halign: 'left' } }, `Rs. ${formattedAmount}`],
+      ['', '',{ content: 'Total', styles: { halign: 'left' } }, ` ${formattedTotalQty}`, ` ${formattedTotalplain}`, { content: 'Gross Total', styles: { halign: 'left' } }, `Rs. ${formattedAmount}`],
       ['', '', '', '', '', { content: `Discount ${invoiceData.discount}%`, styles: { halign: 'left' } }, `Rs. ${discountAmountFormatted}`],
       ['', '', '', '', '', { content: `Taxable Value`, styles: { halign: 'left' } }, `Rs. ${taxableAmount}`],
       ['', '', '', '', '', { content: `CGST ${invoiceData.cGST}%` }, `Rs. ${cGstAmountFormatted}`],

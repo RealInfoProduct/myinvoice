@@ -255,8 +255,8 @@ export class PdfviewComponent  implements OnInit{
         i + 1, // Convert number to string
         data[i]?.productName?.productName ? data[i]?.productName?.productName : '',
         data[i]?.poNumber ? data[i]?.poNumber.toString() : '',
-        data[i]?.qty ? Number(data[i]?.qty).toFixed(2).toString() : '',
-        data[i]?.defectiveItem ? Number(data[i]?.defectiveItem).toFixed(2).toString() : '',
+        data[i]?.qty ? Number(data[i]?.qty).toString() : '',
+        data[i]?.defectiveItem ? Number(data[i]?.defectiveItem).toString() : '',
         data[i]?.price ? Number(data[i]?.price).toFixed(2).toString() : '',
         data[i]?.finalAmount ? `${Number(data[i]?.finalAmount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : ''
       ];
@@ -264,9 +264,9 @@ export class PdfviewComponent  implements OnInit{
     }
 
    const totalQty = invoiceData.products.reduce((acc: number, product: any) => acc + Number(product.qty || 0), 0);
-      const formattedTotalQty = Number(totalQty).toFixed(2);
+      const formattedTotalQty = Number(totalQty);
       const totalPlain = invoiceData.products.reduce((acc: number, product: any) => acc + (Number(product.defectiveItem) || 0), 0);
-      const formattedTotalplain = totalPlain > 0 ? totalPlain.toFixed(2).toString() : '';
+      const formattedTotalplain = totalPlain > 0 ? totalPlain.toString() : '';
 
      const productsSubTotal = invoiceData.products.reduce((acc: any, product: any) => acc + product.finalAmount, 0).toFixed(2);
     const discountAmount = (productsSubTotal * (invoiceData.discount / 100));

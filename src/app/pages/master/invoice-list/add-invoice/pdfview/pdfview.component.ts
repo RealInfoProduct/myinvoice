@@ -188,14 +188,46 @@ export class PdfviewComponent  implements OnInit{
     const labelXPosition = box1XPosition;
     const valueXPosition = box1XPosition + 18;
 
-    fieldsLeft.forEach((field, index) => {
-      const yPosition = leftYPosition + (index * 9.5);
-      doc.text(field, labelXPosition, yPosition);
-      doc.text(fieldsLeftValues[index], valueXPosition, yPosition);
+    // fieldsLeft.forEach((field, index) => {
+    //   const yPosition = leftYPosition + (index * 9.5);
+    //   doc.text(field, labelXPosition, yPosition);
+    //   doc.text(fieldsLeftValues[index], valueXPosition, yPosition);
 
-      const lineYPosition = yPosition + 1;
-      doc.setLineWidth(0.3);
-      doc.line(valueXPosition, lineYPosition, valueXPosition + boxWidth, lineYPosition);
+    //   const lineYPosition = yPosition + 1;
+    //   doc.setLineWidth(0.3);
+    //   doc.line(valueXPosition, lineYPosition, valueXPosition + boxWidth, lineYPosition);
+    // });
+    const lineHeight = 2.7;
+    const maxAddressLines = 2;
+    let currentYPosition = leftYPosition;
+
+    fieldsLeft.forEach((field, index) => {
+      const value = fieldsLeftValues[index];
+
+      if (field === "Address:") {
+        let splitText = doc.splitTextToSize(value, boxWidth);
+        if (splitText.length > maxAddressLines) {
+          splitText = splitText.slice(0, maxAddressLines);
+          splitText[maxAddressLines - 1] = splitText[maxAddressLines - 1].slice(0, 60) + "...";
+        }
+
+        doc.text(splitText, valueXPosition, currentYPosition);
+        currentYPosition += maxAddressLines * lineHeight;
+
+        doc.text(field, labelXPosition, currentYPosition);
+        doc.setLineWidth(0.3);
+        doc.line(valueXPosition, currentYPosition + 1, valueXPosition + boxWidth, currentYPosition + 1);
+
+        currentYPosition += lineHeight + 4;
+
+      } else {
+        doc.text(field, labelXPosition, currentYPosition);
+        doc.text(value, valueXPosition, currentYPosition);
+
+        doc.setLineWidth(0.3);
+        doc.line(valueXPosition, currentYPosition + 1, valueXPosition + boxWidth, currentYPosition + 1);
+        currentYPosition += lineHeight + 4;
+      }
     });
 
     const box2Width = pageWidth * 0.25;

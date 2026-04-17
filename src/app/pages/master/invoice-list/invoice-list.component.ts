@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, Optional, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -36,10 +36,15 @@ export class InvoiceListComponent implements OnInit {
     'finalSubAmount',
     'action',
   ];
+
+  firms: any[] = [];
+  firmWiseInvoices: any = {};
+
   invoiceDataSource = new MatTableDataSource(this.invoiceList);
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-  @ViewChild(MatSort) sort! :MatSort
+  @ViewChild(MatSort) sort!: MatSort
+  @ViewChildren(MatPaginator) paginators!: QueryList<MatPaginator>;
 
   constructor(private router: Router,
     private fb: FormBuilder,
@@ -103,7 +108,11 @@ export class InvoiceListComponent implements OnInit {
   }
 
   applyFilter(filterValue: string): void {
-    this.invoiceDataSource.filter = filterValue.trim().toLowerCase();
+     const filter = filterValue.trim().toLowerCase();
+
+  Object.keys(this.firmWiseInvoices).forEach(key => {
+    this.firmWiseInvoices[key].filter = filter;
+  });
   }
 
   addInvoice() {
@@ -123,14 +132,42 @@ export class InvoiceListComponent implements OnInit {
         this.invoiceList = res.filter((id: any) =>
           id.userId === localStorage.getItem("userId") &&
           id.accountYear === localStorage.getItem("accountYear")
-        )
-        this.invoiceDataSource = new MatTableDataSource(this.invoiceList);
-        this.invoiceDataSource.paginator = this.paginator;
-        this.loaderService.setLoader(false)
-        this.invoiceSorting()
+        );
+
+        const uniqueFirmIds = [...new Set(this.invoiceList.map((x: any) => x.firmId))] as string[];
+
+        // Tabs
+        this.firms = uniqueFirmIds.map((id: string) => {
+          const firm = this.getFirmHeader(id);
+          return {
+            firmId: id,
+            name: firm?.header || 'Firm ' + id
+          };
+        });
+
+        // Group data
+        this.firmWiseInvoices = {};
+        uniqueFirmIds.forEach((id: string) => {
+          const data = this.invoiceList.filter((x: any) => x.firmId === id)
+          .sort((a: any, b: any) => b.invoiceNumber - a.invoiceNumber); 
+          this.firmWiseInvoices[id] = new MatTableDataSource(data);
+        });
+        this.loaderService.setLoader(false);
+        setTimeout(() => this.assignPaginators());
       }
-    })
+    });
   }
+
+  assignPaginators() {
+  const paginatorArray = this.paginators.toArray();
+
+  this.firms.forEach((firm, index) => {
+    const ds = this.firmWiseInvoices[firm.firmId];
+    if (ds) {
+      ds.paginator = paginatorArray[index];
+    }
+  });
+}
 
   deleteInvoice(action: string, obj: any) {
     this.firebaseService.deleteInvoice(obj.id).then((res: any) => {
@@ -192,6 +229,7 @@ export class InvoiceListComponent implements OnInit {
     this.firebaseService.getAllParty().subscribe((res: any) => {
       if (res) {
         this.partyList = res.filter((id: any) => id.userId === localStorage.getItem("userId"))
+          this.getInvoiceList();
         this.loaderService.setLoader(false)
       }
     })

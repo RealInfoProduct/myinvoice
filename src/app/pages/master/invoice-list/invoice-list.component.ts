@@ -25,8 +25,8 @@ export class InvoiceListComponent implements OnInit {
   partyList: any = []
   displayedColumns: string[] = [
     '#',
-    'firmName',
-    // 'partyName',
+    // 'firmName',
+    'partyName',
     'invoiceNo',
     // 'CGST',
     // 'SGST',

@@ -68,27 +68,74 @@ export class InvoiceListComponent implements OnInit {
     this.getPartyList()
   }
 
+  // filterDate() {
+  //   if (!this.invoiceList) return;
+  //   const startDate = this.dateInvoiceListForm.value.start ? new Date(this.dateInvoiceListForm.value.start) : null;
+  //   const endDate = this.dateInvoiceListForm.value.end ? new Date(this.dateInvoiceListForm.value.end) : null;
+  //   if (startDate && endDate) {
+  //     this.invoiceDataSource.data = this.invoiceList.filter((invoice: any) => {
+  //       if (!invoice.date) return false;
+  //       let invoiceDate;
+  //       if (typeof invoice.date === 'string') {
+  //         const dateParts = invoice.date.split('/');
+  //         invoiceDate = new Date(`${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`);
+  //       } else {
+  //         return false; 
+  //       }
+  //       return invoiceDate >= startDate && invoiceDate <= endDate;
+  //     });
+  //   } else {
+  //     this.invoiceDataSource.data = this.invoiceList;
+  //   }
+  // }
+
   filterDate() {
-    if (!this.invoiceList) return;
-    const startDate = this.dateInvoiceListForm.value.start ? new Date(this.dateInvoiceListForm.value.start) : null;
-    const endDate = this.dateInvoiceListForm.value.end ? new Date(this.dateInvoiceListForm.value.end) : null;
-    if (startDate && endDate) {
-      this.invoiceDataSource.data = this.invoiceList.filter((invoice: any) => {
-        if (!invoice.date) return false;
-        let invoiceDate;
-        if (typeof invoice.date === 'string') {
-          const dateParts = invoice.date.split('/');
-          invoiceDate = new Date(`${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`);
-        } else {
-          return false; 
-        }
-        return invoiceDate >= startDate && invoiceDate <= endDate;
-      });
-    } else {
-      this.invoiceDataSource.data = this.invoiceList;
-    }
+  if (!this.invoiceList) return;
+
+  const start = this.dateInvoiceListForm.value.start;
+  const end = this.dateInvoiceListForm.value.end;
+
+  if (!start || !end) {
+    this.getInvoiceList(); // reset
+    return;
   }
 
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(23, 59, 59, 999);
+
+  Object.keys(this.firmWiseInvoices).forEach((firmId: string) => {
+
+    const originalData = this.invoiceList.filter((x: any) => x.firmId === firmId);
+
+    const filteredData = originalData.filter((invoice: any) => {
+
+      if (!invoice.date) return false;
+
+      let invoiceDate: Date;
+
+      // ✅ IMPORTANT: Your HTML uses Angular date pipe → means it's already a Date
+      if (invoice.date instanceof Date) {
+        invoiceDate = invoice.date;
+      } else {
+        invoiceDate = new Date(invoice.date);
+      }
+
+      if (isNaN(invoiceDate.getTime())) return false;
+
+      invoiceDate.setHours(0, 0, 0, 0);
+
+      return invoiceDate >= startDate && invoiceDate <= endDate;
+    });
+
+    this.firmWiseInvoices[firmId].data = filteredData;
+
+    // 🔥 Force table refresh (VERY IMPORTANT)
+    this.firmWiseInvoices[firmId]._updateChangeSubscription();
+  });
+}
   getSerialNumber(index: number): number {
     if (!this.paginator) return index + 1;
     return (this.paginator.pageIndex * this.paginator.pageSize) + index + 1;

@@ -154,13 +154,36 @@ export class InvoiceListComponent implements OnInit {
     const dialogRef = this.dialog.open(amountlistdialog, { data: obj });
   }
 
-  applyFilter(filterValue: string): void {
-     const filter = filterValue.trim().toLowerCase();
+applyFilter(filterValue: string): void {
+  const filter = filterValue.trim().toLowerCase();
 
-  Object.keys(this.firmWiseInvoices).forEach(key => {
-    this.firmWiseInvoices[key].filter = filter;
+  Object.keys(this.firmWiseInvoices).forEach((key: string) => {
+
+    const dataSource = this.firmWiseInvoices[key];
+
+    // ✅ Set predicate for EACH table
+    dataSource.filterPredicate = (data: any, filter: string) => {
+
+      const searchText = filter.trim().toLowerCase();
+
+      const invoiceNumber = data.invoiceNumber?.toString().toLowerCase() || '';
+
+      const partyName =
+        this.partyList.find((p: any) => p.id === data.partyId)?.partyName?.toLowerCase() || '';
+
+      return (
+        invoiceNumber.includes(searchText) ||
+        partyName.includes(searchText)
+      );
+    };
+
+    // ✅ Apply filter
+    dataSource.filter = filter;
+
+    // 🔥 Force refresh (important)
+    dataSource._updateChangeSubscription();
   });
-  }
+}
 
   addInvoice() {
     this.router.navigate(['/master/addinvoice']);

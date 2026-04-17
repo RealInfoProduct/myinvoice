@@ -215,7 +215,7 @@ export class firmMasterDialogComponent implements OnInit {
       accountholdersname: [''],
       ifscCode: [''],
       bankAccountNo: [''],
-      selectedInvoiceTheme: [''],
+      selectedInvoiceTheme: [1],
     })
   }
 

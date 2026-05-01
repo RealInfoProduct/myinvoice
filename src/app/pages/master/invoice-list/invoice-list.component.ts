@@ -224,6 +224,7 @@ applyFilter(filterValue: string): void {
         });
         this.loaderService.setLoader(false);
         setTimeout(() => this.assignPaginators());
+        this.filterDate()
       }
     });
   }
